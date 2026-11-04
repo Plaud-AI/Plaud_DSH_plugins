@@ -1,180 +1,78 @@
-# Plaud_DSH_plugins
+**简体中文** · [English](README.en.md)
 
-给 **DeepSeek Harness** 补上它缺的那一层：**MCP OAuth 客户端**。
+# PLAUD DSH Connectors
 
-DSH 自带的 `@deepseek-ai/dsh-mcp-client` 只做传输层（stdio / streamable-http）和静态 header 注入，没有 OAuth。而 Notion、Linear、Slack 的官方 Remote MCP 都默认走标准授权流程（401 → 发现元数据 → DCR → PKCE → 浏览器回调）。本仓库把这层做进插件，宿主进程里运行的仍然是 **MCP 官方 SDK 的 OAuth 实现**，没有自研协议。
+**把 Notion、Linear、Slack、飞书和 PLAUD 接进 DeepSeek Harness。**
 
-| 包 | 服务 | 端点 | 认证 | 需要预注册 |
-|---|---|---|---|---|
-| `@plaud/dsh-plugin-notion` | Notion | `https://mcp.notion.com/mcp` | OAuth（DCR + PKCE） | 否 |
-| `@plaud/dsh-plugin-linear` | Linear | `https://mcp.linear.app/mcp` | OAuth（DCR + PKCE）或 API key | 否 |
-| `@plaud/dsh-plugin-slack` | Slack | `https://mcp.slack.com/mcp` | OAuth（confidential client） | **是** |
-| `@plaud/dsh-plugin-plaud` | PLAUD 内部服务 | 由 `PLAUD_MCP_URL` 指定 | Bearer token | 否 |
-| `@plaud/dsh-plugin-feishu` | 飞书 / Lark | `npx @larksuiteoapi/lark-mcp` | App ID + Secret | 是 |
-| `@plaud/dsh-mcp-oauth` | —（共享核心） | — | — | — |
+装一次，浏览器授权一次，助手就能直接查页面、改任务、发消息。
 
-## 结构
+## 包含哪些连接器
 
-```
-packages/
-  core/     @plaud/dsh-mcp-oauth    OAuth provider + 回调服务器 + 凭据存储 + 工具桥接
-  notion/   @plaud/dsh-plugin-notion
-  linear/   @plaud/dsh-plugin-linear
-  slack/    @plaud/dsh-plugin-slack
-  plaud/    @plaud/dsh-plugin-plaud
-  feishu/   @plaud/dsh-plugin-feishu
-```
+| 插件 | 服务 | 认证 | 需要预注册 |
+| --- | --- | --- | --- |
+| `@plaud/dsh-plugin-notion` | Notion | OAuth（DCR + PKCE） | 否 |
+| `@plaud/dsh-plugin-linear` | Linear | OAuth 或 API key | 否 |
+| `@plaud/dsh-plugin-slack` | Slack | OAuth | 是 |
+| `@plaud/dsh-plugin-feishu` | 飞书 / Lark | App ID + Secret | 是 |
+| `@plaud/dsh-plugin-plaud` | PLAUD 内部服务 | Bearer token | 否 |
 
-每个服务包都是**独立的 Cordis 插件**（导出 `name` / `inject` / `Config` / `apply`），其 `cordis.patch.yml` 只引用自己的包名，因此不需要任何全局安装或路径技巧。核心包只被它们 `import`，不会单独出现在 profile 的补丁里。
+五个连接器共用一个核心包 `@plaud/dsh-mcp-oauth`，补的是 DSH 自己没做的那一层：**MCP 授权**。
 
-## 构建与发布
+## 功能
 
-```powershell
-pnpm install
-pnpm build          # 每个包 tsc 到 lib/
+- 连官方 Remote MCP，不封装、不代理、不改协议。
+- 浏览器授权一次，令牌自动刷新。
+- 工具名沿用 `mcp__<服务>__<工具>`，已有权限规则不用改。
+- 令牌只存本机，按授权服务器分区，权限 `0600`。
+- 配置里的密钥全部走环境变量，配置文件可以安全分享。
 
-# 发布到公司私有 registry（先配好 .npmrc）
-pnpm -r publish --access restricted
-```
+## 安装
 
-> 依赖用了 pnpm 的 `workspace:^` 协议，`pnpm publish` 会把它改写成真实版本号。**不要用 `npm publish`**。
-
-## 安装（每位同事）
+在 DSH 桌面版「插件」面板逐个安装，或：
 
 ```powershell
-dsh plugin --profile web add @plaud/dsh-plugin-notion
-dsh plugin --profile web add @plaud/dsh-plugin-linear
-dsh plugin --profile web add @plaud/dsh-plugin-slack
-dsh plugin --profile web add @plaud/dsh-plugin-plaud
-dsh plugin --profile web add @plaud/dsh-plugin-feishu
+dsh plugin --profile desktop add @plaud/dsh-plugin-notion
 ```
 
-装完重启 DSH。每个连接器会在 profile 里插入一条 `mcp-*` 条目，工具名沿用宿主约定 `mcp__<serverName>__<tool>`，所以已有的权限规则和会话记录不用改。
+网页版把 `desktop` 改成 `web`。装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。
 
-## 各服务前置条件
+## 开始使用
 
-### Notion（零配置）
+1. 只装你需要的那个连接器，不必全装。
+2. Notion、Linear 装好即用——第一次调用工具时弹浏览器授权，用的是你自己的账号。
+3. Slack、飞书、PLAUD 要先准备凭据，见[详细说明](docs/REFERENCE.zh.md#各服务配置)。
+4. 授权完成后，在会话里直接说需求。
 
-首次调用任何 Notion 工具时：连接返回 401 → SDK 自动注册客户端 → 浏览器弹出 Notion 授权页 → 回调 `127.0.0.1` → token 落地。授权身份是**当前用户自己的 Notion 账号**，权限天然逐人隔离。
+可以这样说：
 
-要求：workspace 里 MCP 没被管理员禁掉；账号是 member（guest 不行）。
+> 帮我查一下 Notion 里「Q3 路线图」的当前状态，把结论整理成三条。
 
-### Linear（零配置，或 API key）
+> 把 Linear 里分配给我的 P1 任务列出来，按截止时间排序。
 
-同上走 DCR。想用静态 key 就在 profile 补丁里改成：
+## 开始前要知道
 
-```yaml
-config:
-  serverName: linear
-  auth: bearer
-  bearerTokenEnv: LINEAR_API_KEY
-```
+- 需要自己的企业账号；能看到什么，取决于你自己的权限。
+- 不要多人共用一个 token，否则审计日志查不出是谁。
+- 只桥接工具，不接管资源、提示词和服务器指令。
+- 当前没有设置页，登出要手动删 `~/.dsh/mcp-oauth/` 下的文件。
+- 断线不会自动重连，v0.1 需要重启宿主。
 
-### Slack（必须先建 App）
-
-Slack 不支持 DCR，必须预注册一个 confidential client：
-
-1. 在 `api.slack.com/apps` 建 app，启用 MCP；
-2. 把 client id / secret / app id 写进宿主环境：
-
-```powershell
-$env:SLACK_MCP_CLIENT_ID = "..."
-$env:SLACK_MCP_CLIENT_SECRET = "..."
-$env:SLACK_MCP_APP_ID = "..."
-```
-
-3. `cordis.patch.yml` 已通过 `!!js` 从环境读取，并在授权 URL 上附加 `app_id`。
-
-> `app_id` 这个附加参数是本仓库对 SDK 的唯一“外挂”，需要实测确认 Slack 的授权端点接受它；如果被拒，说明 Slack 要求把它放在客户端注册信息里，需要再调。
-
-### PLAUD 内部服务
-
-```powershell
-$env:PLAUD_MCP_URL = "https://mcp.example.internal/mcp"
-$env:PLAUD_MCP_TOKEN = "..."
-```
-
-### 飞书 / Lark
-
-1. 在开放平台建自建应用，开通需要的权限；
-2. 设置环境变量：
-
-```powershell
-$env:FEISHU_APP_ID = "cli_xxx"
-$env:FEISHU_APP_SECRET = "xxx"
-```
-
-凭据通过**命令行参数**传给 `@larksuiteoapi/lark-mcp`，因为宿主（以及本桥）会从子进程环境里剔掉名字匹配 `KEY|PASSWORD|SECRET|TOKEN` 的变量。代价是密钥会出现在进程参数里（本机 `ps` 可见），这是飞书官方 MCP 只接受 CLI 参数导致的。
-
-## 授权时到底发生了什么
+## 安装后发生什么
 
 ```
-connect(url, authProvider)
-  └─ 401 ──> SDK 读 WWW-Authenticate / .well-known/oauth-protected-resource
-             └─> 授权服务器元数据（RFC 8414）
-                 └─> DCR 注册（RFC 7591）或使用预注册 clientId
-                     └─> PKCE + state → 打开浏览器
-                         └─> 回调 127.0.0.1:<随机端口>/callback
-                             └─> 校验 state → 换 token → 存盘
-                                 └─> 重新连接，带 Authorization: Bearer
+connect → 401 → 发现元数据 → 注册客户端 → 浏览器授权
+        → 回调 127.0.0.1 → 存令牌 → 重连 → 工具可用
 ```
 
-令牌过期时 SDK 自动用 refresh token 换新；刷新失败会重新走一次浏览器流程（`authTimeoutMs` 默认 5 分钟）。
+## 文档
 
-## 凭据存放
+- [各服务配置、安全模型、已知限制](docs/REFERENCE.zh.md)
+- [开发、构建与发布](docs/REFERENCE.zh.md#开发)
 
-```
-$DSH_HOME/mcp-oauth/<serverName>.json   # 默认 C:\Users\<你>\.dsh\mcp-oauth\
-```
+## 反馈与贡献
 
-- 按**授权服务器 issuer** 分区，防止 token 被重放到别的 issuer（RFC 9207 混用防护）；
-- 写入用临时文件 + rename，权限 `0600`（Windows 上 chmod 语义有限，但文件不在共享盘）；
-- **登出**：删掉对应文件即可；同时建议在服务端撤销授权（Notion：Settings → Notion MCP → 断开；Slack：撤销 app 授权）。
+内部插件。问题提 Issue，代码走 PR；反馈时附版本、复现步骤，并移除凭据。
 
-## 安全模型
+## License
 
-| 项 | 做法 |
-|---|---|
-| 令牌落盘 | 仅本机 `$DSH_HOME/mcp-oauth/`，0600，不进 patch、不进 git |
-| 配置里的密钥 | 全部通过 `!!js process.env.X` 读取，配置文件本身可安全分享 |
-| 子进程环境 | 剔除 `KEY/PASSWORD/SECRET/TOKEN` 和 `DSH_*`，与宿主行为一致 |
-| 代码可信度 | 只有本仓库代码进宿主进程；MCP 服务端只是对端 |
-| 权限范围 | 取决于服务端工具集 + 用户自己的账号权限；**不要**共用单一 token 给多人 |
-| 审计 | Notion/Slack/Linear 各自有审计日志；本地可用 `mcp__*` 工具名过滤会话 |
-
-## 已知限制（v0.1）
-
-- **没有设置页**：授权靠浏览器弹窗 + 日志，登出靠删文件；
-- **只桥接 tools**：未实现 resources / prompts / server instructions；
-- **没有自动重连**：DSH 内置桥有指数退避重连，本插件 v0.1 需要重启宿主；
-- **Slack 未实测**：`authorizationParams.app_id` 这条路需要真实 app 验证；
-- **需要 pnpm**：`workspace:^` 协议 npm 不支持；
-- **仅在 Windows 上验证过构建路径**，macOS/Linux 逻辑一致但未跑。
-
-## Roadmap
-
-1. 把这层能力**上游化**：给 `@deepseek-ai/dsh-mcp-client` 提 PR，加 `authProvider` 注入（改动很小，见 `packages/core/src/transport.ts` 的注释）；
-2. 设置页 + `登出/重新授权` 按钮；
-3. resources / instructions 桥接；
-4. 指数退避重连；
-5. Slack 实测后固化参数。
-
-## 开发
-
-```powershell
-pnpm build
-pnpm typecheck
-
-# 结构校验（不需要装依赖，只需要 NODE_PATH 上有 js-yaml）
-node scripts/validate.cjs
-```
-# 本地试装（不发布）
-npm pack --workspace @plaud/dsh-plugin-notion
-dsh plugin --profile test add .\plaud-dsh-plugin-notion-0.1.0.tgz
-```
-
-调试时把宿主日志级别调到 info，连接器会打印 `OAuth client ready (redirect http://127.0.0.1:xxxxx/callback)` 和授权 URL。
-
-## 许可
-
-内部使用，未授权（UNLICENSED）。第三方商标归各自所有者。
+UNLICENSED，公司内部使用。第三方商标归各自所有者。
