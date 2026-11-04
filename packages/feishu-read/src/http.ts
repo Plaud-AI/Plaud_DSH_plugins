@@ -12,6 +12,8 @@ export interface FeishuConfig {
   domain: string
   /** 会话白名单（chat_id 或群名）；空表示不限制。 */
   allowedChats: string[]
+  /** 凭据来源，供诊断展示。 */
+  source?: string
 }
 
 /** 飞书业务错误。 */

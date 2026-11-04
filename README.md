@@ -39,7 +39,7 @@
 | PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz` |
 | PLAUD（官方 MCP） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-plaud-mcp/plaudai-dsh-plugin-plaud-mcp-0.1.0.tgz` |
 | 飞书（官方 MCP） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz` |
-| 飞书（只读版） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-feishu-read/plaudai-dsh-plugin-feishu-read-0.1.0.tgz` |
+| 飞书（只读版） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1-feishu-read/plaudai-dsh-plugin-feishu-read-0.1.1.tgz` |
 
 三组"双胞胎"插件按需选一个：
 

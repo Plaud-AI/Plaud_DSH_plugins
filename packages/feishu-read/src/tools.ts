@@ -117,10 +117,11 @@ export function buildTools(deps: ToolDeps): ToolDefinition[] {
       timeoutMs: 20_000,
       async execute() {
         const config = deps.config()
+        const source = config.source ?? 'none'
         if (config.appId === '' || config.appSecret === '') {
           return {
             ok: false,
-            detail: '未配置应用凭据：设置 FEISHU_APP_ID / FEISHU_APP_SECRET，或填插件配置里的 appId/appSecret。',
+            detail: `未找到应用凭据（来源 ${source}）：设置 FEISHU_APP_ID / FEISHU_APP_SECRET，或在 DSH 设置里配飞书机器人让插件自动复用。`,
             tokenExpiresInSeconds: 0,
           }
         }

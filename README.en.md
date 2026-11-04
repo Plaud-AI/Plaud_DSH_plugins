@@ -39,7 +39,7 @@ Open the desktop **Plugins** panel and paste one whole address from the table be
 | PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz` |
 | PLAUD (official MCP) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-plaud-mcp/plaudai-dsh-plugin-plaud-mcp-0.1.0.tgz` |
 | Feishu (official MCP) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz` |
-| Feishu (read-only) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-feishu-read/plaudai-dsh-plugin-feishu-read-0.1.0.tgz` |
+| Feishu (read-only) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1-feishu-read/plaudai-dsh-plugin-feishu-read-0.1.1.tgz` |
 
 Three paired sets, pick one of each:
 
