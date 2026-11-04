@@ -31,7 +31,7 @@
 面板里粘地址（先卸载同名旧版）：
 
 ```
-https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.2.1-slackbot/plaudai-dsh-plugin-slackbot-0.2.1.tgz
+https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.2.2-slackbot/plaudai-dsh-plugin-slackbot-0.2.2.tgz
 ```
 
 或命令行：
@@ -46,14 +46,18 @@ dsh plugin --profile web add @plaudai/dsh-plugin-slackbot
 
 | 变量 | 说明 |
 | --- | --- |
-| `DSH_SLACK_BOT_TOKEN` | `xoxb-` 机器人令牌（或 `xoxp-` 用户令牌）。**必填** |
+| `DSH_SLACK_USER_TOKEN` | `xoxp-` 用户令牌。**只读优先用它**：能读你所在的所有频道，不用把机器人拉进群 |
+| `DSH_SLACK_BOT_TOKEN` | `xoxb-` 机器人令牌。发消息用它；只能读机器人被拉进的频道 |
 | `DSH_SLACK_APP_TOKEN` | `xapp-` App-Level Token。填了才会启动 Socket Mode 收消息 |
 | `DSH_SLACK_DEFAULT_CHANNEL` | 不指定频道时的默认目标，如 `#general` |
 | `DSH_SLACK_CHANNELS` | 频道白名单，逗号分隔，如 `#general,C0123456`。空=不限制 |
 
+> 两个令牌至少要有一个；同时存在时**用户令牌优先**。
+
 ```powershell
-setx DSH_SLACK_BOT_TOKEN "xoxb-..."
-setx DSH_SLACK_APP_TOKEN "xapp-..."
+setx DSH_SLACK_USER_TOKEN "xoxp-..."     # 只读
+setx DSH_SLACK_BOT_TOKEN "xoxb-..."      # 发消息
+setx DSH_SLACK_APP_TOKEN "xapp-..."      # 收消息
 ```
 
 `setx` 之后要**完全退出并重开 DSH**。

@@ -1,5 +1,5 @@
 import { createSlackApi, type SlackApi } from './client.js'
-import { parseConfig, resolveAppToken, type SlackBotConfig } from './config.js'
+import { parseConfig, requireToken, resolveAppToken, type SlackBotConfig } from './config.js'
 import { InboxQueue, type InboxMessage } from './inbox.js'
 import { startSocketMode, type SocketHandle } from './socket.js'
 import { buildTools, type ToolDefinition } from './tools.js'
@@ -80,6 +80,9 @@ export function apply(ctx: PluginContext, rawConfig: unknown): void {
   let apiToken = ''
   const apiProvider = (): SlackApi => {
     const current = parseConfig(rawConfig)
+    // 先校验再建客户端：空令牌会让 Slack 回 not_authed，看着像“令牌失效”，
+    // 实际是没配，报错会误导人。
+    requireToken(current)
     if (api === undefined || current.token !== apiToken) {
       api = createSlackApi(current.token)
       apiToken = current.token

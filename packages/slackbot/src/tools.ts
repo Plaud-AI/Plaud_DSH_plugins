@@ -72,11 +72,15 @@ function clampInt(value: unknown, fallback: number, max: number): number {
   return Math.min(max, Math.max(1, Math.trunc(value)))
 }
 
-/** 一次调用统一捕获 Slack 错误。 */
+/** 一次调用统一捕获 Slack 错误；自己的校验错误原样抛出，别套 Slack 措辞。 */
 async function call<T>(work: () => Promise<T>): Promise<T> {
   try {
     return await work()
   } catch (error) {
+    const shaped = error as { data?: { error?: unknown } } | null | undefined
+    if (shaped?.data?.error === undefined) {
+      throw error instanceof Error ? error : new Error(String(error))
+    }
     throw new Error(describeSlackError(error))
   }
 }
@@ -519,7 +523,7 @@ export function buildTools(deps: ToolDeps): ToolDefinition[] {
             socket: socketState,
             socketAttempts,
             inbox,
-            detail: '未配置令牌：设置 DSH_SLACK_BOT_TOKEN 或插件配置里的 token。',
+            detail: '未配置令牌：只读设 DSH_SLACK_USER_TOKEN（xoxp-），发消息设 DSH_SLACK_BOT_TOKEN（xoxb-），或写进插件配置的 token。',
           }
         }
         try {

@@ -1,6 +1,6 @@
 {
   "name": "@plaudai/dsh-plugin-slackbot",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Slack 原生工具：读频道历史、线程与全文搜索，可选发消息；Socket Mode 收消息，无需公网回调",
   "repository": {
     "type": "git",

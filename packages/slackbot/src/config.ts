@@ -17,7 +17,9 @@ export interface SlackBotConfig {
   allowedChannels: string[]
 }
 
-/** token 的环境变量名。 */
+/** 用户令牌（xoxp-）的环境变量名；只读场景优先用它。 */
+export const ENV_USER_TOKEN = 'DSH_SLACK_USER_TOKEN'
+/** 机器人令牌（xoxb-）的环境变量名。 */
 export const ENV_TOKEN = 'DSH_SLACK_BOT_TOKEN'
 /** appToken 的环境变量名。 */
 export const ENV_APP_TOKEN = 'DSH_SLACK_APP_TOKEN'
@@ -32,10 +34,15 @@ function list(value: unknown): string[] {
   return single === '' ? [] : [single]
 }
 
+/** 先看用户令牌，再看机器人令牌；两个都没配就是空。 */
+function tokenFromEnv(): string {
+  return text(process.env[ENV_USER_TOKEN]) || text(process.env[ENV_TOKEN])
+}
+
 /** 解析原始配置：config 优先，环境变量兜底；形状不对就用空值。 */
 export function parseConfig(raw: unknown): SlackBotConfig {
   const source = (typeof raw === 'object' && raw !== null && !Array.isArray(raw) ? raw : {}) as Record<string, unknown>
-  const token = text(source.token) || text(process.env[ENV_TOKEN])
+  const token = text(source.token) || tokenFromEnv()
   const appToken = text(source.appToken) || text(process.env[ENV_APP_TOKEN])
   return {
     token,
@@ -59,7 +66,7 @@ export function isChannelAllowed(config: SlackBotConfig, channel: string): boole
 export function requireToken(config: SlackBotConfig): string {
   if (config.token === '') {
     throw new Error(
-      'Slack 令牌未配置：需要机器人令牌（xoxb-）或用户令牌（xoxp-）。请在插件配置里填 token，或设置环境变量 DSH_SLACK_BOT_TOKEN，然后重启 DSH。',
+      'Slack 令牌未配置：只读请用用户令牌（xoxp-，设 DSH_SLACK_USER_TOKEN）；只发消息用机器人令牌（xoxb-，设 DSH_SLACK_BOT_TOKEN）。设完要完全退出并重启 DSH。',
     )
   }
   return config.token
