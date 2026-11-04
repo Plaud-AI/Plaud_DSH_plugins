@@ -10,7 +10,7 @@
 # credential-shaped environment names from MCP child processes.
 - insert:
     - id: mcp-feishu
-      name: '@plaud/dsh-plugin-feishu'
+      name: '@plaudai/dsh-plugin-feishu'
       config:
         serverName: feishu
         toolCallTimeoutMs: 120000

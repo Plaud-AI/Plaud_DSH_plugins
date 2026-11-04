@@ -22,17 +22,17 @@ This repository wires it up.
 
 ```
 packages/
-  core/     @plaud/dsh-mcp-oauth   OAuth provider + callback server + token store + tool bridge
-  notion/   @plaud/dsh-plugin-notion
-  linear/   @plaud/dsh-plugin-linear
-  slack/    @plaud/dsh-plugin-slack
-  plaud/    @plaud/dsh-plugin-plaud
-  feishu/   @plaud/dsh-plugin-feishu
+  core/     @plaudai/dsh-mcp-oauth   OAuth provider + callback server + token store + tool bridge
+  notion/   @plaudai/dsh-plugin-notion
+  linear/   @plaudai/dsh-plugin-linear
+  slack/    @plaudai/dsh-plugin-slack
+  plaud/    @plaudai/dsh-plugin-plaud
+  feishu/   @plaudai/dsh-plugin-feishu
 ```
 
 Every service package is a standalone Cordis plugin (`name` / `inject` / `Config` / `apply`) whose `cordis.patch.yml` references only its own package name. The core package is imported by them and never appears in a profile patch on its own — so the loader never has to resolve a nested path.
 
-**The core is inlined into each connector at build time**: `scripts/bundle.mjs` rewrites the single `from '@plaud/dsh-mcp-oauth'` in `dist/index.js` to `from './core/index.js'` and copies the compiled core into `dist/core/`. Each connector is therefore self-contained:
+**The core is inlined into each connector at build time**: `scripts/bundle.mjs` rewrites the single `from '@plaudai/dsh-mcp-oauth'` in `dist/index.js` to `from './core/index.js'` and copies the compiled core into `dist/core/`. Each connector is therefore self-contained:
 
 - install one package, with no publish ordering and no separate core release;
 - no private registry required;
@@ -66,7 +66,7 @@ Nothing to configure; DCR does the work. To use an API key instead:
 
 ```yaml
 - id: mcp-linear
-  name: '@plaud/dsh-plugin-linear'
+  name: '@plaudai/dsh-plugin-linear'
   config:
     serverName: linear
     auth: bearer
@@ -194,17 +194,17 @@ Deploying the registry, the release flow and each developer's setup: [private re
 Try a local build:
 
 ```powershell
-npm pack --workspace @plaud/dsh-plugin-notion
-dsh plugin --profile test add .\plaud-dsh-plugin-notion-0.1.0.tgz
+npm pack --workspace @plaudai/dsh-plugin-notion
+dsh plugin --profile test add .\plaudai-dsh-plugin-notion-0.1.0.tgz
 ```
 
 The installer takes exactly three spec forms — never a full command line:
 
 | Form | Example |
 | --- | --- |
-| Package name | `@plaud/dsh-plugin-notion` |
+| Package name | `@plaudai/dsh-plugin-notion` |
 | Git repository | `github:Plaud-AI/Plaud_DSH_plugins` |
-| Absolute path | `D:\...\Plaud_DSH_plugins\packages\notion` or `D:\...\plaud-dsh-plugin-notion-0.1.0.tgz` |
+| Absolute path | `D:\...\Plaud_DSH_plugins\packages\notion` or `D:\...\plaudai-dsh-plugin-notion-0.1.0.tgz` |
 
 The `desktop` profile belongs to the desktop app; `dsh plugin --profile desktop ...` is rejected with `profile "desktop" is managed exclusively by the Electron application`. Install through the Plugins panel there.
 

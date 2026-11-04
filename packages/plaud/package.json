@@ -1,6 +1,6 @@
 {
-  "name": "@plaud/dsh-plugin-plaud",
-  "version": "0.1.0",
+  "name": "@plaudai/dsh-plugin-plaud",
+  "version": "0.1.1",
   "description": "PLAUD 内部 MCP 服务接入 DeepSeek Harness（Bearer token）",
   "license": "UNLICENSED",
   "type": "module",
@@ -40,7 +40,7 @@
     }
   },
   "devDependencies": {
-    "@plaud/dsh-mcp-oauth": "^0.1.0"
+    "@plaudai/dsh-mcp-oauth": "^0.1.1"
   },
   "publishConfig": {
     "access": "public"

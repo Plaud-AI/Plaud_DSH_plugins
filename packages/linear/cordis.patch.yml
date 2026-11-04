@@ -4,7 +4,7 @@
 # Alternative: switch to a static API key by uncommenting `auth: bearer`.
 - insert:
     - id: mcp-linear
-      name: '@plaud/dsh-plugin-linear'
+      name: '@plaudai/dsh-plugin-linear'
       config:
         serverName: linear
         toolCallTimeoutMs: 120000

@@ -1,6 +1,6 @@
 {
-  "name": "@plaud/dsh-plugin-slack",
-  "version": "0.1.0",
+  "name": "@plaudai/dsh-plugin-slack",
+  "version": "0.1.1",
   "description": "Slack 官方 MCP 接入 DeepSeek Harness（需要预注册 Slack App）",
   "license": "UNLICENSED",
   "type": "module",
@@ -41,7 +41,7 @@
     }
   },
   "devDependencies": {
-    "@plaud/dsh-mcp-oauth": "^0.1.0"
+    "@plaudai/dsh-mcp-oauth": "^0.1.1"
   },
   "publishConfig": {
     "access": "public"

@@ -1,4 +1,4 @@
-# @plaud/dsh-plugin-feishu
+# @plaudai/dsh-plugin-feishu
 
 把飞书 / Lark 官方 MCP 接入 DeepSeek Harness——基于 @larksuiteoapi/lark-mcp，用 App ID + Secret。
 
@@ -7,7 +7,7 @@
 在 DSH 桌面版「插件」面板里粘贴包名或本地绝对路径，网页版用：
 
 ```powershell
-dsh plugin --profile web add @plaud/dsh-plugin-feishu
+dsh plugin --profile web add @plaudai/dsh-plugin-feishu
 ```
 
 装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。

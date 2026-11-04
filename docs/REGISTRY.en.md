@@ -9,16 +9,16 @@
 Set it up once; after that everyone does exactly one thing — paste a package name into the plugin panel.
 
 ```
-@plaud/dsh-plugin-notion
-@plaud/dsh-plugin-linear
-@plaud/dsh-plugin-slack
-@plaud/dsh-plugin-plaud
-@plaud/dsh-plugin-feishu
+@plaudai/dsh-plugin-notion
+@plaudai/dsh-plugin-linear
+@plaudai/dsh-plugin-slack
+@plaudai/dsh-plugin-plaud
+@plaudai/dsh-plugin-feishu
 ```
 
 ## Why not GitHub Packages
 
-GitHub Packages' npm registry requires the **package scope to equal the repository owner**. The repo lives under `Plaud-AI`, so the scope would have to be `@plaud-ai/*`, while everything here is `@plaud/*` — publishing there means renaming every package and patch. Verdaccio has no such rule and needs no GitHub permissions.
+GitHub Packages' npm registry requires the **package scope to equal the repository owner**. The repo lives under `Plaud-AI`, so the scope would have to be `@plaud-ai/*`, while everything here is `@plaudai/*` — publishing there means renaming every package and patch. Verdaccio has no such rule and needs no GitHub permissions.
 
 ## Publish to public npm (zero client config)
 
@@ -35,7 +35,7 @@ pnpm release --public                       # --access public
 After that, clients configure nothing:
 
 ```
-@plaud/dsh-plugin-notion
+@plaudai/dsh-plugin-notion
 ```
 
 Worth knowing:
@@ -43,7 +43,7 @@ Worth knowing:
 - **The code becomes public.** No secrets in here, only OAuth plumbing and five service presets, but accept that anyone can read it;
 - the unscoped `dsh-mcp-oauth` is already taken (0.3.0), so the core package must stay under `@plaud` too — do not switch to an unscoped name;
 - publishing to npm is not the same as being in the plugin market. `dshmarket` only installs from the [awesome-dsh-plugin](https://awesome-dsh-plugin.com) curated list; listing there means a PR to that repo;
-- to roll back: `npm unpublish @plaud/dsh-plugin-notion@0.1.0`; the version number is not reusable for 72 hours.
+- to roll back: `npm unpublish @plaudai/dsh-plugin-notion@0.1.0`; the version number is not reusable for 72 hours.
 
 ## Deploy a private registry (when the code must stay internal)
 
@@ -70,7 +70,7 @@ Two configs, same contents, different paths:
 
 Both are configured so that:
 
-- `@plaud/*`: **`access: $all`** — installing needs no login, while `publish: $authenticated` — only authenticated users can publish. Teammates configure nothing to install, and publishing stays locked down;
+- `@plaudai/*`: **`access: $all`** — installing needs no login, while `publish: $authenticated` — only authenticated users can publish. Teammates configure nothing to install, and publishing stays locked down;
 - everything else is proxied to npmjs, so a profile install can still resolve the MCP SDK and schemastery;
 - `max_users: 5` (container) / `10` (local) — **change this or disable self-registration after rollout**; otherwise anyone who can reach the port can register and publish a package the whole company will install.
 
@@ -107,10 +107,10 @@ Installing needs no login — pnpm just has to know where the `@plaud` scope liv
 "@plaud:registry=http://registry.internal:4873/" | Add-Content $env:USERPROFILE\.npmrc
 ```
 
-Then open the DSH **Plugins** panel and paste `@plaud/dsh-plugin-notion`. The CLI equivalent:
+Then open the DSH **Plugins** panel and paste `@plaudai/dsh-plugin-notion`. The CLI equivalent:
 
 ```powershell
-dsh plugin --profile web add @plaud/dsh-plugin-notion
+dsh plugin --profile web add @plaudai/dsh-plugin-notion
 ```
 
 > With a self-signed certificate, add
@@ -123,7 +123,7 @@ dsh plugin --profile web add @plaud/dsh-plugin-notion
 Publishing does **not** update anyone automatically — the profile's `pnpm-lock.yaml` pins the installed version. Either reinstall from the panel, or:
 
 ```powershell
-dsh plugin --profile web add @plaud/dsh-plugin-notion@latest
+dsh plugin --profile web add @plaudai/dsh-plugin-notion@latest
 ```
 
 Release flow: `pnpm version:patch` → `pnpm -r build` → `pnpm release`, then tell everyone to update.
@@ -144,7 +144,7 @@ Release flow: `pnpm version:patch` → `pnpm -r build` → `pnpm release`, then 
 | Symptom | Cause |
 | --- | --- |
 | `401 Unauthorized` (when publishing) | no `_authToken` for this registry in `~/.npmrc`; run `npm login` |
-| `404 Not Found` on install | token is fine but the scope rules do not cover it; check `'@plaud/*'` in the config |
+| `404 Not Found` on install | token is fine but the scope rules do not cover it; check `'@plaudai/*'` in the config |
 | `cannot publish over the previously published versions` | version unchanged; run `pnpm version:patch` |
 | `SELF_SIGNED_CERT_IN_CHAIN` | self-signed certificate; see `strict-ssl=false` above |
-| panel says `not found` | confirm it published: `npm view @plaud/dsh-plugin-notion --registry <url>` |
+| panel says `not found` | confirm it published: `npm view @plaudai/dsh-plugin-notion --registry <url>` |

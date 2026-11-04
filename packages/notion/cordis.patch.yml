@@ -4,7 +4,7 @@
 # user's own Notion account. Nothing to configure here.
 - insert:
     - id: mcp-notion
-      name: '@plaud/dsh-plugin-notion'
+      name: '@plaudai/dsh-plugin-notion'
       config:
         serverName: notion
         toolCallTimeoutMs: 120000

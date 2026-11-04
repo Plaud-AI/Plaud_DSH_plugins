@@ -1,4 +1,4 @@
-# @plaud/dsh-plugin-linear
+# @plaudai/dsh-plugin-linear
 
 把 Linear 官方 Remote MCP 接入 DeepSeek Harness——零配置，走 DCR；也可以换成 API key。
 
@@ -7,7 +7,7 @@
 在 DSH 桌面版「插件」面板里粘贴包名或本地绝对路径，网页版用：
 
 ```powershell
-dsh plugin --profile web add @plaud/dsh-plugin-linear
+dsh plugin --profile web add @plaudai/dsh-plugin-linear
 ```
 
 装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。

@@ -10,7 +10,7 @@
 # Then the first Slack tool call opens the browser for that app's consent.
 - insert:
     - id: mcp-slack
-      name: '@plaud/dsh-plugin-slack'
+      name: '@plaudai/dsh-plugin-slack'
       config:
         serverName: slack
         toolCallTimeoutMs: 120000

@@ -10,13 +10,13 @@ Install once, authorize once in the browser, and your assistant can read pages, 
 
 | Package | Service | Auth | Pre-registration |
 | --- | --- | --- | --- |
-| `@plaud/dsh-plugin-notion` | Notion | OAuth (DCR + PKCE) | No |
-| `@plaud/dsh-plugin-linear` | Linear | OAuth or API key | No |
-| `@plaud/dsh-plugin-slack` | Slack | OAuth | Yes |
-| `@plaud/dsh-plugin-feishu` | Feishu / Lark | App ID + Secret | Yes |
-| `@plaud/dsh-plugin-plaud` | PLAUD internal | Bearer token | No |
+| `@plaudai/dsh-plugin-notion` | Notion | OAuth (DCR + PKCE) | No |
+| `@plaudai/dsh-plugin-linear` | Linear | OAuth or API key | No |
+| `@plaudai/dsh-plugin-slack` | Slack | OAuth | Yes |
+| `@plaudai/dsh-plugin-feishu` | Feishu / Lark | App ID + Secret | Yes |
+| `@plaudai/dsh-plugin-plaud` | PLAUD internal | Bearer token | No |
 
-All five share one core package, `@plaud/dsh-mcp-oauth`, which fills in the layer DeepSeek Harness leaves out: **MCP authorization**.
+All five share one core package, `@plaudai/dsh-mcp-oauth`, which fills in the layer DeepSeek Harness leaves out: **MCP authorization**.
 
 ## Features
 
@@ -32,16 +32,16 @@ Each connector is a self-contained tarball attached to a GitHub Release. Open th
 
 | Connector | URL |
 | --- | --- |
-| Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-notion-0.1.0.tgz` |
-| Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-linear-0.1.0.tgz` |
-| Slack | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-slack-0.1.0.tgz` |
-| PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-plaud-0.1.0.tgz` |
-| Feishu | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-feishu-0.1.0.tgz` |
+| Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-notion-0.1.1.tgz` |
+| Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-linear-0.1.1.tgz` |
+| Slack | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-slack-0.1.1.tgz` |
+| PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-plaud-0.1.1.tgz` |
+| Feishu | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-feishu-0.1.1.tgz` |
 
 For the web build and headless profiles:
 
 ```powershell
-dsh plugin --profile web add https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-notion-0.1.0.tgz
+dsh plugin --profile web add https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-notion-0.1.1.tgz
 ```
 
 Then restart DSH. Requires `@deepseek-ai/dsh` 0.2.0-rc.2 or newer. Dependencies (MCP SDK, schemastery) are installed from public npm automatically — **no login, no registry configuration**.

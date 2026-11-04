@@ -10,13 +10,13 @@
 
 | 插件 | 服务 | 认证 | 需要预注册 |
 | --- | --- | --- | --- |
-| `@plaud/dsh-plugin-notion` | Notion | OAuth（DCR + PKCE） | 否 |
-| `@plaud/dsh-plugin-linear` | Linear | OAuth 或 API key | 否 |
-| `@plaud/dsh-plugin-slack` | Slack | OAuth | 是 |
-| `@plaud/dsh-plugin-feishu` | 飞书 / Lark | App ID + Secret | 是 |
-| `@plaud/dsh-plugin-plaud` | PLAUD 内部服务 | Bearer token | 否 |
+| `@plaudai/dsh-plugin-notion` | Notion | OAuth（DCR + PKCE） | 否 |
+| `@plaudai/dsh-plugin-linear` | Linear | OAuth 或 API key | 否 |
+| `@plaudai/dsh-plugin-slack` | Slack | OAuth | 是 |
+| `@plaudai/dsh-plugin-feishu` | 飞书 / Lark | App ID + Secret | 是 |
+| `@plaudai/dsh-plugin-plaud` | PLAUD 内部服务 | Bearer token | 否 |
 
-五个连接器共用一个核心包 `@plaud/dsh-mcp-oauth`，补的是 DSH 自己没做的那一层：**MCP 授权**。
+五个连接器共用一个核心包 `@plaudai/dsh-mcp-oauth`，补的是 DSH 自己没做的那一层：**MCP 授权**。
 
 ## 功能
 
@@ -32,16 +32,16 @@
 
 | 连接器 | 地址 |
 | --- | --- |
-| Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-notion-0.1.0.tgz` |
-| Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-linear-0.1.0.tgz` |
-| Slack | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-slack-0.1.0.tgz` |
-| PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-plaud-0.1.0.tgz` |
-| 飞书 | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-feishu-0.1.0.tgz` |
+| Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-notion-0.1.1.tgz` |
+| Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-linear-0.1.1.tgz` |
+| Slack | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-slack-0.1.1.tgz` |
+| PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-plaud-0.1.1.tgz` |
+| 飞书 | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-feishu-0.1.1.tgz` |
 
 网页版和 headless 用命令行：
 
 ```powershell
-dsh plugin --profile web add https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-notion-0.1.0.tgz
+dsh plugin --profile web add https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-notion-0.1.1.tgz
 ```
 
 装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。依赖（MCP SDK、schemastery）会从公共 npm 自动装齐，**不需要登录、不需要配 registry**。

@@ -1,4 +1,4 @@
-import { createMcpPlugin } from '@plaud/dsh-mcp-oauth'
+import { createMcpPlugin } from '@plaudai/dsh-mcp-oauth'
 
 /**
  * Notion — official hosted Remote MCP.

@@ -21,7 +21,7 @@ uplinks:
     maxage: 10m
 
 packages:
-  '@plaud/*':
+  '@plaudai/*':
     access: $all
     publish: $authenticated
     unpublish: $authenticated

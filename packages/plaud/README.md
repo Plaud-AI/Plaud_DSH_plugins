@@ -1,4 +1,4 @@
-# @plaud/dsh-plugin-plaud
+# @plaudai/dsh-plugin-plaud
 
 把 PLAUD 内部 MCP 服务接入 DeepSeek Harness——用 Bearer token，服务端支持 DCR 后可切成 OAuth。
 
@@ -7,7 +7,7 @@
 在 DSH 桌面版「插件」面板里粘贴包名或本地绝对路径，网页版用：
 
 ```powershell
-dsh plugin --profile web add @plaud/dsh-plugin-plaud
+dsh plugin --profile web add @plaudai/dsh-plugin-plaud
 ```
 
 装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。

@@ -9,7 +9,7 @@
 # and drop the token.
 - insert:
     - id: mcp-plaud
-      name: '@plaud/dsh-plugin-plaud'
+      name: '@plaudai/dsh-plugin-plaud'
       config:
         serverName: plaud
         url: !!js 'process.env.PLAUD_MCP_URL ?? ""'

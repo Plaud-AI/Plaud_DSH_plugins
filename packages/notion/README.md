@@ -1,4 +1,4 @@
-# @plaud/dsh-plugin-notion
+# @plaudai/dsh-plugin-notion
 
 把 Notion 官方 Remote MCP 接入 DeepSeek Harness——装好即用，第一次调用工具时弹浏览器，授权你自己的 Notion 账号。
 
@@ -7,7 +7,7 @@
 在 DSH 桌面版「插件」面板里粘贴包名或本地绝对路径，网页版用：
 
 ```powershell
-dsh plugin --profile web add @plaud/dsh-plugin-notion
+dsh plugin --profile web add @plaudai/dsh-plugin-notion
 ```
 
 装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。

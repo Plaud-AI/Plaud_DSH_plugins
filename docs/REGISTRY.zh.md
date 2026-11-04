@@ -9,16 +9,16 @@
 搭一次，之后所有人只做一件事：在插件面板里填包名。
 
 ```
-@plaud/dsh-plugin-notion
-@plaud/dsh-plugin-linear
-@plaud/dsh-plugin-slack
-@plaud/dsh-plugin-plaud
-@plaud/dsh-plugin-feishu
+@plaudai/dsh-plugin-notion
+@plaudai/dsh-plugin-linear
+@plaudai/dsh-plugin-slack
+@plaudai/dsh-plugin-plaud
+@plaudai/dsh-plugin-feishu
 ```
 
 ## 为什么不是 GitHub Packages
 
-GitHub Packages 的 npm registry 要求**包 scope 等于仓库 owner**。仓库属于 `Plaud-AI`，那 scope 就得是 `@plaud-ai/*`，而我们全部是 `@plaud/*`——要发上去就得把所有包和补丁改一遍名。Verdaccio 没这个限制，也不占用 GitHub 的权限。
+GitHub Packages 的 npm registry 要求**包 scope 等于仓库 owner**。仓库属于 `Plaud-AI`，那 scope 就得是 `@plaud-ai/*`，而我们全部是 `@plaudai/*`——要发上去就得把所有包和补丁改一遍名。Verdaccio 没这个限制，也不占用 GitHub 的权限。
 
 ## 发到公共 npm（客户端零配置）
 
@@ -35,7 +35,7 @@ pnpm release --public                       # --access public
 发完之后，客户端什么都不用配：
 
 ```
-@plaud/dsh-plugin-notion
+@plaudai/dsh-plugin-notion
 ```
 
 几点要知道：
@@ -43,7 +43,7 @@ pnpm release --public                       # --access public
 - **代码就是公开的**。这里面没有密钥，只有 OAuth 样板和五个服务的连接配置，但要接受它被任何人读到；
 - 无作用域的 `dsh-mcp-oauth` 已经被别人占了（0.3.0），所以核心包也必须留在 `@plaud` 下面，别改成无作用域名；
 - 发到公共 npm 不等于进了插件市场。`dshmarket` 只安装 [awesome-dsh-plugin](https://awesome-dsh-plugin.com) 的策展列表里的包，要上架得去那个仓库提 PR；
-- 想撤回：`npm unpublish @plaud/dsh-plugin-notion@0.1.0`，72 小时后该版本号不可复用。
+- 想撤回：`npm unpublish @plaudai/dsh-plugin-notion@0.1.0`，72 小时后该版本号不可复用。
 
 ## 部署私有 registry（代码不公开时）
 
@@ -70,7 +70,7 @@ curl http://localhost:4873/-/ping        # 期望 {"status":"ok"} 之类
 
 两者都配成：
 
-- `@plaud/*`：**`access: $all`**——装不需要登录，`publish: $authenticated`——只有登录用户能发。这样同事装插件零配置，发版权限还收得住；
+- `@plaudai/*`：**`access: $all`**——装不需要登录，`publish: $authenticated`——只有登录用户能发。这样同事装插件零配置，发版权限还收得住；
 - 其余包：代理到 npmjs，这样 profile 装插件时还能解析到 MCP SDK 和 schemastery；
 - `max_users: 5`（容器版）/ `10`（本机版）——**上线后请改掉或直接关掉自助注册**，否则任何能访问该端口的人都能注册并发布一个全公司会安装的包。
 
@@ -107,10 +107,10 @@ pnpm release                                # 校验产物后逐个 publish
 "@plaud:registry=http://registry.internal:4873/" | Add-Content $env:USERPROFILE\.npmrc
 ```
 
-然后打开 DSH 的「插件」面板，粘贴包名 `@plaud/dsh-plugin-notion` 即可。命令行等价于：
+然后打开 DSH 的「插件」面板，粘贴包名 `@plaudai/dsh-plugin-notion` 即可。命令行等价于：
 
 ```powershell
-dsh plugin --profile web add @plaud/dsh-plugin-notion
+dsh plugin --profile web add @plaudai/dsh-plugin-notion
 ```
 
 > 如果 registry 用的是自签证书，还要在同一个 `~/.npmrc` 里加
@@ -123,7 +123,7 @@ dsh plugin --profile web add @plaud/dsh-plugin-notion
 包发出去之后，同事那边**不是重启就自动更新**——profile 的 `pnpm-lock.yaml` 会钉住安装时的版本。要么在面板里重新安装一次，要么：
 
 ```powershell
-dsh plugin --profile web add @plaud/dsh-plugin-notion@latest
+dsh plugin --profile web add @plaudai/dsh-plugin-notion@latest
 ```
 
 发版流程：`pnpm version:patch` → `pnpm -r build` → `pnpm release`，然后通知大家更新。
@@ -144,7 +144,7 @@ dsh plugin --profile web add @plaud/dsh-plugin-notion@latest
 | 现象 | 原因 |
 | --- | --- |
 | `401 Unauthorized`（发布时） | `~/.npmrc` 里没有该 registry 的 `_authToken`，先 `npm login` |
-| `404 Not Found` 装的时候 | token 有效但该 scope 的 access 规则没覆盖到；检查 config 里的 `'@plaud/*'` |
+| `404 Not Found` 装的时候 | token 有效但该 scope 的 access 规则没覆盖到；检查 config 里的 `'@plaudai/*'` |
 | `cannot publish over the previously published versions` | 版本号没改，先 `pnpm version:patch` |
 | `SELF_SIGNED_CERT_IN_CHAIN` | 自签证书，见上面的 `strict-ssl=false` |
-| 面板里填包名报 `not found` | 确认包已发布：`npm view @plaud/dsh-plugin-notion --registry <url>` |
+| 面板里填包名报 `not found` | 确认包已发布：`npm view @plaudai/dsh-plugin-notion --registry <url>` |

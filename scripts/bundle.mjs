@@ -21,8 +21,12 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
-const CORE_SPECIFIER = '@plaud/dsh-mcp-oauth'
 const CORE_IMPORT = './core/index.js'
+
+// Read the core's name instead of hardcoding it: renaming the npm scope must not
+// silently leave the connector importing a package it does not depend on.
+const coreManifest = JSON.parse(readFileSync(join(root, 'packages', 'core', 'package.json'), 'utf8'))
+const CORE_SPECIFIER = coreManifest.name
 
 const name = process.argv[2]
 if (!name) {

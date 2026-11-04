@@ -22,17 +22,17 @@ new StreamableHTTPClientTransport(new URL(config.url), { requestInit: { headers 
 
 ```
 packages/
-  core/     @plaud/dsh-mcp-oauth   OAuth provider + 回调服务器 + 凭据存储 + 工具桥接
-  notion/   @plaud/dsh-plugin-notion
-  linear/   @plaud/dsh-plugin-linear
-  slack/    @plaud/dsh-plugin-slack
-  plaud/    @plaud/dsh-plugin-plaud
-  feishu/   @plaud/dsh-plugin-feishu
+  core/     @plaudai/dsh-mcp-oauth   OAuth provider + 回调服务器 + 凭据存储 + 工具桥接
+  notion/   @plaudai/dsh-plugin-notion
+  linear/   @plaudai/dsh-plugin-linear
+  slack/    @plaudai/dsh-plugin-slack
+  plaud/    @plaudai/dsh-plugin-plaud
+  feishu/   @plaudai/dsh-plugin-feishu
 ```
 
 每个服务包都是独立的 Cordis 插件（导出 `name` / `inject` / `Config` / `apply`），`cordis.patch.yml` 只引用自己的包名。核心包只被它们 `import`，不会单独出现在 profile 补丁里——这样加载器不需要解析任何嵌套路径。
 
-**核心包在构建时被内联进每个连接器**：`scripts/bundle.mjs` 把 `dist/index.js` 里唯一一句 `from '@plaud/dsh-mcp-oauth'` 改写成 `from './core/index.js'`，再把 core 的编译产物拷进 `dist/core/`。结果是每个连接器自包含：
+**核心包在构建时被内联进每个连接器**：`scripts/bundle.mjs` 把 `dist/index.js` 里唯一一句 `from '@plaudai/dsh-mcp-oauth'` 改写成 `from './core/index.js'`，再把 core 的编译产物拷进 `dist/core/`。结果是每个连接器自包含：
 
 - 装一个包就够，不必先发核心包、也没有发布顺序问题；
 - 不需要私有 registry 也能装；
@@ -66,7 +66,7 @@ packages/
 
 ```yaml
 - id: mcp-linear
-  name: '@plaud/dsh-plugin-linear'
+  name: '@plaudai/dsh-plugin-linear'
   config:
     serverName: linear
     auth: bearer
@@ -193,17 +193,17 @@ pnpm release
 本地试装：
 
 ```powershell
-npm pack --workspace @plaud/dsh-plugin-notion
-dsh plugin --profile test add .\plaud-dsh-plugin-notion-0.1.0.tgz
+npm pack --workspace @plaudai/dsh-plugin-notion
+dsh plugin --profile test add .\plaudai-dsh-plugin-notion-0.1.0.tgz
 ```
 
 安装入口只接受三种 spec，不要粘整条命令：
 
 | 形式 | 例子 |
 | --- | --- |
-| 包名 | `@plaud/dsh-plugin-notion` |
+| 包名 | `@plaudai/dsh-plugin-notion` |
 | Git 仓库 | `github:Plaud-AI/Plaud_DSH_plugins` |
-| 绝对路径 | `D:\...\Plaud_DSH_plugins\packages\notion` 或 `D:\...\plaud-dsh-plugin-notion-0.1.0.tgz` |
+| 绝对路径 | `D:\...\Plaud_DSH_plugins\packages\notion` 或 `D:\...\plaudai-dsh-plugin-notion-0.1.0.tgz` |
 
 `desktop` profile 由桌面应用独占，`dsh plugin --profile desktop ...` 会被拒绝（`profile "desktop" is managed exclusively by the Electron application`）。桌面版只能在「插件」面板里装。
 

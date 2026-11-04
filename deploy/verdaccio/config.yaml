@@ -1,7 +1,7 @@
 # Verdaccio — the company registry for @plaud DSH plugins.
 #
 # Deploy this on an internal host the whole team can reach. Everything below
-# outside the `packages` block is stock; the important part is that @plaud/*
+# outside the `packages` block is stock; the important part is that @plaudai/*
 # is private and writable only by authenticated users, while every other
 # package is proxied to npmjs so a profile install can still resolve the MCP
 # SDK and schemastery from upstream.
@@ -24,7 +24,7 @@ uplinks:
 
 packages:
   # Our own scope: members only, and only members can publish.
-  '@plaud/*':
+  '@plaudai/*':
     access: $all
     publish: $authenticated
     unpublish: $authenticated

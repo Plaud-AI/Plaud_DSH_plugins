@@ -1,4 +1,4 @@
-# @plaud/dsh-plugin-slack
+# @plaudai/dsh-plugin-slack
 
 把 Slack 官方 MCP 接入 DeepSeek Harness——需要先在 api.slack.com 注册 app，再导出三个环境变量。
 
@@ -7,7 +7,7 @@
 在 DSH 桌面版「插件」面板里粘贴包名或本地绝对路径，网页版用：
 
 ```powershell
-dsh plugin --profile web add @plaud/dsh-plugin-slack
+dsh plugin --profile web add @plaudai/dsh-plugin-slack
 ```
 
 装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。
