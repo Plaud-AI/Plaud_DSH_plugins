@@ -1,22 +1,26 @@
-# Slack (official MCP) for DeepSeek Harness.
+# Slack (official hosted MCP) for DeepSeek Harness.
 #
-# Slack has no Dynamic Client Registration: the client must be a Slack app with
-# a fixed app id, and the token endpoint requires a confidential client. Create
-# the app once at https://api.slack.com/apps, then:
+# Slack has no Dynamic Client Registration and only accepts a confidential
+# client (token_endpoint_auth_methods_supported = ["client_secret_post"]), so
+# one Slack app has to exist first. It is reused by everyone who installs this
+# plugin — each person still consents once in the browser.
 #
-#   1. OAuth & Permissions → Scopes → User Token Scopes: add the scopes you
-#      need (chat:write, channels:read, channels:history, groups:read,
-#      groups:history, im:read, im:history, users:read, search:read.public).
-#   2. Same page → Redirect URLs → add
+# Create the app once at https://api.slack.com/apps (From scratch), then:
+#
+#   1. OAuth & Permissions → Redirect URLs → add exactly
 #        http://127.0.0.1:53311/callback
-#      (the port is SLACK_MCP_CALLBACK_PORT below; it must match exactly)
+#   2. OAuth & Permissions → User Token Scopes → add what you need:
+#        channels:read, channels:history, groups:read, groups:history,
+#        users:read, search:read.public, im:read, im:history, chat:write
+#      (chat:write only if you want the assistant to post)
 #   3. Basic Information → copy Client ID, Client Secret and App ID.
-#   4. put them in the host environment before starting the harness:
+#   4. Put them in the host environment before starting the harness:
 #        SLACK_MCP_CLIENT_ID=<client id>
 #        SLACK_MCP_CLIENT_SECRET=<client secret>
-#        SLACK_MCP_APP_ID=<the same app id>
+#        SLACK_MCP_APP_ID=<app id>            (same app)
 #
-# Then the first Slack tool call opens the browser for that app's consent.
+# The first Slack tool call opens the browser for that app's consent; the
+# resulting user token is cached per machine in ~/.dsh/mcp-oauth/slack.json.
 - insert:
     - id: mcp-slack
       name: '@plaudai/dsh-plugin-slack'
@@ -27,8 +31,10 @@
         clientId: !!js 'process.env.SLACK_MCP_CLIENT_ID ?? ""'
         clientSecret: !!js 'process.env.SLACK_MCP_CLIENT_SECRET ?? ""'
         tokenEndpointAuthMethod: client_secret_post
-        # The user-token scopes to request; must be a subset of what the app
-        # declares under User Token Scopes or Slack answers invalid_scope.
-        scope: !!js 'process.env.SLACK_MCP_SCOPES ?? "chat:write,channels:read,channels:history,groups:read,groups:history,im:read,im:history,users:read,search:read.public"'
+        # Slack's authorize endpoint wants user scopes in `user_scope`, not
+        # `scope` (that one is for bot scopes). Leaving `scope` empty keeps the
+        # install user-only, which is what the MCP server expects.
+        scope: ''
         authorizationParams:
           app_id: !!js 'process.env.SLACK_MCP_APP_ID ?? ""'
+          user_scope: !!js 'process.env.SLACK_MCP_SCOPES ?? "channels:read,channels:history,groups:read,groups:history,users:read,search:read.public,im:read,im:history"'

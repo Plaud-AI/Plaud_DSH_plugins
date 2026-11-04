@@ -1,6 +1,6 @@
 {
   "name": "@plaudai/dsh-plugin-slack",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Slack 官方 MCP 接入 DeepSeek Harness（需要预注册 Slack App）",
   "repository": {
     "type": "git",
