@@ -18,15 +18,20 @@
 | `slack_notify` | 发消息到频道或线程，返回 `ts` |
 | `slack_reply` | 在某条消息的线程里回复 |
 | `slack_channels` | 列出机器人可见的频道 |
+| `slack_history` | 读频道最近的消息（只读） |
+| `slack_thread` | 读某条消息的线程（只读） |
+| `slack_search` | 全文搜索（只读，需要 `xoxp-` + `search:read`） |
 | `slack_inbox` | 取走 Socket Mode 收到的消息（消费即移除） |
 | `slack_status` | 诊断：令牌是否有效、Socket 状态、队列积压 |
+
+> 只想读、不想发：用一个**用户令牌**（`xoxp-`）+ `channels:history`、`channels:read`、`search:read` 就够，不需要 Socket Mode、不需要 `chat:write`、不需要 App-Level Token。发消息的工具会因为缺 `chat:write` 而失败，不影响读取。
 
 ## 安装
 
 面板里粘地址（先卸载同名旧版）：
 
 ```
-https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-slackbot/plaudai-dsh-plugin-slackbot-0.1.0.tgz
+https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.2.0-slackbot/plaudai-dsh-plugin-slackbot-0.2.0.tgz
 ```
 
 或命令行：
