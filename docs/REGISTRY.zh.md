@@ -2,6 +2,8 @@
 
 # 私有 registry
 
+> 当前的分发方式是 GitHub Release 上的 tarball，客户端粘 URL 就能装，见 [README](../README.md#安装)。本文档讲的是可选的 registry 方案。
+
 > 只想让客户端零配置地用？看[发到公共 npm](#发到公共-npm客户端零配置)——那条路客户端什么都不用配。
 
 搭一次，之后所有人只做一件事：在插件面板里填包名。

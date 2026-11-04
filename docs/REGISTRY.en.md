@@ -2,6 +2,8 @@
 
 # Private registry
 
+> The current distribution channel is tarballs on a GitHub Release — clients paste a URL, see the [README](../README.en.md#install). This document covers the optional registry route.
+
 > Want zero client configuration? See [publish to public npm](#publish-to-public-npm-zero-client-config) — clients configure nothing at all.
 
 Set it up once; after that everyone does exactly one thing — paste a package name into the plugin panel.

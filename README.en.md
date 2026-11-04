@@ -28,23 +28,27 @@ All five share one core package, `@plaud/dsh-mcp-oauth`, which fills in the laye
 
 ## Install
 
-Packages are published to public npm under the `@plaud` scope, so **clients configure nothing**: open the desktop **Plugins** panel and paste a name.
+Each connector is a self-contained tarball attached to a GitHub Release. Open the desktop **Plugins** panel and paste the one you need:
 
-```
-@plaud/dsh-plugin-notion
-```
+| Connector | URL |
+| --- | --- |
+| Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-notion-0.1.0.tgz` |
+| Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-linear-0.1.0.tgz` |
+| Slack | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-slack-0.1.0.tgz` |
+| PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-plaud-0.1.0.tgz` |
+| Feishu | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-feishu-0.1.0.tgz` |
 
 For the web build and headless profiles:
 
 ```powershell
-dsh plugin --profile web add @plaud/dsh-plugin-notion
+dsh plugin --profile web add https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-notion-0.1.0.tgz
 ```
 
-Then restart DSH. Requires `@deepseek-ai/dsh` 0.2.0-rc.2 or newer.
+Then restart DSH. Requires `@deepseek-ai/dsh` 0.2.0-rc.2 or newer. Dependencies (MCP SDK, schemastery) are installed from public npm automatically — **no login, no registry configuration**.
 
 The `desktop` profile belongs to the app and the CLI refuses to touch it, so desktop installs go through the panel.
 
-When the code cannot be public, use the [internal registry](docs/REGISTRY.en.md#deploy-a-private-registry-when-the-code-must-stay-internal). To test a local change, clone the repo, run `pnpm install && pnpm -r build`, then paste the absolute package directory — each connector inlines the core at build time, so **one package is enough**.
+To test a local change, clone the repo, run `pnpm install && pnpm -r build`, then paste the absolute package directory — each connector inlines the core at build time, so **one package is enough**. For registry-based distribution see the [private registry](docs/REGISTRY.en.md).
 
 ## Getting started
 

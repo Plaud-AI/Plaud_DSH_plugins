@@ -28,23 +28,27 @@
 
 ## 安装
 
-包发布在公共 npm 的 `@plaud` scope 下，**客户端零配置**：打开 DSH 桌面版「插件」面板，粘包名即可。
+每个连接器是一个自包含的 tarball，挂在 GitHub Release 上。打开 DSH 桌面版「插件」面板，粘你要的那个地址：
 
-```
-@plaud/dsh-plugin-notion
-```
+| 连接器 | 地址 |
+| --- | --- |
+| Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-notion-0.1.0.tgz` |
+| Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-linear-0.1.0.tgz` |
+| Slack | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-slack-0.1.0.tgz` |
+| PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-plaud-0.1.0.tgz` |
+| 飞书 | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-feishu-0.1.0.tgz` |
 
 网页版和 headless 用命令行：
 
 ```powershell
-dsh plugin --profile web add @plaud/dsh-plugin-notion
+dsh plugin --profile web add https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0/plaud-dsh-plugin-notion-0.1.0.tgz
 ```
 
-装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。
+装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。依赖（MCP SDK、schemastery）会从公共 npm 自动装齐，**不需要登录、不需要配 registry**。
 
 `desktop` 这个 profile 由桌面应用独占，命令行不能操作它，桌面版只能走面板。
 
-代码不能公开时，换成[内网私有 registry](docs/REGISTRY.zh.md#部署私有-registry代码不公开时)。想装本地改动就克隆仓库、`pnpm install && pnpm -r build`，然后在面板里填包的绝对目录路径——每个连接器构建时已把核心包内联进来，**装一个就够**。
+想装本地改动就克隆仓库、`pnpm install && pnpm -r build`，然后在面板里填包的绝对目录路径——每个连接器构建时已把核心包内联进来，**装一个就够**。要换 registry 分发见[私有 registry](docs/REGISTRY.zh.md)。
 
 ## 开始使用
 

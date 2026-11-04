@@ -167,11 +167,24 @@ node scripts/validate.cjs
 
 `.npmrc` 里开了 `node-linker=hoisted`：隔离布局（符号链接 + 虚拟仓库）会让「依赖的依赖」在解析时依赖链接器行为，扁平布局没这个坑，和 npm 的产物一致。
 
-发布到公司私有 registry：
+发版（当前渠道：GitHub Release 的 tarball）：
 
 ```powershell
+pnpm version:patch                       # 版本号 +1
+pnpm -r build
+pnpm pack:all                            # 5 个 tgz 落到 dist/
+gh release create v0.1.0 dist/*.tgz `
+  --title "v0.1.0" --notes "…"
+```
+
+发完之后把 README 里的地址表换成新 tag 即可，客户端粘 URL 安装。
+
+也可以发到 npm 或私有 registry：
+
+```powershell
+pnpm release --public                    # 需要 npm login
+# 或
 $env:NPM_REGISTRY = "http://registry.internal:4873"
-pnpm version:patch
 pnpm release
 ```
 

@@ -168,11 +168,24 @@ node scripts/validate.cjs
 
 `.npmrc` sets `node-linker=hoisted`: the isolated layout (symlinks plus a virtual store) makes resolving a dependency's own dependencies depend on linker behaviour, while a flat tree matches what npm produces.
 
-Publish to the company registry:
+Releasing (current channel: tarballs on a GitHub Release):
 
 ```powershell
+pnpm version:patch                       # bump versions
+pnpm -r build
+pnpm pack:all                            # five tgz files land in dist/
+gh release create v0.1.0 dist/*.tgz `
+  --title "v0.1.0" --notes "..."
+```
+
+Then point the URL table in the README at the new tag; clients paste a URL to install.
+
+npm and private registries work too:
+
+```powershell
+pnpm release --public                    # needs npm login
+# or
 $env:NPM_REGISTRY = "http://registry.internal:4873"
-pnpm version:patch
 pnpm release
 ```
 
