@@ -1,0 +1,44 @@
+{
+  "name": "@plaudai/dsh-plugin-slackbot",
+  "version": "0.1.0",
+  "description": "Slack 原生工具：Socket Mode 收发消息、线程回复、频道列表与健康检查（无需公网回调）",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@slack/socket-mode": "^3.1.0",
+    "@slack/web-api": "^8.0.0"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "slack",
+    "socket-mode",
+    "notify"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

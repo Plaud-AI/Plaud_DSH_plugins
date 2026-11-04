@@ -1,0 +1,25 @@
+# Slack (Socket Mode) for DeepSeek Harness.
+#
+# 原生工具，不走 MCP：发消息用 Web API，收消息用 Socket Mode（免公网回调）。
+#
+# 需要的东西：
+#   1. Slack App（api.slack.com/apps，internal app 即可）
+#      - OAuth & Permissions → Bot Token Scopes: chat:write, channels:read
+#      - 要收消息再加：channels:history / im:history，并在
+#        Event Subscriptions 订阅 message.channels 等事件
+#   2. Socket Mode 打开 → Basic Information → App-Level Tokens 生成 xapp-
+#   3. Install to Workspace → 复制 xoxb- 令牌
+#   4. 设置环境变量（然后重启 DSH）：
+#        DSH_SLACK_BOT_TOKEN=xoxb-...
+#        DSH_SLACK_APP_TOKEN=xapp-...        （不填则只能发、不能收）
+#        DSH_SLACK_CHANNELS=#general,C0123456（可选，频道白名单）
+#
+# 也可以在 profile 的 cordis.patch.yml 里按 id 覆盖下面的 config。
+- insert:
+    - id: slack-bot
+      name: '@plaudai/dsh-plugin-slackbot'
+      config:
+        token: !!js 'process.env.DSH_SLACK_BOT_TOKEN ?? ""'
+        appToken: !!js 'process.env.DSH_SLACK_APP_TOKEN ?? ""'
+        defaultChannel: !!js 'process.env.DSH_SLACK_DEFAULT_CHANNEL ?? ""'
+        allowedChannels: !!js '(process.env.DSH_SLACK_CHANNELS ?? "").split(",").map(s => s.trim()).filter(Boolean)'

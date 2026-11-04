@@ -15,6 +15,12 @@ importers:
         specifier: ^5.7.2
         version: 5.9.3
 
+  .tools/loadtest:
+    dependencies:
+      '@plaudai/dsh-plugin-slackbot':
+        specifier: file:D:/OfficeTools/deepseek/Deepseek Harness Desktop/Plaud_DSH_plugins/.tools/loadtest/../../dist/plaudai-dsh-plugin-slackbot-0.1.0.tgz
+        version: file:dist/plaudai-dsh-plugin-slackbot-0.1.0.tgz(@deepseek-ai/cordis@4.0.5)(undici@8.12.3)
+
   packages/core:
     dependencies:
       '@deepseek-ai/cordis':
@@ -49,7 +55,7 @@ importers:
         version: 2.4.0
     devDependencies:
       '@plaudai/dsh-mcp-oauth':
-        specifier: ^0.1.1
+        specifier: ^0.1.4
         version: link:../core
 
   packages/linear:
@@ -71,7 +77,7 @@ importers:
         version: 2.4.0
     devDependencies:
       '@plaudai/dsh-mcp-oauth':
-        specifier: ^0.1.1
+        specifier: ^0.1.4
         version: link:../core
 
   packages/notion:
@@ -93,7 +99,7 @@ importers:
         version: 2.4.0
     devDependencies:
       '@plaudai/dsh-mcp-oauth':
-        specifier: ^0.1.1
+        specifier: ^0.1.4
         version: link:../core
 
   packages/plaud:
@@ -115,7 +121,7 @@ importers:
         version: 2.4.0
     devDependencies:
       '@plaudai/dsh-mcp-oauth':
-        specifier: ^0.1.1
+        specifier: ^0.1.4
         version: link:../core
 
   packages/slack:
@@ -137,8 +143,20 @@ importers:
         version: 2.4.0
     devDependencies:
       '@plaudai/dsh-mcp-oauth':
-        specifier: ^0.1.1
+        specifier: ^0.1.4
         version: link:../core
+
+  packages/slackbot:
+    dependencies:
+      '@deepseek-ai/cordis':
+        specifier: ^4.0.1
+        version: 4.0.5
+      '@slack/socket-mode':
+        specifier: ^3.1.0
+        version: 3.1.1(undici@8.12.3)
+      '@slack/web-api':
+        specifier: ^8.0.0
+        version: 8.3.0
 
 packages:
 
@@ -340,15 +358,51 @@ packages:
     resolution: {integrity: sha512-z8QBKqdfXLPzkLQuG4xp8hrVEMm1PZ1IgxMN2sMbJiFiAKOWXnAzogXn2W4aqIBlP1ea6U5yiqVquvUNM1Cj6Q==}
     engines: {node: '>=20'}
 
+  '@plaudai/dsh-plugin-slackbot@file:dist/plaudai-dsh-plugin-slackbot-0.1.0.tgz':
+    resolution: {integrity: sha512-Ab8pi77RW5ShdURsP4cL4VYEuQMu+kTjU5QihKg6RSLJAbbvZj6MhBj4cX2BmM5e7hNUvjbz2iND65TG59BIkA==, tarball: file:dist/plaudai-dsh-plugin-slackbot-0.1.0.tgz}
+    version: 0.1.0
+    peerDependencies:
+      '@deepseek-ai/cordis': ^4.0.1
+
+  '@slack/logger@5.0.0':
+    resolution: {integrity: sha512-VGXhmmgsAo9shdQYh4tFDndd+7nsgp0Y5h0UPDaUp8K359pBasI6YdkMqFW3mCOxLQkq09qj7o7cq6f3DuXcJQ==}
+    engines: {node: '>= 20', npm: '>=9.6.4'}
+
+  '@slack/socket-mode@3.1.1':
+    resolution: {integrity: sha512-PtPzxkKTGWw7RWZVlQziNHt8ktSctjpzaVyC30K8AvMwGWwCNT+M/vLAI3AQko6d8X9eWo+hA8eNO4k6j8Qrfw==}
+    engines: {node: '>=20', npm: '>=9.6.4'}
+    peerDependencies:
+      undici: ^7.0.0 || ^8.0.0
+
+  '@slack/types@3.3.0':
+    resolution: {integrity: sha512-11r2kM9Zy/UlaV6OwPibZueVlyNJ5xtHEHK/iYDnPLyhQcxRtsifNAwNhJ1Lm0nszW4jrWCHThXCHCNJC/hvqg==}
+    engines: {node: '>= 20', npm: '>=9.6.4'}
+
+  '@slack/web-api@8.3.0':
+    resolution: {integrity: sha512-rGHDZggzG658Uc4yebenp3rVfVVToL0w8aOis40EfrstZCxg8FWS+ECGDIkw498Q9jxF/LVKgGbPfUeYntTrUQ==}
+    engines: {node: '>= 20', npm: '>=9.6.4'}
+
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
   '@types/node@22.20.5':
     resolution: {integrity: sha512-U2+DNr+wSjpsTS/wZGYHq7GcwfuSmKiKvoPvK22zwTlRhU91yOniN4qRR5KhIjvif7ysw/dz/hKmfDH0Ris4aA==}
 
+  '@types/retry@0.12.0':
+    resolution: {integrity: sha512-wWKOClTTiizcZhXnPY4wikVAwmdYHp8q6DmC+EJUzAMsycb7HB32Kh9RN4+0gExjmPmZSAQjgURXIGATPegAvA==}
+
+  '@types/retry@0.12.5':
+    resolution: {integrity: sha512-3xSjTp3v03X/lSQLkczaN9UIEwJMoMCA1+Nb5HfbJEQWogdeQIyVtTvxPXDQjZ5zws8rFQfVfRdz03ARihPJgw==}
+
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
+
+  eventemitter3@4.0.7:
+    resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
+
+  eventemitter3@5.0.4:
+    resolution: {integrity: sha512-mlsTRyGaPBjPedk6Bvw+aqbsXDtoAyAzm5MO7JgU+yVRyMQ5O8bD4Kcci7BS85f93veegeCPkL8R4GLClnjLFw==}
 
   eventsource-parser@3.1.1:
     resolution: {integrity: sha512-EKN1vKAMcZ8MlYMpaNuxN6R9yakzH6uajHcHVTqWJzvu5pWw9DyhbP35HH8MVBQ+dZjAfDxk+A8NiR9KWaXiyQ==}
@@ -364,6 +418,22 @@ packages:
   jose@6.2.15:
     resolution: {integrity: sha512-qdF6ewcZARtef63fJ9AKKZPgxw+t7USH6HLXYcD4CrdmSvDp79rpJSPFEKc90QBeGS63u1KQtN2MZQHC0yDIzA==}
 
+  p-finally@1.0.0:
+    resolution: {integrity: sha512-LICb2p9CB7FS+0eR1oqWnHhp0FljGLZCWBE9aix0Uye9W8LTQPwMTYVGWQWIw9RdQiDg4+epXQODwIYJtSJaow==}
+    engines: {node: '>=4'}
+
+  p-queue@6.6.2:
+    resolution: {integrity: sha512-RwFpb72c/BhQLEXIZ5K2e+AhgNVmIejGlTgiB9MzZ0e93GRvqZ7uSi0dvRF7/XIXDeNkra2fNHBxTyPDGySpjQ==}
+    engines: {node: '>=8'}
+
+  p-retry@4.6.2:
+    resolution: {integrity: sha512-312Id396EbJdvRONlngUx0NydfrIQ5lsYu0znKVUzVvArzEIt08V1qhtyESbGVd1FGX7UKtiFp5uwKZdM8wIuQ==}
+    engines: {node: '>=8'}
+
+  p-timeout@3.2.0:
+    resolution: {integrity: sha512-rhIwUycgwwKcP9yTOOFK/AKsAopjjCakVqLHePO3CC6Mir1Z99xT+R63jZxAT5lFZLa2inS5h+ZS2GvR99/FBg==}
+    engines: {node: '>=8'}
+
   path-key@3.1.1:
     resolution: {integrity: sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q==}
     engines: {node: '>=8'}
@@ -371,6 +441,10 @@ packages:
   pkce-challenge@5.0.1:
     resolution: {integrity: sha512-wQ0b/W4Fr01qtpHlqSqspcj3EhBvimsdh0KlHhH8HRZnMsEa0ea2fTULOXOS9ccQr3om+GcGRk4e+isrZWV8qQ==}
     engines: {node: '>=16.20.0'}
+
+  retry@0.13.1:
+    resolution: {integrity: sha512-XQBQ3I8W1Cge0Seh+6gjj03LbmRFWuoszgK9ooCpwYIrhhoO80pfq4cUkU5DkknwfOfFteRwlZ56PYOGYyFWdg==}
+    engines: {node: '>= 4'}
 
   shebang-command@2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==}
@@ -601,17 +675,58 @@ snapshots:
     dependencies:
       zod: 4.6.7
 
+  '@plaudai/dsh-plugin-slackbot@file:dist/plaudai-dsh-plugin-slackbot-0.1.0.tgz(@deepseek-ai/cordis@4.0.5)(undici@8.12.3)':
+    dependencies:
+      '@deepseek-ai/cordis': 4.0.5
+      '@slack/socket-mode': 3.1.1(undici@8.12.3)
+      '@slack/web-api': 8.3.0
+    transitivePeerDependencies:
+      - undici
+
+  '@slack/logger@5.0.0':
+    dependencies:
+      '@types/node': 22.20.5
+
+  '@slack/socket-mode@3.1.1(undici@8.12.3)':
+    dependencies:
+      '@slack/logger': 5.0.0
+      '@slack/web-api': 8.3.0
+      '@types/node': 22.20.5
+      eventemitter3: 5.0.4
+      undici: 8.12.3
+
+  '@slack/types@3.3.0': {}
+
+  '@slack/web-api@8.3.0':
+    dependencies:
+      '@slack/logger': 5.0.0
+      '@slack/types': 3.3.0
+      '@types/node': 22.20.5
+      '@types/retry': 0.12.5
+      eventemitter3: 5.0.4
+      p-queue: 6.6.2
+      p-retry: 4.6.2
+      retry: 0.13.1
+
   '@standard-schema/spec@1.1.0': {}
 
   '@types/node@22.20.5':
     dependencies:
       undici-types: 6.21.0
 
+  '@types/retry@0.12.0': {}
+
+  '@types/retry@0.12.5': {}
+
   cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  eventemitter3@4.0.7: {}
+
+  eventemitter3@5.0.4: {}
 
   eventsource-parser@3.1.1: {}
 
@@ -623,9 +738,27 @@ snapshots:
 
   jose@6.2.15: {}
 
+  p-finally@1.0.0: {}
+
+  p-queue@6.6.2:
+    dependencies:
+      eventemitter3: 4.0.7
+      p-timeout: 3.2.0
+
+  p-retry@4.6.2:
+    dependencies:
+      '@types/retry': 0.12.0
+      retry: 0.13.1
+
+  p-timeout@3.2.0:
+    dependencies:
+      p-finally: 1.0.0
+
   path-key@3.1.1: {}
 
   pkce-challenge@5.0.1: {}
+
+  retry@0.13.1: {}
 
   shebang-command@2.0.0:
     dependencies:

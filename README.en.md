@@ -34,11 +34,17 @@ Open the desktop **Plugins** panel and paste one whole address from the table be
 | --- | --- |
 | Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz` |
 | Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-linear-0.1.4.tgz` |
-| Slack | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-slack-0.1.4.tgz` |
+| Slack (official MCP) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-slack-0.1.4.tgz` |
+| Slack (bot mode) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-slackbot/plaudai-dsh-plugin-slackbot-0.1.0.tgz` |
 | PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz` |
 | Feishu | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz` |
 
-Each address points at a `.tgz` on GitHub Releases, so the version is whatever the file name says and the local lockfile cannot hold it back. Bump the `v0.1.4` segment to move to another tag listed under [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases).
+The two Slack plugins are independent paths — install whichever fits:
+
+- **Slack (official MCP)**: talks to `mcp.slack.com`, 19 official tools, user-identity OAuth; needs a pre-registered Slack app and the `SLACK_MCP_*` credentials
+- **Slack (bot mode)**: calls the Web API directly and uses Socket Mode for inbound, 5 native tools, **no public callback and no OAuth**; only an `xoxb-` token (add `xapp-` to receive). See [packages/slackbot/README.md](packages/slackbot/README.md)
+
+Each address points at a `.tgz` on GitHub Releases, so the version is whatever the file name says and the local lockfile cannot hold it back. Change the tag segment to move to another tag listed under [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases).
 
 The same packages are on public npm under the `@plaudai` scope, so a package name works too:
 
@@ -46,7 +52,8 @@ The same packages are on public npm under the `@plaudai` scope, so a package nam
 | --- | --- |
 | Notion | `@plaudai/dsh-plugin-notion` |
 | Linear | `@plaudai/dsh-plugin-linear` |
-| Slack | `@plaudai/dsh-plugin-slack` |
+| Slack (official MCP) | `@plaudai/dsh-plugin-slack` |
+| Slack (bot mode) | `@plaudai/dsh-plugin-slackbot` |
 | PLAUD | `@plaudai/dsh-plugin-plaud` |
 | Feishu | `@plaudai/dsh-plugin-feishu` |
 

@@ -29,7 +29,7 @@ const isPublic = process.argv.includes('--public')
 const registry = process.env.NPM_REGISTRY ?? (isPublic ? 'https://registry.npmjs.org/' : 'http://localhost:4873')
 const access = isPublic ? 'public' : 'restricted'
 
-const workspaces = ['core', 'notion', 'linear', 'slack', 'plaud', 'feishu']
+const workspaces = ['core', 'notion', 'linear', 'slack', 'slackbot', 'plaud', 'feishu']
 
 function fail(message) {
   console.error(`publish: ${message}`)

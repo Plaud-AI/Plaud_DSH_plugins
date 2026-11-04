@@ -34,11 +34,17 @@
 | --- | --- |
 | Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz` |
 | Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-linear-0.1.4.tgz` |
-| Slack | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-slack-0.1.4.tgz` |
+| Slack（官方 MCP） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-slack-0.1.4.tgz` |
+| Slack（Bot 版） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-slackbot/plaudai-dsh-plugin-slackbot-0.1.0.tgz` |
 | PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz` |
 | 飞书 | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz` |
 
-地址指向 GitHub Release 上的 `.tgz`，版本由文件名决定，不受本地锁文件影响。要换版本就改地址里的 `v0.1.4`，可用的 tag 见 [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases)。
+两个 Slack 插件是**两条独立的路**，按需装一个即可：
+
+- **Slack（官方 MCP）**：走 `mcp.slack.com`，19 个官方工具，用户身份授权；必须预注册 Slack App 并填 OAuth 凭据（`SLACK_MCP_*`）
+- **Slack（Bot 版）**：直接调 Web API + Socket Mode，5 个原生工具，**免公网回调、免 OAuth**；只要一个 `xoxb-` 令牌（收消息再加 `xapp-`）。见 [packages/slackbot/README.md](packages/slackbot/README.md)
+
+地址指向 GitHub Release 上的 `.tgz`，版本由文件名决定，不受本地锁文件影响。要换版本就改地址里的 tag，可用的 tag 见 [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases)。
 
 这些包同时也发在公共 npm 的 `@plaudai` scope 下，也可以直接填包名：
 
@@ -46,7 +52,8 @@
 | --- | --- |
 | Notion | `@plaudai/dsh-plugin-notion` |
 | Linear | `@plaudai/dsh-plugin-linear` |
-| Slack | `@plaudai/dsh-plugin-slack` |
+| Slack（官方 MCP） | `@plaudai/dsh-plugin-slack` |
+| Slack（Bot 版） | `@plaudai/dsh-plugin-slackbot` |
 | PLAUD | `@plaudai/dsh-plugin-plaud` |
 | 飞书 | `@plaudai/dsh-plugin-feishu` |
 
