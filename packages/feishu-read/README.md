@@ -33,7 +33,7 @@
 面板里粘地址：
 
 ```
-https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1-feishu-read/plaudai-dsh-plugin-feishu-read-0.1.1.tgz
+https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2-feishu-read/plaudai-dsh-plugin-feishu-read-0.1.2.tgz
 ```
 
 或命令行：

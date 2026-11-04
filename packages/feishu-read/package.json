@@ -1,6 +1,6 @@
 {
   "name": "@plaudai/dsh-plugin-feishu-read",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "飞书只读工具：云文档、知识库、多维表格、电子表格、群消息与搜索，直连 OpenAPI，无回调无 MCP",
   "repository": {
     "type": "git",

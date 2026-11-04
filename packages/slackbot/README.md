@@ -31,7 +31,7 @@
 面板里粘地址（先卸载同名旧版）：
 
 ```
-https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.2.2-slackbot/plaudai-dsh-plugin-slackbot-0.2.2.tgz
+https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.2.3-slackbot/plaudai-dsh-plugin-slackbot-0.2.3.tgz
 ```
 
 或命令行：
