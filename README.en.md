@@ -8,7 +8,7 @@ Install once, authorize once in the browser, and your assistant can read pages, 
 
 > **Only want one package?** Use `@plaudai/dsh-plugin-connectors`: a single install that brings in Notion (75 tools), Slack index search (**no Slack token needed** — it reuses the Slack connector inside Notion), PLAUD, and any custom MCP server (Google Drive / Docs). Install it instead of the individual packages below.
 >
-> `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1-connectors/plaudai-dsh-plugin-connectors-0.1.1.tgz`
+> `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2-connectors/plaudai-dsh-plugin-connectors-0.1.2.tgz`
 
 ## What's inside
 
@@ -16,7 +16,7 @@ Install once, authorize once in the browser, and your assistant can read pages, 
 | --- | --- | --- | --- | --- |
 | `@plaudai/dsh-plugin-notion` | Notion | OAuth (DCR + PKCE) | No | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz) |
 | `@plaudai/dsh-plugin-linear` | Linear | OAuth or API key | No | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-linear-0.1.4.tgz) |
-| `@plaudai/dsh-plugin-slack` | Slack | OAuth | Yes | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.6-slack/plaudai-dsh-plugin-slack-0.1.6.tgz) |
+| `@plaudai/dsh-plugin-slack` | Slack | OAuth | Yes | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.7-slack/plaudai-dsh-plugin-slack-0.1.7.tgz) |
 | `@plaudai/dsh-plugin-feishu` | Feishu / Lark | App ID + Secret | Yes | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz) |
 | `@plaudai/dsh-plugin-plaud` | PLAUD internal | Bearer token | No | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz) |
 
@@ -36,10 +36,10 @@ Open the desktop **Plugins** panel and paste one whole address from the table be
 
 | Plugin | Install URL |
 | --- | --- |
-| **Everything (recommended)** | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1-connectors/plaudai-dsh-plugin-connectors-0.1.1.tgz` |
+| **Everything (recommended)** | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2-connectors/plaudai-dsh-plugin-connectors-0.1.2.tgz` |
 | Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz` |
 | Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-linear-0.1.4.tgz` |
-| Slack (official MCP) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.6-slack/plaudai-dsh-plugin-slack-0.1.6.tgz` |
+| Slack (official MCP) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.7-slack/plaudai-dsh-plugin-slack-0.1.7.tgz` |
 | Slack (bot mode) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.2.3-slackbot/plaudai-dsh-plugin-slackbot-0.2.3.tgz` |
 | PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz` |
 | PLAUD (official MCP) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-plaud-mcp/plaudai-dsh-plugin-plaud-mcp-0.1.0.tgz` |

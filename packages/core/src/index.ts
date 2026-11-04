@@ -56,6 +56,8 @@ export interface ResolvedConfig {
   toolCallTimeoutMs: number
   authTimeoutMs: number
   failOnStartupError: boolean
+  /** Run the OAuth flow during startup instead of waiting for an explicit tool call. */
+  authorizeOnStart: boolean
 }
 
 /**
@@ -90,6 +92,7 @@ export function createMcpPlugin(preset: McpPluginPreset): {
     toolCallTimeoutMs: z.number().default(120_000),
     authTimeoutMs: z.number().default(300_000),
     failOnStartupError: z.boolean().default(false),
+    authorizeOnStart: z.boolean().default(false),
   })
 
   async function apply(ctx: PluginContext, config: ResolvedConfig): Promise<void> {
@@ -170,6 +173,65 @@ export function createMcpPlugin(preset: McpPluginPreset): {
             throw new Error(`${label}: bearer auth needs ${variable.length > 0 ? variable : 'a token'} in the environment`)
           }
           headers.Authorization = `Bearer ${token}`
+        }
+
+        // A missing token must not hijack startup: connecting here would send the
+        // SDK into the authorization flow on every launch, and a server that is
+        // still waiting for admin approval (Slack) would pop a dead browser tab
+        // each time. Register one explicit trigger instead and stay quiet.
+        if (
+          provider !== undefined &&
+          !config.authorizeOnStart &&
+          (await provider.tokens()) === undefined
+        ) {
+          const authorizeName = `${config.serverName}_authorize`
+          ctx.logger.info(`${label}: 尚未授权，启动时不连接；需要时调用 ${authorizeName}`)
+          const dispose = ctx.tools.register({
+            name: authorizeName,
+            description: `完成 ${config.serverName} 的 OAuth 授权（会打开浏览器）。首次使用前调用一次即可。`,
+            parameters: { type: 'object', properties: {}, additionalProperties: false },
+            output: {
+              schema: {
+                type: 'object',
+                properties: { authorized: { type: 'boolean' }, tools: { type: 'number' } },
+                required: ['authorized', 'tools'],
+                additionalProperties: false,
+              },
+              render: (_args: unknown, value: unknown) => {
+                const shaped = value as { authorized: boolean; tools: number }
+                return [
+                  {
+                    type: 'text',
+                    text: shaped.authorized
+                      ? `${config.serverName} 已授权，注册了 ${shaped.tools} 个工具。`
+                      : `${config.serverName} 未授权。`,
+                  },
+                ]
+              },
+            },
+            timeoutMs: config.authTimeoutMs,
+            async execute() {
+              await ensureAuthorized({
+                serverUrl: url,
+                provider: provider as DshOAuthProvider,
+                listener,
+                timeoutMs: config.authTimeoutMs,
+                log: (message) => ctx.logger.info(message),
+              })
+              const connected = await connectRemote(url, headers, provider)
+              client = connected
+              const count = await syncTools(
+                connected as never,
+                ctx,
+                { serverName: config.serverName, toolCallTimeoutMs: config.toolCallTimeoutMs },
+                disposers,
+              )
+              ctx.logger.info(`${label}: 授权完成，注册了 ${count} 个工具`)
+              return { authorized: true, tools: count }
+            },
+          })
+          disposers.set(authorizeName, dispose)
+          return
         }
 
         try {

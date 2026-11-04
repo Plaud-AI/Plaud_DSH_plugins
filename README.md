@@ -8,7 +8,7 @@
 
 > **只想装一个？** 用 `@plaudai/dsh-plugin-connectors`：一个包同时接入 Notion（75 个工具）、Slack 索引检索（**不需要 Slack 令牌**，复用 Notion 的 Slack 连接器）、PLAUD，以及任意自定义 MCP（Google Drive / Docs）。装它就不用再装下面那几个单独的包。
 >
-> `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1-connectors/plaudai-dsh-plugin-connectors-0.1.1.tgz`
+> `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2-connectors/plaudai-dsh-plugin-connectors-0.1.2.tgz`
 
 ## 包含哪些连接器
 
@@ -16,7 +16,7 @@
 | --- | --- | --- | --- | --- |
 | `@plaudai/dsh-plugin-notion` | Notion | OAuth（DCR + PKCE） | 否 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz) |
 | `@plaudai/dsh-plugin-linear` | Linear | OAuth 或 API key | 否 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-linear-0.1.4.tgz) |
-| `@plaudai/dsh-plugin-slack` | Slack | OAuth | 是 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.6-slack/plaudai-dsh-plugin-slack-0.1.6.tgz) |
+| `@plaudai/dsh-plugin-slack` | Slack | OAuth | 是 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.7-slack/plaudai-dsh-plugin-slack-0.1.7.tgz) |
 | `@plaudai/dsh-plugin-feishu` | 飞书 / Lark | App ID + Secret | 是 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz) |
 | `@plaudai/dsh-plugin-plaud` | PLAUD 内部服务 | Bearer token | 否 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz) |
 
@@ -36,10 +36,10 @@
 
 | 插件 | 安装地址 |
 | --- | --- |
-| **全部（推荐）** | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1-connectors/plaudai-dsh-plugin-connectors-0.1.1.tgz` |
+| **全部（推荐）** | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2-connectors/plaudai-dsh-plugin-connectors-0.1.2.tgz` |
 | Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz` |
 | Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-linear-0.1.4.tgz` |
-| Slack（官方 MCP） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.6-slack/plaudai-dsh-plugin-slack-0.1.6.tgz` |
+| Slack（官方 MCP） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.7-slack/plaudai-dsh-plugin-slack-0.1.7.tgz` |
 | Slack（Bot 版） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.2.3-slackbot/plaudai-dsh-plugin-slackbot-0.2.3.tgz` |
 | PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz` |
 | PLAUD（官方 MCP） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-plaud-mcp/plaudai-dsh-plugin-plaud-mcp-0.1.0.tgz` |
