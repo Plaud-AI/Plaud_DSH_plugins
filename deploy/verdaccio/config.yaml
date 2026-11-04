@@ -25,7 +25,7 @@ uplinks:
 packages:
   # Our own scope: members only, and only members can publish.
   '@plaud/*':
-    access: $authenticated
+    access: $all
     publish: $authenticated
     unpublish: $authenticated
   # Everything else is a cache in front of npmjs.

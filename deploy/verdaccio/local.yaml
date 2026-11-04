@@ -1,0 +1,48 @@
+# Local Verdaccio for machines without Docker.
+#
+#   npx -y verdaccio@6 --config deploy/verdaccio/local.yaml --listen 0.0.0.0:4873
+#
+# Storage lives at the repo root in .verdaccio-storage (gitignored), so this
+# file stays portable. Everything else mirrors config.yaml; only the paths
+# differ, because a container cannot see the checkout.
+
+storage: ../../.verdaccio-storage
+plugins: ../../.verdaccio-storage/plugins
+
+auth:
+  htpasswd:
+    file: ../../.verdaccio-storage/htpasswd
+    max_users: 10
+
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+    timeout: 60s
+    maxage: 10m
+
+packages:
+  '@plaud/*':
+    access: $all
+    publish: $authenticated
+    unpublish: $authenticated
+  '@*/*':
+    access: $all
+    publish: $authenticated
+    proxy: npmjs
+  '**':
+    access: $all
+    publish: $authenticated
+    proxy: npmjs
+
+server:
+  listen: 0.0.0.0:4873
+  max_body_size: 50mb
+
+web:
+  title: PLAUD DSH Plugins
+  login: true
+
+log:
+  type: stdout
+  format: pretty
+  level: warn

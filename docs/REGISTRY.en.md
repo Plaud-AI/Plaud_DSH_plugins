@@ -18,18 +18,32 @@ GitHub Packages' npm registry requires the **package scope to equal the reposito
 
 ## Deploy (once, by an admin)
 
-Pick an internal host the whole team can reach:
+**Docker is optional** — Verdaccio is just a Node service:
+
+```powershell
+cd "D:\OfficeTools\deepseek\Deepseek Harness Desktop\Plaud_DSH_plugins"
+npx -y verdaccio@6 --config deploy/verdaccio/local.yaml --listen 0.0.0.0:4873
+```
+
+With Docker (recommended: it can restart on boot):
 
 ```bash
 docker compose -f deploy/docker-compose.yml up -d
 curl http://localhost:4873/-/ping        # expect {"status":"ok"} and friends
 ```
 
-The config lives in [`deploy/verdaccio/config.yaml`](../deploy/verdaccio/config.yaml):
+Two configs, same contents, different paths:
 
-- `@plaud/*`: `access: $authenticated`, `publish: $authenticated` — members only, both to read and to publish;
+| file | used by |
+| --- | --- |
+| [`deploy/verdaccio/config.yaml`](../deploy/verdaccio/config.yaml) | the container; storage is a named volume |
+| [`deploy/verdaccio/local.yaml`](../deploy/verdaccio/local.yaml) | running it directly; storage lands in `.verdaccio-storage/` at the repo root (gitignored) |
+
+Both are configured so that:
+
+- `@plaud/*`: **`access: $all`** — installing needs no login, while `publish: $authenticated` — only authenticated users can publish. Teammates configure nothing to install, and publishing stays locked down;
 - everything else is proxied to npmjs, so a profile install can still resolve the MCP SDK and schemastery;
-- `max_users: 5` — **change this or disable self-registration after rollout**; otherwise anyone who can reach the port can register and publish a package the whole company will install.
+- `max_users: 5` (container) / `10` (local) — **change this or disable self-registration after rollout**; otherwise anyone who can reach the port can register and publish a package the whole company will install.
 
 Create the first account (htpasswd exposes registration, and registering logs you in):
 
@@ -37,7 +51,7 @@ Create the first account (htpasswd exposes registration, and registering logs yo
 npm adduser --registry http://registry.internal:4873
 ```
 
-Put it behind an `https://` reverse proxy — otherwise tokens travel in clear text.
+Put it behind an `https://` reverse proxy — otherwise the publishing token travels in clear text.
 
 ## Publish (per release)
 
@@ -56,16 +70,12 @@ Run `pnpm release --dry-run` first if you want to see what would go out.
 
 `pnpm release` refuses to start when a connector has no `dist/index.js` (you forgot to build), then calls `pnpm -r publish`. A 401 means you are not logged in; `cannot publish over` means the version already exists.
 
-## How each person installs (configure once, then paste names)
+## How each person installs (one line, then paste names)
+
+Installing needs no login — pnpm just has to know where the `@plaud` scope lives:
 
 ```powershell
-npm login --registry http://registry.internal:4873
-```
-
-That adds one line to `~/.npmrc`:
-
-```
-//registry.internal:4873/:_authToken=xxxxxxxx
+"@plaud:registry=http://registry.internal:4873/" | Add-Content $env:USERPROFILE\.npmrc
 ```
 
 Then open the DSH **Plugins** panel and paste `@plaud/dsh-plugin-notion`. The CLI equivalent:
@@ -76,6 +86,8 @@ dsh plugin --profile web add @plaud/dsh-plugin-notion
 
 > With a self-signed certificate, add
 > `//registry.internal:4873/:strict-ssl=false` to the same `~/.npmrc` (internal networks only).
+
+**Only publishing needs `npm login`.** Installing never needs a token.
 
 ## Upgrading
 
@@ -102,7 +114,7 @@ Release flow: `pnpm version:patch` → `pnpm -r build` → `pnpm release`, then 
 
 | Symptom | Cause |
 | --- | --- |
-| `401 Unauthorized` | no `_authToken` for this registry in `~/.npmrc`; run `npm login` again |
+| `401 Unauthorized` (when publishing) | no `_authToken` for this registry in `~/.npmrc`; run `npm login` |
 | `404 Not Found` on install | token is fine but the scope rules do not cover it; check `'@plaud/*'` in the config |
 | `cannot publish over the previously published versions` | version unchanged; run `pnpm version:patch` |
 | `SELF_SIGNED_CERT_IN_CHAIN` | self-signed certificate; see `strict-ssl=false` above |

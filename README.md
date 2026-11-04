@@ -28,10 +28,10 @@
 
 ## 安装
 
-包发布在公司私有 registry 上。每台机器配置一次：
+包发布在公司私有 registry 上。每台机器配置一次（只是告诉 pnpm 去哪找 `@plaud`，装不需要登录）：
 
 ```powershell
-npm login --registry http://registry.internal:4873
+"@plaud:registry=http://registry.internal:4873/" | Add-Content $env:USERPROFILE\.npmrc
 ```
 
 然后在 DSH 桌面版「插件」面板里粘包名，比如 `@plaud/dsh-plugin-notion`。网页版和 headless 用命令行：

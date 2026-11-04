@@ -18,18 +18,32 @@ GitHub Packages 的 npm registry 要求**包 scope 等于仓库 owner**。仓库
 
 ## 部署（一次，管理员做）
 
-找一台同事都能访问的内网机器：
+**没有 Docker 也能跑**，它就是个 Node 服务：
+
+```powershell
+cd "D:\OfficeTools\deepseek\Deepseek Harness Desktop\Plaud_DSH_plugins"
+npx -y verdaccio@6 --config deploy/verdaccio/local.yaml --listen 0.0.0.0:4873
+```
+
+有 Docker 的话（推荐，能开机自启）：
 
 ```bash
 docker compose -f deploy/docker-compose.yml up -d
 curl http://localhost:4873/-/ping        # 期望 {"status":"ok"} 之类
 ```
 
-配置在 [`deploy/verdaccio/config.yaml`](../deploy/verdaccio/config.yaml)：
+配置有两份，内容一致，只有路径不同：
 
-- `@plaud/*`：`access: $authenticated`、`publish: $authenticated`——只有登录用户能看、能发；
+| 文件 | 用途 |
+| --- | --- |
+| [`deploy/verdaccio/config.yaml`](../deploy/verdaccio/config.yaml) | 容器里用，存储走命名卷 |
+| [`deploy/verdaccio/local.yaml`](../deploy/verdaccio/local.yaml) | 直接跑用，存储落在仓库根的 `.verdaccio-storage/`（已 gitignore） |
+
+两者都配成：
+
+- `@plaud/*`：**`access: $all`**——装不需要登录，`publish: $authenticated`——只有登录用户能发。这样同事装插件零配置，发版权限还收得住；
 - 其余包：代理到 npmjs，这样 profile 装插件时还能解析到 MCP SDK 和 schemastery；
-- `max_users: 5`——**上线后请改掉或直接关掉自助注册**，否则任何能访问该端口的人都能注册并发布一个全公司会安装的包。
+- `max_users: 5`（容器版）/ `10`（本机版）——**上线后请改掉或直接关掉自助注册**，否则任何能访问该端口的人都能注册并发布一个全公司会安装的包。
 
 创建第一个账号（htpasswd 自带注册接口，注册即登录）：
 
@@ -37,7 +51,7 @@ curl http://localhost:4873/-/ping        # 期望 {"status":"ok"} 之类
 npm adduser --registry http://registry.internal:4873
 ```
 
-如果部署在 `https://` 反代后面（推荐，否则 token 明文过网），把地址换成域名即可。
+如果部署在 `https://` 反代后面（推荐，否则发布时的 token 明文过网），把地址换成域名即可。
 
 ## 发布（每次发版）
 
@@ -56,16 +70,12 @@ pnpm release                                # 校验产物后逐个 publish
 
 `pnpm release` 会先检查每个包有没有 `dist/index.js`（忘了 build 会直接报错），再调 `pnpm -r publish`。401 是没登录，`cannot publish over` 是同版本已存在。
 
-## 每个人怎么装（一次配置，之后填包名）
+## 每个人怎么装（一行配置，之后填包名）
+
+装不需要登录，只要告诉 pnpm 去哪找 `@plaud` 这个 scope：
 
 ```powershell
-npm login --registry http://registry.internal:4873
-```
-
-登录后 `~/.npmrc` 里会多一行：
-
-```
-//registry.internal:4873/:_authToken=xxxxxxxx
+"@plaud:registry=http://registry.internal:4873/" | Add-Content $env:USERPROFILE\.npmrc
 ```
 
 然后打开 DSH 的「插件」面板，粘贴包名 `@plaud/dsh-plugin-notion` 即可。命令行等价于：
@@ -76,6 +86,8 @@ dsh plugin --profile web add @plaud/dsh-plugin-notion
 
 > 如果 registry 用的是自签证书，还要在同一个 `~/.npmrc` 里加
 > `//registry.internal:4873/:strict-ssl=false`（仅限内网，公网别这么干）。
+
+**只有发布才需要 `npm login`**。装插件永远不需要 token。
 
 ## 升级
 
@@ -102,7 +114,7 @@ dsh plugin --profile web add @plaud/dsh-plugin-notion@latest
 
 | 现象 | 原因 |
 | --- | --- |
-| `401 Unauthorized` | `~/.npmrc` 里没有该 registry 的 `_authToken`，重新 `npm login` |
+| `401 Unauthorized`（发布时） | `~/.npmrc` 里没有该 registry 的 `_authToken`，先 `npm login` |
 | `404 Not Found` 装的时候 | token 有效但该 scope 的 access 规则没覆盖到；检查 config 里的 `'@plaud/*'` |
 | `cannot publish over the previously published versions` | 版本号没改，先 `pnpm version:patch` |
 | `SELF_SIGNED_CERT_IN_CHAIN` | 自签证书，见上面的 `strict-ssl=false` |

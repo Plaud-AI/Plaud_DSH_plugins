@@ -48,13 +48,15 @@ for (const name of workspaces) {
 console.log(`publish: registry ${registry}`)
 console.log(`publish: ${wanted.join(', ')}`)
 
-const result = spawnSync(
-  pnpm,
-  ['-r', 'publish', '--no-git-checks', '--access', 'restricted', '--registry', registry, ...process.argv.slice(2)],
-  // Windows cannot spawn a .cmd shim without a shell; every argument here is
-  // whitespace-free, so nothing needs quoting.
-  { stdio: 'inherit', cwd: root, shell: process.platform === 'win32' },
-)
+// Windows cannot spawn a .cmd shim without a shell, and passing an argument
+// array together with `shell: true` is deprecated (DEP0190), so build the
+// command line explicitly and quote only what needs it.
+const quote = (argument) => (/[\s"]/.test(argument) ? `"${argument.replace(/"/g, '\\"')}"` : argument)
+const commandLine = [pnpm, '-r', 'publish', '--no-git-checks', '--access', 'restricted', '--registry', registry, ...process.argv.slice(2)]
+  .map(quote)
+  .join(' ')
+
+const result = spawnSync(commandLine, { stdio: 'inherit', cwd: root, shell: true })
 
 if (result.error) fail(result.error.message)
 if (result.status !== 0) {

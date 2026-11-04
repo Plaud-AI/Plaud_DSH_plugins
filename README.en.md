@@ -28,10 +28,10 @@ All five share one core package, `@plaud/dsh-mcp-oauth`, which fills in the laye
 
 ## Install
 
-Packages live on the company's private registry. Configure each machine once:
+Packages live on the company's private registry. Configure each machine once (this only tells pnpm where the `@plaud` scope lives — installing needs no login):
 
 ```powershell
-npm login --registry http://registry.internal:4873
+"@plaud:registry=http://registry.internal:4873/" | Add-Content $env:USERPROFILE\.npmrc
 ```
 
 Then paste a package name into the desktop **Plugins** panel, for example `@plaud/dsh-plugin-notion`. For the web build and headless profiles:
