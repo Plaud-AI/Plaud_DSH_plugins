@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 /**
- * Publish every connector to a registry.
+ * Publish every package to a registry, one `npm publish` per package.
  *
- * The packages are self-contained (the core is inlined into each dist), so the
- * publish order does not matter and no private version coordination is needed.
+ * Deliberately uses npm rather than `pnpm -r publish`: pnpm resolves the whole
+ * workspace dependency graph first (and pnpm 10+ ignores `link-workspace-packages`
+ * from .npmrc, so the workspace core is fetched from the registry and 404s), and
+ * it runs a supply-chain lockfile check that aborts the run. npm publishes a
+ * directory as-is, which is exactly what these self-contained packages need.
  *
  * Usage:
  *   # company registry
@@ -13,8 +16,8 @@
  *   # public npm — clients then need no .npmrc at all
  *   pnpm release --public
  *
- * Authenticate once per machine with `npm login --registry <url>`; the token
- * lands in ~/.npmrc and pnpm picks it up from there.
+ * npm requires 2FA for publishing: either answer the interactive OTP prompt or
+ * pass `--otp <code>` (see https://www.npmjs.com/settings/~/security).
  */
 import { spawnSync } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
@@ -22,9 +25,9 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
-const registry = process.env.NPM_REGISTRY ?? (process.argv.includes('--public') ? 'https://registry.npmjs.org/' : 'http://localhost:4873')
-const pnpm = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'
-const access = process.argv.includes('--public') ? 'public' : 'restricted'
+const public = process.argv.includes('--public')
+const registry = process.env.NPM_REGISTRY ?? (public ? 'https://registry.npmjs.org/' : 'http://localhost:4873')
+const access = public ? 'public' : 'restricted'
 
 const workspaces = ['core', 'notion', 'linear', 'slack', 'plaud', 'feishu']
 
@@ -33,11 +36,15 @@ function fail(message) {
   process.exit(1)
 }
 
-if (!process.env.NPM_REGISTRY && access !== 'public') {
+if (!process.env.NPM_REGISTRY && !public) {
   console.warn(`publish: NPM_REGISTRY is unset, falling back to ${registry}`)
 }
 
-const wanted = []
+const passthrough = process.argv.slice(2).filter((argument) => argument !== '--public')
+const quote = (argument) => (/[\s"]/.test(argument) ? `"${argument.replace(/"/g, '\\"')}"` : argument)
+
+console.log(`publish: registry ${registry} (access: ${access})`)
+
 for (const name of workspaces) {
   const dir = join(root, 'packages', name)
   const manifest = JSON.parse(readFileSync(join(dir, 'package.json'), 'utf8'))
@@ -46,41 +53,22 @@ for (const name of workspaces) {
     fail(`packages/${name}/dist is missing — run \`pnpm -r build\` first`)
   }
 
-  wanted.push(`${manifest.name}@${manifest.version}`)
-}
+  const commandLine = ['npm', 'publish', '--access', access, '--registry', registry, ...passthrough]
+    .map(quote)
+    .join(' ')
 
-console.log(`publish: registry ${registry} (access: ${access})`)
-console.log(`publish: ${wanted.join(', ')}`)
+  console.log(`publish: ${manifest.name}@${manifest.version}`)
+  const result = spawnSync(commandLine, { stdio: 'inherit', cwd: dir, shell: true })
 
-// Windows cannot spawn a .cmd shim without a shell, and passing an argument
-// array together with `shell: true` is deprecated (DEP0190), so build the
-// command line explicitly and quote only what needs it.
-const quote = (argument) => (/[\s"]/.test(argument) ? `"${argument.replace(/"/g, '\\"')}"` : argument)
-const passthrough = process.argv.slice(2).filter((argument) => argument !== '--public')
-const commandLine = [
-  pnpm,
-  '-r',
-  'publish',
-  '--no-git-checks',
-  '--access',
-  access,
-  '--registry',
-  registry,
-  ...passthrough,
-]
-  .map(quote)
-  .join(' ')
-
-const result = spawnSync(commandLine, { stdio: 'inherit', cwd: root, shell: true })
-
-if (result.error) fail(result.error.message)
-if (result.status !== 0) {
-  fail(
-    `pnpm publish exited with ${result.status}\n` +
-      '  · 401/403 — authenticate: npm login --registry ' +
-      registry +
-      '\n  · "cannot publish over" — that version already exists; run `pnpm version:patch` first',
-  )
+  if (result.error) fail(result.error.message)
+  if (result.status !== 0) {
+    fail(
+      `npm publish exited with ${result.status} for ${manifest.name}\n` +
+        '  · E403 about 2FA — publishing requires two-factor auth: answer the prompt, or pass --otp <code>\n' +
+        '  · E403 about permission — the account must be a member of the scope\'s org\n' +
+        '  · E402 "cannot publish over" — that version exists; bump it first',
+    )
+  }
 }
 
 console.log('publish: done — installed users update with `dsh plugin add <name>@latest`')

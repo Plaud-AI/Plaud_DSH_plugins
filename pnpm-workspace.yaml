@@ -1,2 +1,9 @@
 packages:
   - packages/*
+
+# pnpm 10+ reads workspace settings only from this file — the equivalents in
+# .npmrc are ignored, which made `pnpm -r publish` treat the workspace core as an
+# external package and fail with ERR_PNPM_FETCH_404.
+linkWorkspacePackages: true
+saveWorkspaceProtocol: false
+nodeLinker: hoisted
