@@ -10,11 +10,11 @@ Install once, authorize once in the browser, and your assistant can read pages, 
 
 | Package | Service | Auth | Pre-registration | Install |
 | --- | --- | --- | --- | --- |
-| `@plaudai/dsh-plugin-notion` | Notion | OAuth (DCR + PKCE) | No | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-notion-0.1.2.tgz) |
-| `@plaudai/dsh-plugin-linear` | Linear | OAuth or API key | No | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-linear-0.1.2.tgz) |
-| `@plaudai/dsh-plugin-slack` | Slack | OAuth | Yes | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-slack-0.1.2.tgz) |
-| `@plaudai/dsh-plugin-feishu` | Feishu / Lark | App ID + Secret | Yes | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-feishu-0.1.2.tgz) |
-| `@plaudai/dsh-plugin-plaud` | PLAUD internal | Bearer token | No | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-plaud-0.1.2.tgz) |
+| `@plaudai/dsh-plugin-notion` | Notion | OAuth (DCR + PKCE) | No | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz) |
+| `@plaudai/dsh-plugin-linear` | Linear | OAuth or API key | No | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-linear-0.1.4.tgz) |
+| `@plaudai/dsh-plugin-slack` | Slack | OAuth | Yes | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-slack-0.1.4.tgz) |
+| `@plaudai/dsh-plugin-feishu` | Feishu / Lark | App ID + Secret | Yes | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz) |
+| `@plaudai/dsh-plugin-plaud` | PLAUD internal | Bearer token | No | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz) |
 
 The last column links straight to the installable `.tgz`; the full addresses are also spelled out under [Install](#install). All five share one core package, `@plaudai/dsh-mcp-oauth`, which fills in the layer DeepSeek Harness leaves out: **MCP authorization**.
 
@@ -32,13 +32,13 @@ Open the desktop **Plugins** panel and paste one whole address from the table be
 
 | Plugin | Install URL |
 | --- | --- |
-| Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-notion-0.1.2.tgz` |
-| Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-linear-0.1.2.tgz` |
-| Slack | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-slack-0.1.2.tgz` |
-| PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-plaud-0.1.2.tgz` |
-| Feishu | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-feishu-0.1.2.tgz` |
+| Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz` |
+| Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-linear-0.1.4.tgz` |
+| Slack | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-slack-0.1.4.tgz` |
+| PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz` |
+| Feishu | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz` |
 
-Each address points at a `.tgz` on GitHub Releases, so the version is whatever the file name says and the local lockfile cannot hold it back. Bump the `v0.1.2` segment to move to another tag listed under [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases).
+Each address points at a `.tgz` on GitHub Releases, so the version is whatever the file name says and the local lockfile cannot hold it back. Bump the `v0.1.4` segment to move to another tag listed under [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases).
 
 The same packages are on public npm under the `@plaudai` scope, so a package name works too:
 
@@ -56,7 +56,7 @@ For the web build and headless profiles both forms work:
 
 ```powershell
 dsh plugin --profile web add @plaudai/dsh-plugin-notion
-dsh plugin --profile web add https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-notion-0.1.2.tgz
+dsh plugin --profile web add https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz
 ```
 
 Then restart DSH. Requires `@deepseek-ai/dsh` 0.2.0-rc.2 or newer.

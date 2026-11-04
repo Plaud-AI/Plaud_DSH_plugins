@@ -1,6 +1,6 @@
 {
   "name": "@plaudai/dsh-mcp-oauth",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "MCP bridge for DeepSeek Harness with a built-in OAuth 2.0 client (DCR + PKCE), bearer-header and stdio transports",
   "license": "UNLICENSED",
   "type": "module",

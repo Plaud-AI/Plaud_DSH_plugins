@@ -1,6 +1,6 @@
 {
   "name": "@plaudai/dsh-plugin-notion",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Notion 官方 Remote MCP 接入 DeepSeek Harness（内置 OAuth，无需手动填 token）",
   "license": "UNLICENSED",
   "type": "module",
@@ -41,7 +41,7 @@
     }
   },
   "devDependencies": {
-    "@plaudai/dsh-mcp-oauth": "^0.1.3"
+    "@plaudai/dsh-mcp-oauth": "^0.1.4"
   },
   "publishConfig": {
     "access": "public"

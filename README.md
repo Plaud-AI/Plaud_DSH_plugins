@@ -10,11 +10,11 @@
 
 | 插件 | 服务 | 认证 | 需要预注册 | 安装地址 |
 | --- | --- | --- | --- | --- |
-| `@plaudai/dsh-plugin-notion` | Notion | OAuth（DCR + PKCE） | 否 | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-notion-0.1.2.tgz) |
-| `@plaudai/dsh-plugin-linear` | Linear | OAuth 或 API key | 否 | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-linear-0.1.2.tgz) |
-| `@plaudai/dsh-plugin-slack` | Slack | OAuth | 是 | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-slack-0.1.2.tgz) |
-| `@plaudai/dsh-plugin-feishu` | 飞书 / Lark | App ID + Secret | 是 | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-feishu-0.1.2.tgz) |
-| `@plaudai/dsh-plugin-plaud` | PLAUD 内部服务 | Bearer token | 否 | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-plaud-0.1.2.tgz) |
+| `@plaudai/dsh-plugin-notion` | Notion | OAuth（DCR + PKCE） | 否 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz) |
+| `@plaudai/dsh-plugin-linear` | Linear | OAuth 或 API key | 否 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-linear-0.1.4.tgz) |
+| `@plaudai/dsh-plugin-slack` | Slack | OAuth | 是 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-slack-0.1.4.tgz) |
+| `@plaudai/dsh-plugin-feishu` | 飞书 / Lark | App ID + Secret | 是 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz) |
+| `@plaudai/dsh-plugin-plaud` | PLAUD 内部服务 | Bearer token | 否 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz) |
 
 最后一列是直接可装的 `.tgz` 地址，点开复制即可；完整地址也列在[安装](#安装)一节。五个连接器共用一个核心包 `@plaudai/dsh-mcp-oauth`，补的是 DSH 自己没做的那一层：**MCP 授权**。
 
@@ -32,13 +32,13 @@
 
 | 插件 | 安装地址 |
 | --- | --- |
-| Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-notion-0.1.2.tgz` |
-| Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-linear-0.1.2.tgz` |
-| Slack | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-slack-0.1.2.tgz` |
-| PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-plaud-0.1.2.tgz` |
-| 飞书 | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-feishu-0.1.2.tgz` |
+| Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz` |
+| Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-linear-0.1.4.tgz` |
+| Slack | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-slack-0.1.4.tgz` |
+| PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz` |
+| 飞书 | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz` |
 
-地址指向 GitHub Release 上的 `.tgz`，版本由文件名决定，不受本地锁文件影响。要换版本就改地址里的 `v0.1.2`，可用的 tag 见 [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases)。
+地址指向 GitHub Release 上的 `.tgz`，版本由文件名决定，不受本地锁文件影响。要换版本就改地址里的 `v0.1.4`，可用的 tag 见 [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases)。
 
 这些包同时也发在公共 npm 的 `@plaudai` scope 下，也可以直接填包名：
 
@@ -56,7 +56,7 @@
 
 ```powershell
 dsh plugin --profile web add @plaudai/dsh-plugin-notion
-dsh plugin --profile web add https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-notion-0.1.2.tgz
+dsh plugin --profile web add https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz
 ```
 
 装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。

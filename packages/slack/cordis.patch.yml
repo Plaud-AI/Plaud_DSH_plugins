@@ -4,10 +4,14 @@
 # a fixed app id, and the token endpoint requires a confidential client. Create
 # the app once at https://api.slack.com/apps, then:
 #
-#   1. OAuth & Permissions → Redirect URLs → add
+#   1. OAuth & Permissions → Scopes → User Token Scopes: add the scopes you
+#      need (chat:write, channels:read, channels:history, groups:read,
+#      groups:history, im:read, im:history, users:read, search:read.public).
+#   2. Same page → Redirect URLs → add
 #        http://127.0.0.1:53311/callback
 #      (the port is SLACK_MCP_CALLBACK_PORT below; it must match exactly)
-#   2. put the credentials in the host environment before starting the harness:
+#   3. Basic Information → copy Client ID, Client Secret and App ID.
+#   4. put them in the host environment before starting the harness:
 #        SLACK_MCP_CLIENT_ID=<client id>
 #        SLACK_MCP_CLIENT_SECRET=<client secret>
 #        SLACK_MCP_APP_ID=<the same app id>
@@ -23,5 +27,8 @@
         clientId: !!js 'process.env.SLACK_MCP_CLIENT_ID ?? ""'
         clientSecret: !!js 'process.env.SLACK_MCP_CLIENT_SECRET ?? ""'
         tokenEndpointAuthMethod: client_secret_post
+        # The user-token scopes to request; must be a subset of what the app
+        # declares under User Token Scopes or Slack answers invalid_scope.
+        scope: !!js 'process.env.SLACK_MCP_SCOPES ?? "chat:write,channels:read,channels:history,groups:read,groups:history,im:read,im:history,users:read,search:read.public"'
         authorizationParams:
           app_id: !!js 'process.env.SLACK_MCP_APP_ID ?? ""'

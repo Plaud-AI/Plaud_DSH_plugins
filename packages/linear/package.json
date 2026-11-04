@@ -1,6 +1,6 @@
 {
   "name": "@plaudai/dsh-plugin-linear",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Linear 官方 MCP 接入 DeepSeek Harness（内置 OAuth，也支持 API key）",
   "license": "UNLICENSED",
   "type": "module",
@@ -41,7 +41,7 @@
     }
   },
   "devDependencies": {
-    "@plaudai/dsh-mcp-oauth": "^0.1.3"
+    "@plaudai/dsh-mcp-oauth": "^0.1.4"
   },
   "publishConfig": {
     "access": "public"
