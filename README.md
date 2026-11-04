@@ -8,15 +8,15 @@
 
 ## 包含哪些连接器
 
-| 插件 | 服务 | 认证 | 需要预注册 |
-| --- | --- | --- | --- |
-| `@plaudai/dsh-plugin-notion` | Notion | OAuth（DCR + PKCE） | 否 |
-| `@plaudai/dsh-plugin-linear` | Linear | OAuth 或 API key | 否 |
-| `@plaudai/dsh-plugin-slack` | Slack | OAuth | 是 |
-| `@plaudai/dsh-plugin-feishu` | 飞书 / Lark | App ID + Secret | 是 |
-| `@plaudai/dsh-plugin-plaud` | PLAUD 内部服务 | Bearer token | 否 |
+| 插件 | 服务 | 认证 | 需要预注册 | 安装地址 |
+| --- | --- | --- | --- | --- |
+| `@plaudai/dsh-plugin-notion` | Notion | OAuth（DCR + PKCE） | 否 | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-notion-0.1.2.tgz) |
+| `@plaudai/dsh-plugin-linear` | Linear | OAuth 或 API key | 否 | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-linear-0.1.2.tgz) |
+| `@plaudai/dsh-plugin-slack` | Slack | OAuth | 是 | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-slack-0.1.2.tgz) |
+| `@plaudai/dsh-plugin-feishu` | 飞书 / Lark | App ID + Secret | 是 | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-feishu-0.1.2.tgz) |
+| `@plaudai/dsh-plugin-plaud` | PLAUD 内部服务 | Bearer token | 否 | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-plaud-0.1.2.tgz) |
 
-五个连接器共用一个核心包 `@plaudai/dsh-mcp-oauth`，补的是 DSH 自己没做的那一层：**MCP 授权**。
+最后一列是直接可装的 `.tgz` 地址，点开复制即可；完整地址也列在[安装](#安装)一节。五个连接器共用一个核心包 `@plaudai/dsh-mcp-oauth`，补的是 DSH 自己没做的那一层：**MCP 授权**。
 
 ## 功能
 

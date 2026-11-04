@@ -8,15 +8,15 @@ Install once, authorize once in the browser, and your assistant can read pages, 
 
 ## What's inside
 
-| Package | Service | Auth | Pre-registration |
-| --- | --- | --- | --- |
-| `@plaudai/dsh-plugin-notion` | Notion | OAuth (DCR + PKCE) | No |
-| `@plaudai/dsh-plugin-linear` | Linear | OAuth or API key | No |
-| `@plaudai/dsh-plugin-slack` | Slack | OAuth | Yes |
-| `@plaudai/dsh-plugin-feishu` | Feishu / Lark | App ID + Secret | Yes |
-| `@plaudai/dsh-plugin-plaud` | PLAUD internal | Bearer token | No |
+| Package | Service | Auth | Pre-registration | Install |
+| --- | --- | --- | --- | --- |
+| `@plaudai/dsh-plugin-notion` | Notion | OAuth (DCR + PKCE) | No | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-notion-0.1.2.tgz) |
+| `@plaudai/dsh-plugin-linear` | Linear | OAuth or API key | No | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-linear-0.1.2.tgz) |
+| `@plaudai/dsh-plugin-slack` | Slack | OAuth | Yes | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-slack-0.1.2.tgz) |
+| `@plaudai/dsh-plugin-feishu` | Feishu / Lark | App ID + Secret | Yes | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-feishu-0.1.2.tgz) |
+| `@plaudai/dsh-plugin-plaud` | PLAUD internal | Bearer token | No | [0.1.2](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-plaud-0.1.2.tgz) |
 
-All five share one core package, `@plaudai/dsh-mcp-oauth`, which fills in the layer DeepSeek Harness leaves out: **MCP authorization**.
+The last column links straight to the installable `.tgz`; the full addresses are also spelled out under [Install](#install). All five share one core package, `@plaudai/dsh-mcp-oauth`, which fills in the layer DeepSeek Harness leaves out: **MCP authorization**.
 
 ## Features
 
