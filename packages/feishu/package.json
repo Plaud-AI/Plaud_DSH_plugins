@@ -1,6 +1,6 @@
 {
   "name": "@plaudai/dsh-plugin-feishu",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "飞书 / Lark 官方 OpenAPI MCP 接入 DeepSeek Harness",
   "license": "UNLICENSED",
   "type": "module",
@@ -41,7 +41,7 @@
     }
   },
   "devDependencies": {
-    "@plaudai/dsh-mcp-oauth": "^0.1.1"
+    "@plaudai/dsh-mcp-oauth": "^0.1.2"
   },
   "publishConfig": {
     "access": "public"

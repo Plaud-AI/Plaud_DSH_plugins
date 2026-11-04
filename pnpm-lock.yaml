@@ -49,7 +49,7 @@ importers:
         version: 2.4.0
     devDependencies:
       '@plaudai/dsh-mcp-oauth':
-        specifier: ^0.1.0
+        specifier: ^0.1.1
         version: link:../core
 
   packages/linear:
@@ -71,7 +71,7 @@ importers:
         version: 2.4.0
     devDependencies:
       '@plaudai/dsh-mcp-oauth':
-        specifier: ^0.1.0
+        specifier: ^0.1.1
         version: link:../core
 
   packages/notion:
@@ -93,7 +93,7 @@ importers:
         version: 2.4.0
     devDependencies:
       '@plaudai/dsh-mcp-oauth':
-        specifier: ^0.1.0
+        specifier: ^0.1.1
         version: link:../core
 
   packages/plaud:
@@ -115,7 +115,7 @@ importers:
         version: 2.4.0
     devDependencies:
       '@plaudai/dsh-mcp-oauth':
-        specifier: ^0.1.0
+        specifier: ^0.1.1
         version: link:../core
 
   packages/slack:
@@ -137,7 +137,7 @@ importers:
         version: 2.4.0
     devDependencies:
       '@plaudai/dsh-mcp-oauth':
-        specifier: ^0.1.0
+        specifier: ^0.1.1
         version: link:../core
 
 packages:
