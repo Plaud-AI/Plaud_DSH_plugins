@@ -28,6 +28,7 @@ const skip = new Set([
   '.pnpm-store',
   '.pnpm-home',
   '.cache',
+  '.verdaccio-storage',
 ])
 
 let errors = 0
