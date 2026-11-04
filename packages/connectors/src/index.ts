@@ -26,6 +26,10 @@ export const Config = z.object({
   notionCallbackPort: z.number().min(0).max(65_535).default(0),
   /** Slack 索引检索：复用 Notion 里的 Slack 连接器，不需要 Slack 令牌。 */
   slackIndex: z.boolean().default(true),
+  /** Linear 官方远程 MCP（OAuth + 动态注册；可读可写，能直接建单）。 */
+  linear: z.boolean().default(true),
+  /** 单个 Linear 工具调用超时。 */
+  linearTimeoutMs: z.number().default(120_000),
   /** PLAUD 官方 stdio MCP（需先登录一次：npx -y @plaud-ai/mcp@latest install）。 */
   plaud: z.boolean().default(false),
   /** PLAUD 工具调用超时。 */
@@ -51,7 +55,7 @@ export const Config = z.object({
 export type ConnectorsConfig = ReturnType<typeof Config>
 
 interface Builtin {
-  key: 'notion' | 'plaud'
+  key: 'notion' | 'linear' | 'plaud'
   preset: McpPluginPreset
 }
 
@@ -64,6 +68,15 @@ const BUILTINS: Builtin[] = [
       auth: 'oauth',
       url: 'https://mcp.notion.com/mcp',
       scope: '',
+    },
+  },
+  {
+    key: 'linear',
+    preset: {
+      serverName: 'linear',
+      transport: 'streamable-http',
+      auth: 'oauth',
+      url: 'https://mcp.linear.app/mcp',
     },
   },
   {
@@ -274,13 +287,16 @@ export async function apply(ctx: PluginContext, rawConfig: unknown): Promise<voi
   const hostCtx = ctx as never
 
   for (const builtin of BUILTINS) {
-    const enabled = builtin.key === 'notion' ? parsed.notion : parsed.plaud
+    const enabled =
+      builtin.key === 'notion' ? parsed.notion : builtin.key === 'linear' ? parsed.linear : parsed.plaud
     if (!enabled) continue
     const plugin = createMcpPlugin(builtin.preset)
     const overrides: Record<string, unknown> =
       builtin.key === 'notion'
         ? { toolCallTimeoutMs: parsed.notionTimeoutMs, callbackPort: parsed.notionCallbackPort }
-        : { toolCallTimeoutMs: parsed.plaudTimeoutMs }
+        : builtin.key === 'linear'
+          ? { toolCallTimeoutMs: parsed.linearTimeoutMs }
+          : { toolCallTimeoutMs: parsed.plaudTimeoutMs }
     try {
       await plugin.apply(hostCtx, resolve(builtin.preset, overrides))
     } catch (error) {

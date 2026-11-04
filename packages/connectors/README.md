@@ -76,6 +76,8 @@ custom:
 
 ```yaml
 notion: true
+linear: true
+linearTimeoutMs: 120000
 notionTimeoutMs: 120000   # 单个工具调用超时
 notionCallbackPort: 0     # 0 = 自动挑空闲端口
 slackIndex: true

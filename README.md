@@ -8,7 +8,7 @@
 
 > **只想装一个？** 用 `@plaudai/dsh-plugin-connectors`：一个包同时接入 Notion（75 个工具）、Slack 索引检索（**不需要 Slack 令牌**，复用 Notion 的 Slack 连接器）、PLAUD，以及任意自定义 MCP（Google Drive / Docs）。装它就不用再装下面那几个单独的包。
 >
-> `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2-connectors/plaudai-dsh-plugin-connectors-0.1.2.tgz`
+> `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.3-connectors/plaudai-dsh-plugin-connectors-0.1.3.tgz`
 
 ## 包含哪些连接器
 
@@ -36,7 +36,7 @@
 
 | 插件 | 安装地址 |
 | --- | --- |
-| **全部（推荐）** | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2-connectors/plaudai-dsh-plugin-connectors-0.1.2.tgz` |
+| **全部（推荐）** | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.3-connectors/plaudai-dsh-plugin-connectors-0.1.3.tgz` |
 | Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz` |
 | Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-linear-0.1.4.tgz` |
 | Slack（官方 MCP） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.7-slack/plaudai-dsh-plugin-slack-0.1.7.tgz` |
