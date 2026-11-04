@@ -20,10 +20,16 @@ export interface PluginContext {
 export const Config = z.object({
   /** Notion 官方远程 MCP（OAuth；首次调用自动弹授权，无需预注册）。 */
   notion: z.boolean().default(true),
+  /** 单个 Notion 工具调用的超时；大页面/长导出时调大。 */
+  notionTimeoutMs: z.number().default(120_000),
+  /** Notion 授权回调端口；0 表示自动挑一个空闲端口。 */
+  notionCallbackPort: z.number().min(0).max(65_535).default(0),
   /** Slack 索引检索：复用 Notion 里的 Slack 连接器，不需要 Slack 令牌。 */
   slackIndex: z.boolean().default(true),
   /** PLAUD 官方 stdio MCP（需先登录一次：npx -y @plaud-ai/mcp@latest install）。 */
   plaud: z.boolean().default(false),
+  /** PLAUD 工具调用超时。 */
+  plaudTimeoutMs: z.number().default(120_000),
   /** 任意额外 MCP，例如 Google Drive / Docs。 */
   custom: z
     .array(
@@ -271,8 +277,12 @@ export async function apply(ctx: PluginContext, rawConfig: unknown): Promise<voi
     const enabled = builtin.key === 'notion' ? parsed.notion : parsed.plaud
     if (!enabled) continue
     const plugin = createMcpPlugin(builtin.preset)
+    const overrides: Record<string, unknown> =
+      builtin.key === 'notion'
+        ? { toolCallTimeoutMs: parsed.notionTimeoutMs, callbackPort: parsed.notionCallbackPort }
+        : { toolCallTimeoutMs: parsed.plaudTimeoutMs }
     try {
-      await plugin.apply(hostCtx, resolve(builtin.preset, {}))
+      await plugin.apply(hostCtx, resolve(builtin.preset, overrides))
     } catch (error) {
       // 一个服务连不上不该拖垮整棵树：其余服务继续注册。
       const message = error instanceof Error ? error.message : String(error)

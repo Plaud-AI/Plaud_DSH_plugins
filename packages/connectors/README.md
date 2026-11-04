@@ -76,7 +76,10 @@ custom:
 
 ```yaml
 notion: true
+notionTimeoutMs: 120000   # 单个工具调用超时
+notionCallbackPort: 0     # 0 = 自动挑空闲端口
 slackIndex: true
 plaud: false
+plaudTimeoutMs: 120000
 custom: []
 ```

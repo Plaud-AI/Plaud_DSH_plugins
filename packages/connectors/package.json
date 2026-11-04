@@ -1,6 +1,6 @@
 {
   "name": "@plaudai/dsh-plugin-connectors",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "一个插件接入全部数据源：Notion、Slack 索引、PLAUD，外加任意自定义 MCP（Google Drive/Docs 等）",
   "repository": {
     "type": "git",
