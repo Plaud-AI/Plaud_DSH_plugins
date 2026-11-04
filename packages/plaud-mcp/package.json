@@ -1,0 +1,58 @@
+{
+  "name": "@plaudai/dsh-plugin-plaud-mcp",
+  "version": "0.1.0",
+  "description": "PLAUD 官方 MCP 接入 DeepSeek Harness：搜索录音、读转写与摘要（stdio，复用 npx @plaud-ai/mcp）",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Plaud-AI/Plaud_DSH_plugins.git",
+    "directory": "packages/plaud-mcp"
+  },
+  "homepage": "https://github.com/Plaud-AI/Plaud_DSH_plugins/tree/main/packages/plaud-mcp",
+  "bugs": {
+    "url": "https://github.com/Plaud-AI/Plaud_DSH_plugins/issues"
+  },
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node ../../scripts/bundle.mjs plaud-mcp",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@deepseek-ai/cosmokit": "~1.8.6",
+    "@deepseek-ai/dsh-mcp-client": "^0.2.0-rc.2",
+    "@deepseek-ai/schemastery": "^3.18.1",
+    "@modelcontextprotocol/client": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "plaud",
+    "mcp",
+    "transcript"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "devDependencies": {
+    "@plaudai/dsh-mcp-oauth": "^0.1.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

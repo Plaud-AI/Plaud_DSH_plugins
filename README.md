@@ -37,13 +37,15 @@
 | Slack（官方 MCP） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-slack-0.1.4.tgz` |
 | Slack（Bot 版） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.2.0-slackbot/plaudai-dsh-plugin-slackbot-0.2.0.tgz` |
 | PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz` |
+| PLAUD（官方 MCP） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-plaud-mcp/plaudai-dsh-plugin-plaud-mcp-0.1.0.tgz` |
 | 飞书（官方 MCP） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz` |
 | 飞书（只读版） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-feishu-read/plaudai-dsh-plugin-feishu-read-0.1.0.tgz` |
 
-两组"双胞胎"插件按需二选一：
+三组"双胞胎"插件按需选一个：
 
 - **Slack**：官方 MCP 版走 `mcp.slack.com`（19 个工具、用户 OAuth、要预注册 App）；Bot 版直连 Web API + Socket Mode（5+3 个工具、免回调、一个 `xoxb-` 即可）
 - **飞书**：官方 MCP 版走 `lark-mcp`（全量工具、能写）；只读版直连 OpenAPI（8 个只读工具、零依赖、写不了）
+- **PLAUD**：内部版是 HTTP MCP + Bearer token（公司部署）；官方版是 stdio MCP（`npx -y @plaud-ai/mcp@latest`），用你自己的 PLAUD 账号登录后读录音、转写、摘要
 
 地址指向 GitHub Release 上的 `.tgz`，版本由文件名决定，不受本地锁文件影响。要换版本就改地址里的 tag，可用的 tag 见 [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases)。
 
@@ -56,6 +58,7 @@
 | Slack（官方 MCP） | `@plaudai/dsh-plugin-slack` |
 | Slack（Bot 版） | `@plaudai/dsh-plugin-slackbot` |
 | PLAUD | `@plaudai/dsh-plugin-plaud` |
+| PLAUD（官方 MCP） | `@plaudai/dsh-plugin-plaud-mcp` |
 | 飞书（官方 MCP） | `@plaudai/dsh-plugin-feishu` |
 | 飞书（只读版） | `@plaudai/dsh-plugin-feishu-read` |
 

@@ -15,12 +15,6 @@ importers:
         specifier: ^5.7.2
         version: 5.9.3
 
-  .tools/loadtest:
-    dependencies:
-      '@plaudai/dsh-plugin-slackbot':
-        specifier: file:D:/OfficeTools/deepseek/Deepseek Harness Desktop/Plaud_DSH_plugins/.tools/loadtest/../../dist/plaudai-dsh-plugin-slackbot-0.1.0.tgz
-        version: file:dist/plaudai-dsh-plugin-slackbot-0.1.0.tgz(@deepseek-ai/cordis@4.0.5)(undici@8.12.3)
-
   packages/core:
     dependencies:
       '@deepseek-ai/cordis':
@@ -57,6 +51,12 @@ importers:
       '@plaudai/dsh-mcp-oauth':
         specifier: ^0.1.4
         version: link:../core
+
+  packages/feishu-read:
+    dependencies:
+      '@deepseek-ai/cordis':
+        specifier: ^4.0.1
+        version: 4.0.5
 
   packages/linear:
     dependencies:
@@ -103,6 +103,28 @@ importers:
         version: link:../core
 
   packages/plaud:
+    dependencies:
+      '@deepseek-ai/cordis':
+        specifier: ^4.0.1
+        version: 4.0.5
+      '@deepseek-ai/cosmokit':
+        specifier: ~1.8.6
+        version: 1.8.6
+      '@deepseek-ai/dsh-mcp-client':
+        specifier: ^0.2.0-rc.2
+        version: 0.2.0-rc.2(@deepseek-ai/cordis@4.0.5)(@deepseek-ai/dsh-attachment@0.2.0-rc.2(@deepseek-ai/cordis@4.0.5)(@deepseek-ai/dsh-brand@0.2.0-rc.2(@deepseek-ai/cordis@4.0.5)))(@deepseek-ai/dsh-llm@0.2.0-rc.2(@deepseek-ai/cordis@4.0.5))(@deepseek-ai/dsh-scope@0.2.0-rc.2(@deepseek-ai/cordis@4.0.5)(@deepseek-ai/dsh-invariants@0.2.0-rc.2(@deepseek-ai/cordis@4.0.5)))(@deepseek-ai/dsh-subprocess@0.2.0-rc.2(@deepseek-ai/cordis@4.0.5)(@deepseek-ai/dsh-http-proxy@0.2.0-rc.2(@deepseek-ai/cordis@4.0.5)))(@deepseek-ai/dsh-system-prompt@0.2.0-rc.2(@deepseek-ai/cordis@4.0.5)(@deepseek-ai/dsh-invariants@0.2.0-rc.2(@deepseek-ai/cordis@4.0.5))(@deepseek-ai/dsh-llm@0.2.0-rc.2(@deepseek-ai/cordis@4.0.5))(@deepseek-ai/dsh-scope@0.2.0-rc.2(@deepseek-ai/cordis@4.0.5)(@deepseek-ai/dsh-invariants@0.2.0-rc.2(@deepseek-ai/cordis@4.0.5))))(@deepseek-ai/dsh-timeout@0.2.0-rc.2(@deepseek-ai/cordis@4.0.5))(@deepseek-ai/dsh-tools@0.2.0-rc.2(wz32vkdy5wzmulmvjyui6kvoru))
+      '@deepseek-ai/schemastery':
+        specifier: ^3.18.1
+        version: 3.18.5
+      '@modelcontextprotocol/client':
+        specifier: ^2.0.0
+        version: 2.4.0
+    devDependencies:
+      '@plaudai/dsh-mcp-oauth':
+        specifier: ^0.1.4
+        version: link:../core
+
+  packages/plaud-mcp:
     dependencies:
       '@deepseek-ai/cordis':
         specifier: ^4.0.1
@@ -357,12 +379,6 @@ packages:
   '@modelcontextprotocol/core@2.4.0':
     resolution: {integrity: sha512-z8QBKqdfXLPzkLQuG4xp8hrVEMm1PZ1IgxMN2sMbJiFiAKOWXnAzogXn2W4aqIBlP1ea6U5yiqVquvUNM1Cj6Q==}
     engines: {node: '>=20'}
-
-  '@plaudai/dsh-plugin-slackbot@file:dist/plaudai-dsh-plugin-slackbot-0.1.0.tgz':
-    resolution: {integrity: sha512-Ab8pi77RW5ShdURsP4cL4VYEuQMu+kTjU5QihKg6RSLJAbbvZj6MhBj4cX2BmM5e7hNUvjbz2iND65TG59BIkA==, tarball: file:dist/plaudai-dsh-plugin-slackbot-0.1.0.tgz}
-    version: 0.1.0
-    peerDependencies:
-      '@deepseek-ai/cordis': ^4.0.1
 
   '@slack/logger@5.0.0':
     resolution: {integrity: sha512-VGXhmmgsAo9shdQYh4tFDndd+7nsgp0Y5h0UPDaUp8K359pBasI6YdkMqFW3mCOxLQkq09qj7o7cq6f3DuXcJQ==}
@@ -674,14 +690,6 @@ snapshots:
   '@modelcontextprotocol/core@2.4.0':
     dependencies:
       zod: 4.6.7
-
-  '@plaudai/dsh-plugin-slackbot@file:dist/plaudai-dsh-plugin-slackbot-0.1.0.tgz(@deepseek-ai/cordis@4.0.5)(undici@8.12.3)':
-    dependencies:
-      '@deepseek-ai/cordis': 4.0.5
-      '@slack/socket-mode': 3.1.1(undici@8.12.3)
-      '@slack/web-api': 8.3.0
-    transitivePeerDependencies:
-      - undici
 
   '@slack/logger@5.0.0':
     dependencies:

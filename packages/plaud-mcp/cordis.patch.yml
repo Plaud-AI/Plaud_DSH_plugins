@@ -1,0 +1,25 @@
+# PLAUD (official MCP) for DeepSeek Harness.
+#
+# Read your recordings, transcripts and summaries through PLAUD's own MCP
+# server. No endpoint and no API key go in this config: the server is a stdio
+# child (`npx -y @plaud-ai/mcp@latest`) and signs in through its own flow, so
+# authenticate once first:
+#
+#   npx -y @plaud-ai/mcp@latest install      # opens the browser, click Authorize
+#
+# or, with the standalone CLI:
+#
+#   npm install -g @plaud-ai/cli
+#   plaud login
+#
+# The child does not need any credential-shaped environment variable, which is
+# why nothing is passed through `env` here.
+- insert:
+    - id: mcp-plaud-official
+      name: '@plaudai/dsh-plugin-plaud-mcp'
+      config:
+        serverName: plaud
+        toolCallTimeoutMs: 120000
+        args:
+          - '-y'
+          - '@plaud-ai/mcp@latest'

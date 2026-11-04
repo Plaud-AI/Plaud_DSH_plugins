@@ -37,13 +37,15 @@ Open the desktop **Plugins** panel and paste one whole address from the table be
 | Slack (official MCP) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-slack-0.1.4.tgz` |
 | Slack (bot mode) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.2.0-slackbot/plaudai-dsh-plugin-slackbot-0.2.0.tgz` |
 | PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz` |
+| PLAUD (official MCP) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-plaud-mcp/plaudai-dsh-plugin-plaud-mcp-0.1.0.tgz` |
 | Feishu (official MCP) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz` |
 | Feishu (read-only) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-feishu-read/plaudai-dsh-plugin-feishu-read-0.1.0.tgz` |
 
-Two paired sets, pick one of each:
+Three paired sets, pick one of each:
 
 - **Slack**: the official MCP build talks to `mcp.slack.com` (19 tools, user OAuth, pre-registered app); the bot build calls the Web API + Socket Mode (8 tools, no callback, one `xoxb-` token)
 - **Feishu**: the official MCP build runs `lark-mcp` (full toolset, can write); the read-only build calls OpenAPI directly (8 read-only tools, zero dependencies, no write path)
+- **PLAUD**: the internal build is an HTTP MCP with a bearer token; the official build is a stdio MCP (`npx -y @plaud-ai/mcp@latest`) that reads recordings, transcripts and summaries for your own account after a browser sign-in
 
 Each address points at a `.tgz` on GitHub Releases, so the version is whatever the file name says and the local lockfile cannot hold it back. Change the tag segment to move to another tag listed under [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases).
 
@@ -56,6 +58,7 @@ The same packages are on public npm under the `@plaudai` scope, so a package nam
 | Slack (official MCP) | `@plaudai/dsh-plugin-slack` |
 | Slack (bot mode) | `@plaudai/dsh-plugin-slackbot` |
 | PLAUD | `@plaudai/dsh-plugin-plaud` |
+| PLAUD (official MCP) | `@plaudai/dsh-plugin-plaud-mcp` |
 | Feishu (official MCP) | `@plaudai/dsh-plugin-feishu` |
 | Feishu (read-only) | `@plaudai/dsh-plugin-feishu-read` |
 
