@@ -18,7 +18,17 @@ const { join, dirname, relative } = require('node:path')
 const yaml = require('js-yaml')
 
 const root = join(__dirname, '..')
-const skip = new Set(['node_modules', 'lib', 'dist', '.git'])
+const skip = new Set([
+  'node_modules',
+  'lib',
+  'dist',
+  '.git',
+  '.tools',
+  '.npm-cache',
+  '.pnpm-store',
+  '.pnpm-home',
+  '.cache',
+])
 
 let errors = 0
 let checks = 0
@@ -55,7 +65,7 @@ walk(root, (file) => {
 })
 
 console.log('YAML patches')
-const nonPatchYaml = new Set(['pnpm-workspace.yaml'])
+const nonPatchYaml = new Set(['pnpm-workspace.yaml', 'pnpm-lock.yaml'])
 walk(root, (file) => {
   if (!file.endsWith('.yml') && !file.endsWith('.yaml')) return
   if (nonPatchYaml.has(relative(root, file))) return
