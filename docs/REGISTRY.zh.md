@@ -2,6 +2,8 @@
 
 # 私有 registry
 
+> 只想让客户端零配置地用？看[发到公共 npm](#发到公共-npm客户端零配置)——那条路客户端什么都不用配。
+
 搭一次，之后所有人只做一件事：在插件面板里填包名。
 
 ```
@@ -16,7 +18,32 @@
 
 GitHub Packages 的 npm registry 要求**包 scope 等于仓库 owner**。仓库属于 `Plaud-AI`，那 scope 就得是 `@plaud-ai/*`，而我们全部是 `@plaud/*`——要发上去就得把所有包和补丁改一遍名。Verdaccio 没这个限制，也不占用 GitHub 的权限。
 
-## 部署（一次，管理员做）
+## 发到公共 npm（客户端零配置）
+
+如果代码公开不是问题，这条路最省事：**客户端不需要 `.npmrc`、不需要 token、不需要登录**，面板里粘包名就装上了。
+
+前提：有一个 npm 账号，并且拥有 `@plaud` 这个 scope（组织在 [npmjs.com/org/create](https://www.npmjs.com/org/create) 建，免费）。我查过公共 npm 上 `scope:plaud` 目前 **0 个包**，所以这个 scope 是干净的。
+
+```powershell
+npm login                                   # 用你自己的 npm 账号
+pnpm -r build
+pnpm release --public                       # --access public
+```
+
+发完之后，客户端什么都不用配：
+
+```
+@plaud/dsh-plugin-notion
+```
+
+几点要知道：
+
+- **代码就是公开的**。这里面没有密钥，只有 OAuth 样板和五个服务的连接配置，但要接受它被任何人读到；
+- 无作用域的 `dsh-mcp-oauth` 已经被别人占了（0.3.0），所以核心包也必须留在 `@plaud` 下面，别改成无作用域名；
+- 发到公共 npm 不等于进了插件市场。`dshmarket` 只安装 [awesome-dsh-plugin](https://awesome-dsh-plugin.com) 的策展列表里的包，要上架得去那个仓库提 PR；
+- 想撤回：`npm unpublish @plaud/dsh-plugin-notion@0.1.0`，72 小时后该版本号不可复用。
+
+## 部署私有 registry（代码不公开时）
 
 **没有 Docker 也能跑**，它就是个 Node 服务：
 

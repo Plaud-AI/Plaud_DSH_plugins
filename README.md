@@ -28,13 +28,13 @@
 
 ## 安装
 
-包发布在公司私有 registry 上。每台机器配置一次（只是告诉 pnpm 去哪找 `@plaud`，装不需要登录）：
+包发布在公共 npm 的 `@plaud` scope 下，**客户端零配置**：打开 DSH 桌面版「插件」面板，粘包名即可。
 
-```powershell
-"@plaud:registry=http://registry.internal:4873/" | Add-Content $env:USERPROFILE\.npmrc
+```
+@plaud/dsh-plugin-notion
 ```
 
-然后在 DSH 桌面版「插件」面板里粘包名，比如 `@plaud/dsh-plugin-notion`。网页版和 headless 用命令行：
+网页版和 headless 用命令行：
 
 ```powershell
 dsh plugin --profile web add @plaud/dsh-plugin-notion
@@ -44,7 +44,7 @@ dsh plugin --profile web add @plaud/dsh-plugin-notion
 
 `desktop` 这个 profile 由桌面应用独占，命令行不能操作它，桌面版只能走面板。
 
-registry 还没搭好、或者想装本地改动时：克隆仓库，`pnpm install && pnpm -r build`，在面板里填包的绝对目录路径（例如 `...\Plaud_DSH_plugins\packages\notion`）。每个连接器构建时已经把核心包内联进来，**装一个就够**，不用管发布顺序。
+代码不能公开时，换成[内网私有 registry](docs/REGISTRY.zh.md#部署私有-registry代码不公开时)。想装本地改动就克隆仓库、`pnpm install && pnpm -r build`，然后在面板里填包的绝对目录路径——每个连接器构建时已把核心包内联进来，**装一个就够**。
 
 ## 开始使用
 

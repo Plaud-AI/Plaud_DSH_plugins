@@ -28,13 +28,13 @@ All five share one core package, `@plaud/dsh-mcp-oauth`, which fills in the laye
 
 ## Install
 
-Packages live on the company's private registry. Configure each machine once (this only tells pnpm where the `@plaud` scope lives — installing needs no login):
+Packages are published to public npm under the `@plaud` scope, so **clients configure nothing**: open the desktop **Plugins** panel and paste a name.
 
-```powershell
-"@plaud:registry=http://registry.internal:4873/" | Add-Content $env:USERPROFILE\.npmrc
+```
+@plaud/dsh-plugin-notion
 ```
 
-Then paste a package name into the desktop **Plugins** panel, for example `@plaud/dsh-plugin-notion`. For the web build and headless profiles:
+For the web build and headless profiles:
 
 ```powershell
 dsh plugin --profile web add @plaud/dsh-plugin-notion
@@ -44,7 +44,7 @@ Then restart DSH. Requires `@deepseek-ai/dsh` 0.2.0-rc.2 or newer.
 
 The `desktop` profile belongs to the app and the CLI refuses to touch it, so desktop installs go through the panel.
 
-Before the registry exists, or to test a local change: clone the repo, run `pnpm install && pnpm -r build`, then paste the absolute package directory (for example `...\Plaud_DSH_plugins\packages\notion`). Each connector inlines the core at build time, so **one package is enough** — no publish ordering to worry about.
+When the code cannot be public, use the [internal registry](docs/REGISTRY.en.md#deploy-a-private-registry-when-the-code-must-stay-internal). To test a local change, clone the repo, run `pnpm install && pnpm -r build`, then paste the absolute package directory — each connector inlines the core at build time, so **one package is enough**.
 
 ## Getting started
 

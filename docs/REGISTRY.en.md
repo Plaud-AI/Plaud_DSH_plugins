@@ -2,6 +2,8 @@
 
 # Private registry
 
+> Want zero client configuration? See [publish to public npm](#publish-to-public-npm-zero-client-config) — clients configure nothing at all.
+
 Set it up once; after that everyone does exactly one thing — paste a package name into the plugin panel.
 
 ```
@@ -16,7 +18,32 @@ Set it up once; after that everyone does exactly one thing — paste a package n
 
 GitHub Packages' npm registry requires the **package scope to equal the repository owner**. The repo lives under `Plaud-AI`, so the scope would have to be `@plaud-ai/*`, while everything here is `@plaud/*` — publishing there means renaming every package and patch. Verdaccio has no such rule and needs no GitHub permissions.
 
-## Deploy (once, by an admin)
+## Publish to public npm (zero client config)
+
+If publishing the code is fine, this is the least friction: **clients need no `.npmrc`, no token, no login** — paste the name into the panel and it installs.
+
+Prerequisite: an npm account that owns the `@plaud` scope (create the org at [npmjs.com/org/create](https://www.npmjs.com/org/create), free). I checked: `scope:plaud` currently has **0 packages** on public npm, so the scope is clean.
+
+```powershell
+npm login                                   # your own npm account
+pnpm -r build
+pnpm release --public                       # --access public
+```
+
+After that, clients configure nothing:
+
+```
+@plaud/dsh-plugin-notion
+```
+
+Worth knowing:
+
+- **The code becomes public.** No secrets in here, only OAuth plumbing and five service presets, but accept that anyone can read it;
+- the unscoped `dsh-mcp-oauth` is already taken (0.3.0), so the core package must stay under `@plaud` too — do not switch to an unscoped name;
+- publishing to npm is not the same as being in the plugin market. `dshmarket` only installs from the [awesome-dsh-plugin](https://awesome-dsh-plugin.com) curated list; listing there means a PR to that repo;
+- to roll back: `npm unpublish @plaud/dsh-plugin-notion@0.1.0`; the version number is not reusable for 72 hours.
+
+## Deploy a private registry (when the code must stay internal)
 
 **Docker is optional** — Verdaccio is just a Node service:
 
