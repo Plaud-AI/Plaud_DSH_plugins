@@ -219,7 +219,9 @@ export function createMcpPlugin(preset: McpPluginPreset): {
   }
 
   return {
-    name: 'mcp-oauth',
+    // Per-service identity, so five connectors loaded side by side stay
+    // distinguishable in logs and in the host's plugin tree.
+    name: `mcp-${preset.serverName}`,
     inject: ['tools'],
     Config,
     apply,

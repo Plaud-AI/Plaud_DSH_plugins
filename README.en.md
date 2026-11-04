@@ -38,6 +38,8 @@ dsh plugin --profile web add @plaud/dsh-plugin-notion
 
 Then restart DSH. Requires `@deepseek-ai/dsh` 0.2.0-rc.2 or newer.
 
+Before anything is published: clone the repo, run `pnpm install && pnpm -r build`, then paste the absolute path of one package directory (for example `...\Plaud_DSH_plugins\packages\notion`). Each connector inlines the core at build time, so **one package is enough** — no publish ordering to worry about.
+
 ## Getting started
 
 1. Install only the connectors you need.

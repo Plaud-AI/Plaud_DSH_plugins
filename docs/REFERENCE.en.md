@@ -32,6 +32,14 @@ packages/
 
 Every service package is a standalone Cordis plugin (`name` / `inject` / `Config` / `apply`) whose `cordis.patch.yml` references only its own package name. The core package is imported by them and never appears in a profile patch on its own — so the loader never has to resolve a nested path.
 
+**The core is inlined into each connector at build time**: `scripts/bundle.mjs` rewrites the single `from '@plaud/dsh-mcp-oauth'` in `dist/index.js` to `from './core/index.js'` and copies the compiled core into `dist/core/`. Each connector is therefore self-contained:
+
+- install one package, with no publish ordering and no separate core release;
+- no private registry required;
+- each connector's surface and version move independently.
+
+Rollup was not used: its Windows build needs a native binary that fails to install in plenty of environments, and this dependency graph has exactly one cross-package import.
+
 `core` supports three connection modes:
 
 | `auth` | Used for | Token source |
@@ -144,19 +152,21 @@ $DSH_HOME/mcp-oauth/<serverName>.json    # default C:\Users\<you>\.dsh\mcp-oauth
 - Tools only: resources, prompts and server instructions are not bridged.
 - No automatic reconnect: the built-in bridge backs off exponentially, this one needs a restart in v0.1.
 - Slack's `app_id` injection is unverified.
-- Service packages depend on the core at `^0.1.0`, so the core must be published **first**; local path installs need that dependency resolvable in the profile.
+- `dist/` carries runtime code only, no type declarations; types are for development inside the repo (`lib/*.d.ts`).
 - Only the Windows build path has been exercised; macOS / Linux should behave the same but are untested.
 
 ## Development
 
 ```powershell
 pnpm install
-pnpm build
-pnpm typecheck
+pnpm -r build        # the core compiles first, then gets inlined per connector
+pnpm -r typecheck
 
 # Structural validation (no install needed, just js-yaml)
 node scripts/validate.cjs
 ```
+
+`.npmrc` sets `node-linker=hoisted`: the isolated layout (symlinks plus a virtual store) makes resolving a dependency's own dependencies depend on linker behaviour, while a flat tree matches what npm produces.
 
 Publish to the company registry:
 

@@ -32,6 +32,14 @@ packages/
 
 每个服务包都是独立的 Cordis 插件（导出 `name` / `inject` / `Config` / `apply`），`cordis.patch.yml` 只引用自己的包名。核心包只被它们 `import`，不会单独出现在 profile 补丁里——这样加载器不需要解析任何嵌套路径。
 
+**核心包在构建时被内联进每个连接器**：`scripts/bundle.mjs` 把 `dist/index.js` 里唯一一句 `from '@plaud/dsh-mcp-oauth'` 改写成 `from './core/index.js'`，再把 core 的编译产物拷进 `dist/core/`。结果是每个连接器自包含：
+
+- 装一个包就够，不必先发核心包、也没有发布顺序问题；
+- 不需要私有 registry 也能装；
+- 五个连接器各自的暴露面独立，版本可以不同步。
+
+没用 rollup：它的 Windows 版依赖原生二进制，在不少环境里装不上，而这里整个依赖图只有一处跨包 import。
+
 `core` 支持三种连接方式：
 
 | `auth` | 用途 | 令牌来源 |
@@ -144,19 +152,20 @@ $DSH_HOME/mcp-oauth/<serverName>.json    # 默认 C:\Users\<你>\.dsh\mcp-oauth\
 - 只桥接 tools：resources、prompts、server instructions 未接。
 - 没有自动重连：DSH 内置桥有指数退避，本插件 v0.1 需要重启。
 - Slack 的 `app_id` 注入方式未实测。
-- 服务包依赖核心包 `^0.1.0`，发布时**核心包必须先发**；用本地路径试装时，profile 里要能解析到这个依赖。
+- `dist/` 只有运行时代码，不带类型声明；类型只在仓库内开发时用（`lib/` 里的 `.d.ts`）。
 - 只在 Windows 上走过构建路径，macOS / Linux 逻辑一致但未跑。
-
 ## 开发
 
 ```powershell
 pnpm install
-pnpm build
-pnpm typecheck
+pnpm -r build        # core 先编译，再逐个内联进连接器
+pnpm -r typecheck
 
 # 结构校验（不装依赖，只要有 js-yaml）
 node scripts/validate.cjs
 ```
+
+`.npmrc` 里开了 `node-linker=hoisted`：隔离布局（符号链接 + 虚拟仓库）会让「依赖的依赖」在解析时依赖链接器行为，扁平布局没这个坑，和 npm 的产物一致。
 
 发布到公司私有 registry：
 

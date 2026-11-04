@@ -38,6 +38,8 @@ dsh plugin --profile web add @plaud/dsh-plugin-notion
 
 装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。
 
+还没发布到 registry 时：克隆仓库，`pnpm install && pnpm -r build`，然后在面板里填目录的绝对路径（例如 `...\Plaud_DSH_plugins\packages\notion`）。每个连接器构建时已经把核心包内联进来，**装一个就够**，不用管发布顺序。
+
 ## 开始使用
 
 1. 只装你需要的那个连接器，不必全装。
