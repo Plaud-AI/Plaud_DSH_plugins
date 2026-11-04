@@ -35,5 +35,8 @@
     "deepseek-harness",
     "mcp",
     "oauth"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
