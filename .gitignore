@@ -3,6 +3,9 @@ lib/
 dist/
 *.tgz
 *.tsbuildinfo
+# Emitted next to sources by a misplaced outDir; never commit them.
+packages/*/src/*.js
+packages/*/src/*.d.ts
 .tools/
 .npm-cache/
 .pnpm-store/
