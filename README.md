@@ -37,12 +37,13 @@
 | Slack（官方 MCP） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-slack-0.1.4.tgz` |
 | Slack（Bot 版） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-slackbot/plaudai-dsh-plugin-slackbot-0.1.0.tgz` |
 | PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz` |
-| 飞书 | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz` |
+| 飞书（官方 MCP） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz` |
+| 飞书（只读版） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-feishu-read/plaudai-dsh-plugin-feishu-read-0.1.0.tgz` |
 
-两个 Slack 插件是**两条独立的路**，按需装一个即可：
+两组"双胞胎"插件按需二选一：
 
-- **Slack（官方 MCP）**：走 `mcp.slack.com`，19 个官方工具，用户身份授权；必须预注册 Slack App 并填 OAuth 凭据（`SLACK_MCP_*`）
-- **Slack（Bot 版）**：直接调 Web API + Socket Mode，5 个原生工具，**免公网回调、免 OAuth**；只要一个 `xoxb-` 令牌（收消息再加 `xapp-`）。见 [packages/slackbot/README.md](packages/slackbot/README.md)
+- **Slack**：官方 MCP 版走 `mcp.slack.com`（19 个工具、用户 OAuth、要预注册 App）；Bot 版直连 Web API + Socket Mode（5+3 个工具、免回调、一个 `xoxb-` 即可）
+- **飞书**：官方 MCP 版走 `lark-mcp`（全量工具、能写）；只读版直连 OpenAPI（8 个只读工具、零依赖、写不了）
 
 地址指向 GitHub Release 上的 `.tgz`，版本由文件名决定，不受本地锁文件影响。要换版本就改地址里的 tag，可用的 tag 见 [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases)。
 
@@ -55,7 +56,8 @@
 | Slack（官方 MCP） | `@plaudai/dsh-plugin-slack` |
 | Slack（Bot 版） | `@plaudai/dsh-plugin-slackbot` |
 | PLAUD | `@plaudai/dsh-plugin-plaud` |
-| 飞书 | `@plaudai/dsh-plugin-feishu` |
+| 飞书（官方 MCP） | `@plaudai/dsh-plugin-feishu` |
+| 飞书（只读版） | `@plaudai/dsh-plugin-feishu-read` |
 
 > 用包名时，如果 profile 的 `package.json` 里已经是旧范围（例如 `^0.1.1`），pnpm 会沿用锁文件里的旧版本而不升级，装完仍是老代码。要升级请**先卸载再装**，或者直接用上面的 `.tgz` 地址。
 

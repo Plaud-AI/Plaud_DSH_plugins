@@ -1,0 +1,49 @@
+{
+  "name": "@plaudai/dsh-plugin-feishu-read",
+  "version": "0.1.0",
+  "description": "飞书只读工具：云文档、知识库、多维表格、电子表格、群消息与搜索，直连 OpenAPI，无回调无 MCP",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Plaud-AI/Plaud_DSH_plugins.git",
+    "directory": "packages/feishu-read"
+  },
+  "homepage": "https://github.com/Plaud-AI/Plaud_DSH_plugins/tree/main/packages/feishu-read",
+  "bugs": {
+    "url": "https://github.com/Plaud-AI/Plaud_DSH_plugins/issues"
+  },
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "feishu",
+    "lark",
+    "readonly"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

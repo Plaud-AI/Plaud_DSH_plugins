@@ -66,6 +66,12 @@ function requiredText(args: Record<string, unknown>, key: string): string {
   return value
 }
 
+/** 取整并把上限压到 Slack 的合理范围。 */
+function clampInt(value: unknown, fallback: number, max: number): number {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return fallback
+  return Math.min(max, Math.max(1, Math.trunc(value)))
+}
+
 /** 一次调用统一捕获 Slack 错误。 */
 async function call<T>(work: () => Promise<T>): Promise<T> {
   try {
@@ -191,6 +197,206 @@ export function buildTools(deps: ToolDeps): ToolDefinition[] {
       async execute() {
         const channels = await call(() => deps.api().listChannels())
         return { channels }
+      },
+    },
+
+    {
+      name: 'slack_history',
+      description:
+        '读取一个频道最近的消息（从新到旧）。返回每条消息的 ts、作者与正文；要展开某条消息的回复用 slack_thread。',
+      parameters: {
+        type: 'object',
+        properties: {
+          channel: { type: 'string', description: '频道名（如 #general）或频道 ID；省略时用配置里的 defaultChannel。' },
+          limit: { type: 'integer', description: '最多几条，默认 20，上限 100。', minimum: 1, maximum: 100 },
+        },
+        additionalProperties: false,
+      },
+      output: {
+        schema: {
+          type: 'object',
+          properties: {
+            channel: { type: 'string' },
+            messages: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  ts: { type: 'string' },
+                  user: { type: 'string' },
+                  text: { type: 'string' },
+                  replyCount: { type: 'integer' },
+                },
+                required: ['ts', 'user', 'text'],
+                additionalProperties: false,
+              },
+            },
+          },
+          required: ['channel', 'messages'],
+          additionalProperties: false,
+        },
+        render: (_args, value) => {
+          const shaped = asRecord(value)
+          const messages = Array.isArray(shaped.messages) ? shaped.messages : []
+          if (messages.length === 0) return block(`${String(shaped.channel ?? '')} 里没有读到消息。`)
+          return block(
+            messages
+              .map((item) => {
+                const message = asRecord(item)
+                const replies = typeof message.replyCount === 'number' ? `（${message.replyCount} 条回复）` : ''
+                return `${String(message.user ?? '')}: ${String(message.text ?? '')}${replies} [ts ${String(message.ts ?? '')}]`
+              })
+              .join('\n'),
+          )
+        },
+      },
+      timeoutMs: 30_000,
+      async execute(args) {
+        const shaped = asRecord(args)
+        const channel = targetChannel(deps, shaped)
+        const limit = clampInt(shaped.limit, 20, 100)
+        const messages = await call(() => deps.api().history({ channel, limit }))
+        return {
+          channel,
+          messages: messages.map((message) => ({
+            ts: message.ts,
+            user: message.user,
+            text: message.text,
+            ...(message.replyCount !== undefined ? { replyCount: message.replyCount } : {}),
+          })),
+        }
+      },
+    },
+
+    {
+      name: 'slack_thread',
+      description: '读取某条消息所在的线程（含父消息与全部回复）。thread_ts 来自 slack_history 或 slack_notify 的 ts。',
+      parameters: {
+        type: 'object',
+        properties: {
+          channel: { type: 'string', description: '频道名或频道 ID。' },
+          thread_ts: { type: 'string', description: '父消息的 ts。' },
+          limit: { type: 'integer', description: '最多几条回复，默认 50，上限 100。', minimum: 1, maximum: 100 },
+        },
+        required: ['thread_ts'],
+        additionalProperties: false,
+      },
+      output: {
+        schema: {
+          type: 'object',
+          properties: {
+            channel: { type: 'string' },
+            thread_ts: { type: 'string' },
+            messages: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  ts: { type: 'string' },
+                  user: { type: 'string' },
+                  text: { type: 'string' },
+                },
+                required: ['ts', 'user', 'text'],
+                additionalProperties: false,
+              },
+            },
+          },
+          required: ['channel', 'thread_ts', 'messages'],
+          additionalProperties: false,
+        },
+        render: (_args, value) => {
+          const shaped = asRecord(value)
+          const messages = Array.isArray(shaped.messages) ? shaped.messages : []
+          if (messages.length === 0) return block('这条消息没有回复。')
+          return block(
+            messages
+              .map((item) => {
+                const message = asRecord(item)
+                return `${String(message.user ?? '')}: ${String(message.text ?? '')} [ts ${String(message.ts ?? '')}]`
+              })
+              .join('\n'),
+          )
+        },
+      },
+      timeoutMs: 30_000,
+      async execute(args) {
+        const shaped = asRecord(args)
+        const channel = targetChannel(deps, shaped)
+        const threadTs = requiredText(shaped, 'thread_ts')
+        const limit = clampInt(shaped.limit, 50, 100)
+        const messages = await call(() => deps.api().replies({ channel, ts: threadTs, limit }))
+        return {
+          channel,
+          thread_ts: threadTs,
+          messages: messages.map((message) => ({ ts: message.ts, user: message.user, text: message.text })),
+        }
+      },
+    },
+
+    {
+      name: 'slack_search',
+      description:
+        '全文搜索 Slack 消息（需要用户令牌 xoxp- 与 search:read）。支持 Slack 搜索语法，如 `预算 in:#finance after:2026-01-01`。',
+      parameters: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: '搜索词，支持 Slack 语法（in:#channel、from:@user、after:/before:）。' },
+          count: { type: 'integer', description: '最多几条，默认 20，上限 100。', minimum: 1, maximum: 100 },
+        },
+        required: ['query'],
+        additionalProperties: false,
+      },
+      output: {
+        schema: {
+          type: 'object',
+          properties: {
+            total: { type: 'integer' },
+            matches: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  channel: { type: 'string' },
+                  channelName: { type: 'string' },
+                  ts: { type: 'string' },
+                  user: { type: 'string' },
+                  text: { type: 'string' },
+                  permalink: { type: 'string' },
+                },
+                required: ['channel', 'channelName', 'ts', 'user', 'text'],
+                additionalProperties: false,
+              },
+            },
+          },
+          required: ['total', 'matches'],
+          additionalProperties: false,
+        },
+        render: (_args, value) => {
+          const shaped = asRecord(value)
+          const matches = Array.isArray(shaped.matches) ? shaped.matches : []
+          if (matches.length === 0) return block('没有搜到匹配的消息。')
+          return block(
+            matches
+              .map((item) => {
+                const match = asRecord(item)
+                return `#${String(match.channelName ?? match.channel ?? '')} ${String(match.user ?? '')}: ${String(match.text ?? '')} [ts ${String(match.ts ?? '')}]`
+              })
+              .join('\n'),
+          )
+        },
+      },
+      timeoutMs: 30_000,
+      async execute(args) {
+        const shaped = asRecord(args)
+        const query = requiredText(shaped, 'query')
+        const count = clampInt(shaped.count, 20, 100)
+        const config = deps.config()
+        const result = await call(() => deps.api().search({ query, count }))
+        const matches =
+          config.allowedChannels.length === 0
+            ? result.matches
+            : result.matches.filter((match) => isChannelAllowed(config, match.channel) || isChannelAllowed(config, match.channelName))
+        return { total: result.total, matches }
       },
     },
 

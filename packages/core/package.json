@@ -2,6 +2,15 @@
   "name": "@plaudai/dsh-mcp-oauth",
   "version": "0.1.4",
   "description": "MCP bridge for DeepSeek Harness with a built-in OAuth 2.0 client (DCR + PKCE), bearer-header and stdio transports",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Plaud-AI/Plaud_DSH_plugins.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/Plaud-AI/Plaud_DSH_plugins/tree/main/packages/core",
+  "bugs": {
+    "url": "https://github.com/Plaud-AI/Plaud_DSH_plugins/issues"
+  },
   "license": "UNLICENSED",
   "type": "module",
   "main": "./lib/index.js",

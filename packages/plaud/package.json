@@ -2,6 +2,15 @@
   "name": "@plaudai/dsh-plugin-plaud",
   "version": "0.1.4",
   "description": "PLAUD 内部 MCP 服务接入 DeepSeek Harness（Bearer token）",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Plaud-AI/Plaud_DSH_plugins.git",
+    "directory": "packages/plaud"
+  },
+  "homepage": "https://github.com/Plaud-AI/Plaud_DSH_plugins/tree/main/packages/plaud",
+  "bugs": {
+    "url": "https://github.com/Plaud-AI/Plaud_DSH_plugins/issues"
+  },
   "license": "UNLICENSED",
   "type": "module",
   "main": "./dist/index.js",

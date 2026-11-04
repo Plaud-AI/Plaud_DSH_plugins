@@ -2,6 +2,15 @@
   "name": "@plaudai/dsh-plugin-linear",
   "version": "0.1.4",
   "description": "Linear 官方 MCP 接入 DeepSeek Harness（内置 OAuth，也支持 API key）",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Plaud-AI/Plaud_DSH_plugins.git",
+    "directory": "packages/linear"
+  },
+  "homepage": "https://github.com/Plaud-AI/Plaud_DSH_plugins/tree/main/packages/linear",
+  "bugs": {
+    "url": "https://github.com/Plaud-AI/Plaud_DSH_plugins/issues"
+  },
   "license": "UNLICENSED",
   "type": "module",
   "main": "./dist/index.js",

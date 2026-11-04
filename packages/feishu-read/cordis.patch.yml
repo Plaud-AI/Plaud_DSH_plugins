@@ -1,0 +1,27 @@
+# Feishu read-only for DeepSeek Harness.
+#
+# 原生只读工具，不走 MCP，不需要回调地址、不需要 OAuth：
+# 只读需要一个自建应用（app_id + app_secret）和只读权限点。
+#
+# 开发者后台 https://open.feishu.cn/app → 创建企业自建应用
+#   1. 权限管理 → 只勾只读权限：
+#        docx:document:readonly, wiki:wiki:readonly, bitable:app:readonly,
+#        sheets:spreadsheet:readonly, drive:drive:readonly,
+#        im:chat:readonly, im:message:readonly, contact:user.base:readonly
+#   2. 创建版本并发布（企业内可用）
+#   3. 凭证与基础信息 → 复制 App ID / App Secret
+#   4. 把应用/机器人拉进要读的群；文档要共享给应用
+#
+# 环境变量（改完重启 DSH）：
+#   FEISHU_APP_ID=cli_xxx
+#   FEISHU_APP_SECRET=xxx
+#   FEISHU_DOMAIN=open.feishu.cn          （国际版用 open.larksuite.com）
+#   FEISHU_ALLOWED_CHATS=oc_xxx,oc_yyy    （可选，会话白名单）
+- insert:
+    - id: feishu-read
+      name: '@plaudai/dsh-plugin-feishu-read'
+      config:
+        appId: !!js 'process.env.FEISHU_APP_ID ?? ""'
+        appSecret: !!js 'process.env.FEISHU_APP_SECRET ?? ""'
+        domain: !!js 'process.env.FEISHU_DOMAIN ?? "open.feishu.cn"'
+        allowedChats: !!js '(process.env.FEISHU_ALLOWED_CHATS ?? "").split(",").map(s => s.trim()).filter(Boolean)'

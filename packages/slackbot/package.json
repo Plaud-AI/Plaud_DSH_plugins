@@ -1,7 +1,16 @@
 {
   "name": "@plaudai/dsh-plugin-slackbot",
-  "version": "0.1.0",
-  "description": "Slack 原生工具：Socket Mode 收发消息、线程回复、频道列表与健康检查（无需公网回调）",
+  "version": "0.2.0",
+  "description": "Slack 原生工具：读频道历史、线程与全文搜索，可选发消息；Socket Mode 收消息，无需公网回调",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Plaud-AI/Plaud_DSH_plugins.git",
+    "directory": "packages/slackbot"
+  },
+  "homepage": "https://github.com/Plaud-AI/Plaud_DSH_plugins/tree/main/packages/slackbot",
+  "bugs": {
+    "url": "https://github.com/Plaud-AI/Plaud_DSH_plugins/issues"
+  },
   "license": "UNLICENSED",
   "type": "module",
   "main": "./dist/index.js",

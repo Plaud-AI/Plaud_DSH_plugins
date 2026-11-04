@@ -37,12 +37,13 @@ Open the desktop **Plugins** panel and paste one whole address from the table be
 | Slack (official MCP) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-slack-0.1.4.tgz` |
 | Slack (bot mode) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-slackbot/plaudai-dsh-plugin-slackbot-0.1.0.tgz` |
 | PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz` |
-| Feishu | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz` |
+| Feishu (official MCP) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz` |
+| Feishu (read-only) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-feishu-read/plaudai-dsh-plugin-feishu-read-0.1.0.tgz` |
 
-The two Slack plugins are independent paths — install whichever fits:
+Two paired sets, pick one of each:
 
-- **Slack (official MCP)**: talks to `mcp.slack.com`, 19 official tools, user-identity OAuth; needs a pre-registered Slack app and the `SLACK_MCP_*` credentials
-- **Slack (bot mode)**: calls the Web API directly and uses Socket Mode for inbound, 5 native tools, **no public callback and no OAuth**; only an `xoxb-` token (add `xapp-` to receive). See [packages/slackbot/README.md](packages/slackbot/README.md)
+- **Slack**: the official MCP build talks to `mcp.slack.com` (19 tools, user OAuth, pre-registered app); the bot build calls the Web API + Socket Mode (8 tools, no callback, one `xoxb-` token)
+- **Feishu**: the official MCP build runs `lark-mcp` (full toolset, can write); the read-only build calls OpenAPI directly (8 read-only tools, zero dependencies, no write path)
 
 Each address points at a `.tgz` on GitHub Releases, so the version is whatever the file name says and the local lockfile cannot hold it back. Change the tag segment to move to another tag listed under [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases).
 
@@ -55,7 +56,8 @@ The same packages are on public npm under the `@plaudai` scope, so a package nam
 | Slack (official MCP) | `@plaudai/dsh-plugin-slack` |
 | Slack (bot mode) | `@plaudai/dsh-plugin-slackbot` |
 | PLAUD | `@plaudai/dsh-plugin-plaud` |
-| Feishu | `@plaudai/dsh-plugin-feishu` |
+| Feishu (official MCP) | `@plaudai/dsh-plugin-feishu` |
+| Feishu (read-only) | `@plaudai/dsh-plugin-feishu-read` |
 
 > With a package name, a profile whose `package.json` still carries an older range (say `^0.1.1`) keeps the locked version and silently installs the old code. Uninstall first before reinstalling, or use the `.tgz` addresses above.
 

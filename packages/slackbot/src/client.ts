@@ -13,10 +13,35 @@ export interface PostedMessage {
   channel: string
 }
 
+/** 一条消息（只保留读取场景需要的字段）。 */
+export interface SlackMessage {
+  ts: string
+  user: string
+  text: string
+  threadTs?: string
+  replyCount?: number
+}
+
+/** 搜索命中的一条消息。 */
+export interface SearchMatch {
+  channel: string
+  channelName: string
+  ts: string
+  user: string
+  text: string
+  permalink?: string
+}
+
 /** Slack API 的调用面，测试可替换。 */
 export interface SlackApi {
   postMessage(params: { channel: string; text: string; threadTs?: string }): Promise<PostedMessage>
   listChannels(): Promise<ChannelInfo[]>
+  /** 读频道最近的消息。 */
+  history(params: { channel: string; limit: number }): Promise<SlackMessage[]>
+  /** 读某条消息的线程回复。 */
+  replies(params: { channel: string; ts: string; limit: number }): Promise<SlackMessage[]>
+  /** 全文搜索（需要用户令牌 + search:read）。 */
+  search(params: { query: string; count: number }): Promise<{ matches: SearchMatch[]; total: number }>
   identity(): Promise<{ ok: boolean; team?: string; user?: string; teamId?: string }>
 }
 
@@ -38,7 +63,9 @@ export function describeSlackError(error: unknown): string {
     case 'is_archived':
       return '该频道已归档，不能发消息。'
     case 'missing_scope':
-      return '令牌缺少权限：到 Slack App 的 OAuth & Permissions 补上 chat:write（及 channels:read）。'
+      return '令牌缺少权限：到 Slack App 的 OAuth & Permissions 补上需要的 scope（读取用 channels:history / groups:history / im:history / search:read，发送用 chat:write），重新安装应用后复制新令牌。'
+    case 'not_allowed_token_type':
+      return '这个接口不接受当前令牌类型：读取历史/搜索需要用户令牌（xoxp-），机器人令牌做不到。'
     case 'ratelimited':
     case 'rate_limited':
       return 'Slack 限流：请稍后重试。'
@@ -50,6 +77,32 @@ export function describeSlackError(error: unknown): string {
   const message = typeof shape?.message === 'string' ? shape.message : ''
   if (message !== '') return `Slack 调用失败：${message}`
   return 'Slack 调用失败：未知错误。'
+}
+
+/** 只保留读取需要的字段，过滤掉系统子类型（频道加入、编辑等）。 */
+function normalizeMessages(raw: readonly unknown[] | undefined): SlackMessage[] {
+  const messages: SlackMessage[] = []
+  for (const item of raw ?? []) {
+    const shaped = item as
+      | { ts?: unknown; user?: unknown; text?: unknown; thread_ts?: unknown; reply_count?: unknown; subtype?: unknown; bot_id?: unknown }
+      | undefined
+    if (typeof shaped?.ts !== 'string' || shaped.ts === '') continue
+    if (typeof shaped.subtype === 'string' && shaped.subtype !== '') continue
+    const user =
+      typeof shaped.user === 'string' && shaped.user !== ''
+        ? shaped.user
+        : typeof shaped.bot_id === 'string'
+          ? `bot:${shaped.bot_id}`
+          : ''
+    messages.push({
+      ts: shaped.ts,
+      user,
+      text: typeof shaped.text === 'string' ? shaped.text : '',
+      ...(typeof shaped.thread_ts === 'string' && shaped.thread_ts !== shaped.ts ? { threadTs: shaped.thread_ts } : {}),
+      ...(typeof shaped.reply_count === 'number' ? { replyCount: shaped.reply_count } : {}),
+    })
+  }
+  return messages
 }
 
 /** 用官方 SDK 建一个客户端。 */
@@ -96,8 +149,46 @@ export function createSlackApi(token: string): SlackApi {
       return channels
     },
 
-    async identity() {
-      const result = await client.auth.test()
+    async history(params): Promise<SlackMessage[]> {
+      const result = await client.conversations.history({ channel: params.channel, limit: params.limit })
+      return normalizeMessages(result.messages)
+    },
+
+    async replies(params): Promise<SlackMessage[]> {
+      const result = await client.conversations.replies({
+        channel: params.channel,
+        ts: params.ts,
+        limit: params.limit,
+      })
+      return normalizeMessages(result.messages)
+    },
+
+    async search(params) {
+      const result = await client.search.messages({
+        query: params.query,
+        count: params.count,
+        sort: 'timestamp',
+        sort_dir: 'desc',
+      })
+      const matches: SearchMatch[] = []
+      for (const match of result.messages?.matches ?? []) {
+        const channel = match.channel
+        const channelId = typeof channel?.id === 'string' ? channel.id : ''
+        const channelName = typeof channel?.name === 'string' ? channel.name : channelId
+        if (channelId === '' || typeof match.ts !== 'string') continue
+        matches.push({
+          channel: channelId,
+          channelName,
+          ts: match.ts,
+          user: typeof match.user === 'string' ? match.user : (typeof match.username === 'string' ? match.username : ''),
+          text: typeof match.text === 'string' ? match.text : '',
+          ...(typeof match.permalink === 'string' ? { permalink: match.permalink } : {}),
+        })
+      }
+      return { matches, total: typeof result.messages?.total === 'number' ? result.messages.total : matches.length }
+    },
+
+    async identity() {      const result = await client.auth.test()
       return {
         ok: result.ok === true,
         ...(typeof result.team === 'string' ? { team: result.team } : {}),

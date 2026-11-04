@@ -2,6 +2,15 @@
   "name": "@plaudai/dsh-plugin-notion",
   "version": "0.1.4",
   "description": "Notion 官方 Remote MCP 接入 DeepSeek Harness（内置 OAuth，无需手动填 token）",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Plaud-AI/Plaud_DSH_plugins.git",
+    "directory": "packages/notion"
+  },
+  "homepage": "https://github.com/Plaud-AI/Plaud_DSH_plugins/tree/main/packages/notion",
+  "bugs": {
+    "url": "https://github.com/Plaud-AI/Plaud_DSH_plugins/issues"
+  },
   "license": "UNLICENSED",
   "type": "module",
   "main": "./dist/index.js",

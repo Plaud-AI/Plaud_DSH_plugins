@@ -2,6 +2,15 @@
   "name": "@plaudai/dsh-plugin-feishu",
   "version": "0.1.4",
   "description": "飞书 / Lark 官方 OpenAPI MCP 接入 DeepSeek Harness",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Plaud-AI/Plaud_DSH_plugins.git",
+    "directory": "packages/feishu"
+  },
+  "homepage": "https://github.com/Plaud-AI/Plaud_DSH_plugins/tree/main/packages/feishu",
+  "bugs": {
+    "url": "https://github.com/Plaud-AI/Plaud_DSH_plugins/issues"
+  },
   "license": "UNLICENSED",
   "type": "module",
   "main": "./dist/index.js",
