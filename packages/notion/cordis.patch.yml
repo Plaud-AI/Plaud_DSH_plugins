@@ -1,0 +1,10 @@
+# Notion (official Remote MCP) for DeepSeek Harness.
+#
+# Authorization is OAuth: the first tool call opens a browser against the
+# user's own Notion account. Nothing to configure here.
+- insert:
+    - id: mcp-notion
+      name: '@plaud/dsh-plugin-notion'
+      config:
+        serverName: notion
+        toolCallTimeoutMs: 120000

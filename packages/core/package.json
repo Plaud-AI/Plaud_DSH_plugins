@@ -1,0 +1,39 @@
+{
+  "name": "@plaud/dsh-mcp-oauth",
+  "version": "0.1.0",
+  "description": "MCP bridge for DeepSeek Harness with a built-in OAuth 2.0 client (DCR + PKCE), bearer-header and stdio transports",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-mcp-client": "^0.2.0-rc.2",
+    "@deepseek-ai/schemastery": "^3.18.1",
+    "@modelcontextprotocol/client": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "mcp",
+    "oauth"
+  ]
+}

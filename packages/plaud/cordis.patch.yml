@@ -1,0 +1,16 @@
+# PLAUD internal MCP server for DeepSeek Harness.
+#
+# Set the endpoint and token in the host environment before starting the harness:
+#
+#   PLAUD_MCP_URL=https://mcp.example.internal/mcp
+#   PLAUD_MCP_TOKEN=<bearer token>
+#
+# If the server ever supports Dynamic Client Registration, flip `auth` to oauth
+# and drop the token.
+- insert:
+    - id: mcp-plaud
+      name: '@plaud/dsh-plugin-plaud'
+      config:
+        serverName: plaud
+        url: !!js 'process.env.PLAUD_MCP_URL ?? ""'
+        toolCallTimeoutMs: 120000

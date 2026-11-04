@@ -1,0 +1,12 @@
+# Linear (official MCP) for DeepSeek Harness.
+#
+# Default: OAuth via Dynamic Client Registration (browser flow on first use).
+# Alternative: switch to a static API key by uncommenting `auth: bearer`.
+- insert:
+    - id: mcp-linear
+      name: '@plaud/dsh-plugin-linear'
+      config:
+        serverName: linear
+        toolCallTimeoutMs: 120000
+        # auth: bearer
+        # bearerTokenEnv: LINEAR_API_KEY

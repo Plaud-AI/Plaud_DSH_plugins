@@ -1,0 +1,24 @@
+# Feishu / Lark (official OpenAPI MCP) for DeepSeek Harness.
+#
+# Create a self-built app at open.feishu.cn (or open.larksuite.com), grant the
+# scopes the tools need, then export before starting the harness:
+#
+#   FEISHU_APP_ID=cli_xxx
+#   FEISHU_APP_SECRET=xxx
+#
+# Credentials travel as command arguments because the host strips
+# credential-shaped environment names from MCP child processes.
+- insert:
+    - id: mcp-feishu
+      name: '@plaud/dsh-plugin-feishu'
+      config:
+        serverName: feishu
+        toolCallTimeoutMs: 120000
+        args:
+          - '-y'
+          - '@larksuiteoapi/lark-mcp'
+          - mcp
+          - '--app-id'
+          - !!js 'process.env.FEISHU_APP_ID ?? ""'
+          - '--app-secret'
+          - !!js 'process.env.FEISHU_APP_SECRET ?? ""'

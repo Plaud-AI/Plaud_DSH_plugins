@@ -1,0 +1,43 @@
+{
+  "name": "@plaud/dsh-plugin-plaud",
+  "version": "0.1.0",
+  "description": "PLAUD 内部 MCP 服务接入 DeepSeek Harness（Bearer token）",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@plaud/dsh-mcp-oauth": "workspace:^"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "plaud",
+    "mcp"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

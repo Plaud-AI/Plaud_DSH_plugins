@@ -1,0 +1,44 @@
+{
+  "name": "@plaud/dsh-plugin-feishu",
+  "version": "0.1.0",
+  "description": "飞书 / Lark 官方 OpenAPI MCP 接入 DeepSeek Harness",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@plaud/dsh-mcp-oauth": "workspace:^"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "feishu",
+    "lark",
+    "mcp"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}
