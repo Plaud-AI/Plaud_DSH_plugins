@@ -3,7 +3,7 @@ import { SocketModeClient } from '@slack/socket-mode'
 /**
  * Socket Mode 连接管理：只负责连接状态与事件转发，业务过滤在上层。
  *
- * 用 SDK 自带的重连（指数退避在库内实现），这里只暴露状态供 slack_status
+ * 用 SDK 自带的重连（指数退避在库内实现），这里只暴露状态供 slackbot_status
  * 诊断，避免自己再写一套退避逻辑。
  */
 

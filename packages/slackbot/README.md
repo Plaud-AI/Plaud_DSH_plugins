@@ -15,14 +15,14 @@
 
 | 工具 | 作用 |
 | --- | --- |
-| `slack_notify` | 发消息到频道或线程，返回 `ts` |
-| `slack_reply` | 在某条消息的线程里回复 |
-| `slack_channels` | 列出机器人可见的频道 |
-| `slack_history` | 读频道最近的消息（只读） |
-| `slack_thread` | 读某条消息的线程（只读） |
-| `slack_search` | 全文搜索（只读，需要 `xoxp-` + `search:read`） |
-| `slack_inbox` | 取走 Socket Mode 收到的消息（消费即移除） |
-| `slack_status` | 诊断：令牌是否有效、Socket 状态、队列积压 |
+| `slackbot_notify` | 发消息到频道或线程，返回 `ts` |
+| `slackbot_reply` | 在某条消息的线程里回复 |
+| `slackbot_channels` | 列出机器人可见的频道 |
+| `slackbot_history` | 读频道最近的消息（只读） |
+| `slackbot_thread` | 读某条消息的线程（只读） |
+| `slackbot_search` | 全文搜索（只读，需要 `xoxp-` + `search:read`） |
+| `slackbot_inbox` | 取走 Socket Mode 收到的消息（消费即移除） |
+| `slackbot_status` | 诊断：令牌是否有效、Socket 状态、队列积压 |
 
 > 只想读、不想发：用一个**用户令牌**（`xoxp-`）+ `channels:history`、`channels:read`、`search:read` 就够，不需要 Socket Mode、不需要 `chat:write`、不需要 App-Level Token。发消息的工具会因为缺 `chat:write` 而失败，不影响读取。
 
@@ -31,7 +31,7 @@
 面板里粘地址（先卸载同名旧版）：
 
 ```
-https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.2.0-slackbot/plaudai-dsh-plugin-slackbot-0.2.0.tgz
+https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.2.1-slackbot/plaudai-dsh-plugin-slackbot-0.2.1.tgz
 ```
 
 或命令行：
@@ -72,13 +72,13 @@ setx DSH_SLACK_APP_TOKEN "xapp-..."
 ## 设计上的取舍
 
 - **配置缺失不失败**：没令牌也能加载，调用工具时才报错，不会把整个插件树拖垮
-- **白名单**：`DSH_SLACK_CHANNELS` 一填，`slack_notify` / `slack_reply` 只能往列表里的频道发，模型发不出去别的
+- **白名单**：`DSH_SLACK_CHANNELS` 一填，`slackbot_notify` / `slackbot_reply` 只能往列表里的频道发，模型发不出去别的
 - **收件箱有界**：最多留 200 条，满了丢最旧的；只收人来发的普通消息（忽略机器人、编辑、频道加入等）
 - **不落盘**：本插件不写任何令牌到磁盘，也不含更新器、不注入前端代码
 - **错误不泄密**：所有报错只描述错误码，不回显令牌
 
 ## 已知边界
 
-- `slack_inbox` 的队列在内存里，重启 DSH 就清空
+- `slackbot_inbox` 的队列在内存里，重启 DSH 就清空
 - 机器人看不到它没被邀请的频道
 - 没配 `xapp-` 时只有单向能力（能发不能收）

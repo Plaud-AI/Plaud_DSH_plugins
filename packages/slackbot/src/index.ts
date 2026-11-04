@@ -112,7 +112,7 @@ export function apply(ctx: PluginContext, rawConfig: unknown): void {
       ctx.on?.('dispose', dispose)
     }
   } else {
-    warn('未配置 App-Level Token（xapp-）：只支持发消息，slack_inbox 会一直是空的。')
+    warn('未配置 App-Level Token（xapp-）：只支持发消息，slackbot_inbox 会一直是空的。')
   }
 
   if (config.token === '') {

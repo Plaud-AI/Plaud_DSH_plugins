@@ -84,9 +84,9 @@ async function call<T>(work: () => Promise<T>): Promise<T> {
 export function buildTools(deps: ToolDeps): ToolDefinition[] {
   return [
     {
-      name: 'slack_notify',
+      name: 'slackbot_notify',
       description:
-        '向 Slack 频道（或已有线程）发送一条消息。返回消息 ts，可用作 slack_reply 的 thread_ts 继续在该线程里回复。',
+        '向 Slack 频道（或已有线程）发送一条消息。返回消息 ts，可用作 slackbot_reply 的 thread_ts 继续在该线程里回复。',
       parameters: {
         type: 'object',
         properties: {
@@ -122,13 +122,13 @@ export function buildTools(deps: ToolDeps): ToolDefinition[] {
     },
 
     {
-      name: 'slack_reply',
+      name: 'slackbot_reply',
       description: '在指定频道的某条消息线程里回复。用于把结果发回发起讨论的那条线程。',
       parameters: {
         type: 'object',
         properties: {
           channel: { type: 'string', description: '频道名或频道 ID。' },
-          thread_ts: { type: 'string', description: '父消息的 ts（slack_notify 或 slack_inbox 返回）。' },
+          thread_ts: { type: 'string', description: '父消息的 ts（slackbot_notify 或 slackbot_inbox 返回）。' },
           text: { type: 'string', description: '回复正文。' },
         },
         required: ['thread_ts', 'text'],
@@ -158,7 +158,7 @@ export function buildTools(deps: ToolDeps): ToolDefinition[] {
     },
 
     {
-      name: 'slack_channels',
+      name: 'slackbot_channels',
       description: '列出机器人可见的 Slack 频道（名称、ID、是否私有）。用于找到要发送的目标频道。',
       parameters: { type: 'object', properties: {}, additionalProperties: false },
       output: {
@@ -201,9 +201,9 @@ export function buildTools(deps: ToolDeps): ToolDefinition[] {
     },
 
     {
-      name: 'slack_history',
+      name: 'slackbot_history',
       description:
-        '读取一个频道最近的消息（从新到旧）。返回每条消息的 ts、作者与正文；要展开某条消息的回复用 slack_thread。',
+        '读取一个频道最近的消息（从新到旧）。返回每条消息的 ts、作者与正文；要展开某条消息的回复用 slackbot_thread。',
       parameters: {
         type: 'object',
         properties: {
@@ -269,8 +269,8 @@ export function buildTools(deps: ToolDeps): ToolDefinition[] {
     },
 
     {
-      name: 'slack_thread',
-      description: '读取某条消息所在的线程（含父消息与全部回复）。thread_ts 来自 slack_history 或 slack_notify 的 ts。',
+      name: 'slackbot_thread',
+      description: '读取某条消息所在的线程（含父消息与全部回复）。thread_ts 来自 slackbot_history 或 slackbot_notify 的 ts。',
       parameters: {
         type: 'object',
         properties: {
@@ -334,7 +334,7 @@ export function buildTools(deps: ToolDeps): ToolDefinition[] {
     },
 
     {
-      name: 'slack_search',
+      name: 'slackbot_search',
       description:
         '全文搜索 Slack 消息（需要用户令牌 xoxp- 与 search:read）。支持 Slack 搜索语法，如 `预算 in:#finance after:2026-01-01`。',
       parameters: {
@@ -401,7 +401,7 @@ export function buildTools(deps: ToolDeps): ToolDefinition[] {
     },
 
     {
-      name: 'slack_inbox',
+      name: 'slackbot_inbox',
       description:
         '取走机器人收到的 Slack 消息（需要 App-Level Token 与 Socket Mode）。每条包含频道、用户、正文与 ts，消费后即从队列移除。',
       parameters: {
@@ -472,7 +472,7 @@ export function buildTools(deps: ToolDeps): ToolDefinition[] {
     },
 
     {
-      name: 'slack_status',
+      name: 'slackbot_status',
       description: '诊断 Slack 连接：令牌是否有效、Socket Mode 连接状态、收件箱积压。排查问题时先调这个。',
       parameters: { type: 'object', properties: {}, additionalProperties: false },
       output: {

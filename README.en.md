@@ -35,7 +35,7 @@ Open the desktop **Plugins** panel and paste one whole address from the table be
 | Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz` |
 | Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-linear-0.1.4.tgz` |
 | Slack (official MCP) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-slack-0.1.4.tgz` |
-| Slack (bot mode) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.2.0-slackbot/plaudai-dsh-plugin-slackbot-0.2.0.tgz` |
+| Slack (bot mode) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.2.1-slackbot/plaudai-dsh-plugin-slackbot-0.2.1.tgz` |
 | PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz` |
 | PLAUD (official MCP) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-plaud-mcp/plaudai-dsh-plugin-plaud-mcp-0.1.0.tgz` |
 | Feishu (official MCP) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz` |
