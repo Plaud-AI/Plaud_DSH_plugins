@@ -6,6 +6,10 @@
 
 Install once, authorize once in the browser, and your assistant can read pages, file issues and send messages.
 
+> **Only want one package?** Use `@plaudai/dsh-plugin-connectors`: a single install that brings in Notion (75 tools), Slack index search (**no Slack token needed** — it reuses the Slack connector inside Notion), PLAUD, and any custom MCP server (Google Drive / Docs). Install it instead of the individual packages below.
+>
+> `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-connectors/plaudai-dsh-plugin-connectors-0.1.0.tgz`
+
 ## What's inside
 
 | Package | Service | Auth | Pre-registration | Install |
@@ -32,6 +36,7 @@ Open the desktop **Plugins** panel and paste one whole address from the table be
 
 | Plugin | Install URL |
 | --- | --- |
+| **Everything (recommended)** | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-connectors/plaudai-dsh-plugin-connectors-0.1.0.tgz` |
 | Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz` |
 | Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-linear-0.1.4.tgz` |
 | Slack (official MCP) | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.6-slack/plaudai-dsh-plugin-slack-0.1.6.tgz` |

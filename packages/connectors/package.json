@@ -1,0 +1,59 @@
+{
+  "name": "@plaudai/dsh-plugin-connectors",
+  "version": "0.1.0",
+  "description": "一个插件接入全部数据源：Notion、Slack 索引、PLAUD，外加任意自定义 MCP（Google Drive/Docs 等）",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Plaud-AI/Plaud_DSH_plugins.git",
+    "directory": "packages/connectors"
+  },
+  "homepage": "https://github.com/Plaud-AI/Plaud_DSH_plugins/tree/main/packages/connectors",
+  "bugs": {
+    "url": "https://github.com/Plaud-AI/Plaud_DSH_plugins/issues"
+  },
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node ../../scripts/bundle.mjs connectors",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@deepseek-ai/cosmokit": "~1.8.6",
+    "@deepseek-ai/schemastery": "^3.18.1",
+    "@modelcontextprotocol/client": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "notion",
+    "slack",
+    "plaud",
+    "connectors",
+    "mcp"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "devDependencies": {
+    "@plaudai/dsh-mcp-oauth": "^0.1.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
