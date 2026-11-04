@@ -171,6 +171,16 @@ npm pack --workspace @plaud/dsh-plugin-notion
 dsh plugin --profile test add .\plaud-dsh-plugin-notion-0.1.0.tgz
 ```
 
+The installer takes exactly three spec forms — never a full command line:
+
+| Form | Example |
+| --- | --- |
+| Package name | `@plaud/dsh-plugin-notion` |
+| Git repository | `github:Plaud-AI/Plaud_DSH_plugins` |
+| Absolute path | `D:\...\Plaud_DSH_plugins\packages\notion` or `D:\...\plaud-dsh-plugin-notion-0.1.0.tgz` |
+
+The `desktop` profile belongs to the desktop app; `dsh plugin --profile desktop ...` is rejected with `profile "desktop" is managed exclusively by the Electron application`. Install through the Plugins panel there.
+
 ## Troubleshooting
 
 | Symptom | Look at |

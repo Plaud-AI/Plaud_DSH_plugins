@@ -171,6 +171,16 @@ npm pack --workspace @plaud/dsh-plugin-notion
 dsh plugin --profile test add .\plaud-dsh-plugin-notion-0.1.0.tgz
 ```
 
+安装入口只接受三种 spec，不要粘整条命令：
+
+| 形式 | 例子 |
+| --- | --- |
+| 包名 | `@plaud/dsh-plugin-notion` |
+| Git 仓库 | `github:Plaud-AI/Plaud_DSH_plugins` |
+| 绝对路径 | `D:\...\Plaud_DSH_plugins\packages\notion` 或 `D:\...\plaud-dsh-plugin-notion-0.1.0.tgz` |
+
+`desktop` profile 由桌面应用独占，`dsh plugin --profile desktop ...` 会被拒绝（`profile "desktop" is managed exclusively by the Electron application`）。桌面版只能在「插件」面板里装。
+
 ## 排错
 
 | 现象 | 先看 |

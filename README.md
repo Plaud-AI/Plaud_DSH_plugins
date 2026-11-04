@@ -28,13 +28,15 @@
 
 ## 安装
 
-在 DSH 桌面版「插件」面板逐个安装，或：
+桌面版在「插件」面板里粘贴**包名、GitHub 仓库地址或本地绝对路径**安装——`desktop` 这个 profile 由桌面应用独占，命令行不能操作它。
+
+网页版和 headless 用命令行：
 
 ```powershell
-dsh plugin --profile desktop add @plaud/dsh-plugin-notion
+dsh plugin --profile web add @plaud/dsh-plugin-notion
 ```
 
-网页版把 `desktop` 改成 `web`。装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。
+装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。
 
 ## 开始使用
 

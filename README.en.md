@@ -28,13 +28,15 @@ All five share one core package, `@plaud/dsh-mcp-oauth`, which fills in the laye
 
 ## Install
 
-Install each connector from the DSH desktop **Plugins** panel, or:
+On desktop, paste a **package name, a GitHub repository URL or an absolute local path** into the Plugins panel — the `desktop` profile belongs to the app and the CLI refuses to touch it.
+
+For the web build and headless profiles, use the CLI:
 
 ```powershell
-dsh plugin --profile desktop add @plaud/dsh-plugin-notion
+dsh plugin --profile web add @plaud/dsh-plugin-notion
 ```
 
-Use `web` instead of `desktop` for the web build, then restart DSH. Requires `@deepseek-ai/dsh` 0.2.0-rc.2 or newer.
+Then restart DSH. Requires `@deepseek-ai/dsh` 0.2.0-rc.2 or newer.
 
 ## Getting started
 
