@@ -11,12 +11,12 @@
   "scripts": {
     "build": "pnpm -r build",
     "typecheck": "pnpm -r exec tsc -p tsconfig.json --noEmit",
+    "validate": "node scripts/validate.cjs",
     "pack:all": "pnpm -r exec npm pack --pack-destination ../../dist",
-    "clean": "pnpm -r exec node -e \"require('node:fs').rmSync('lib',{recursive:true,force:true})\""
+    "clean": "pnpm -r exec node -e \"const fs=require('node:fs');for(const d of ['lib','dist'])fs.rmSync(d,{recursive:true,force:true})\""
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
     "typescript": "^5.7.2"
-  },
-  "packageManager": "pnpm@9.15.0"
+  }
 }
