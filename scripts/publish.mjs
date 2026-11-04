@@ -43,7 +43,19 @@ if (!process.env.NPM_REGISTRY && !isPublic) {
 const passthrough = process.argv.slice(2).filter((argument) => argument !== '--public')
 const quote = (argument) => (/[\s"]/.test(argument) ? `"${argument.replace(/"/g, '\\"')}"` : argument)
 
+/** True when this exact version is already on the registry. */
+async function alreadyPublished(name, version) {
+  const url = `${registry.replace(/\/$/, '')}/${name.replace('/', '%2F')}`
+  const response = await fetch(url)
+  if (!response.ok) return false
+  const packument = await response.json()
+  return packument.versions?.[version] !== undefined
+}
+
 console.log(`publish: registry ${registry} (access: ${access})`)
+
+let published = 0
+let skipped = 0
 
 for (const name of workspaces) {
   const dir = join(root, 'packages', name)
@@ -51,6 +63,14 @@ for (const name of workspaces) {
 
   if (name !== 'core' && !existsSync(join(dir, 'dist', 'index.js'))) {
     fail(`packages/${name}/dist is missing — run \`pnpm -r build\` first`)
+  }
+
+  // Re-running after a partial failure must not abort on versions that already
+  // made it out; npm answers those with E402 "cannot publish over".
+  if (await alreadyPublished(manifest.name, manifest.version)) {
+    console.log(`publish: ${manifest.name}@${manifest.version} — already published, skipped`)
+    skipped += 1
+    continue
   }
 
   const commandLine = ['npm', 'publish', '--access', access, '--registry', registry, ...passthrough]
@@ -69,6 +89,8 @@ for (const name of workspaces) {
         '  · E402 "cannot publish over" — that version exists; bump it first',
     )
   }
+  published += 1
 }
 
-console.log('publish: done — installed users update with `dsh plugin add <name>@latest`')
+console.log(`publish: done — ${published} published, ${skipped} skipped`)
+
