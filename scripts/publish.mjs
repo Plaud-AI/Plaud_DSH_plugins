@@ -25,9 +25,9 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
-const public = process.argv.includes('--public')
-const registry = process.env.NPM_REGISTRY ?? (public ? 'https://registry.npmjs.org/' : 'http://localhost:4873')
-const access = public ? 'public' : 'restricted'
+const isPublic = process.argv.includes('--public')
+const registry = process.env.NPM_REGISTRY ?? (isPublic ? 'https://registry.npmjs.org/' : 'http://localhost:4873')
+const access = isPublic ? 'public' : 'restricted'
 
 const workspaces = ['core', 'notion', 'linear', 'slack', 'plaud', 'feishu']
 
@@ -36,7 +36,7 @@ function fail(message) {
   process.exit(1)
 }
 
-if (!process.env.NPM_REGISTRY && !public) {
+if (!process.env.NPM_REGISTRY && !isPublic) {
   console.warn(`publish: NPM_REGISTRY is unset, falling back to ${registry}`)
 }
 
