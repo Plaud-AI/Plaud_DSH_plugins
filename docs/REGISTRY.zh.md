@@ -24,13 +24,19 @@ GitHub Packages 的 npm registry 要求**包 scope 等于仓库 owner**。仓库
 
 如果代码公开不是问题，这条路最省事：**客户端不需要 `.npmrc`、不需要 token、不需要登录**，面板里粘包名就装上了。
 
-前提：有一个 npm 账号，并且拥有 `@plaud` 这个 scope（组织在 [npmjs.com/org/create](https://www.npmjs.com/org/create) 建，免费）。我查过公共 npm 上 `scope:plaud` 目前 **0 个包**，所以这个 scope 是干净的。
+前提：有一个 npm 账号，并且拥有 `@plaudai` 这个 scope（组织在 [npmjs.com/org/create](https://www.npmjs.com/org/create) 建，免费）。`@plaud` 和 `@plaud-ai` 在 npmjs 上已被占用，组织也不能靠「申请加入」，只能由 owner 邀请。
 
 ```powershell
 npm login                                   # 用你自己的 npm 账号
 pnpm -r build
-pnpm release --public                       # --access public
+node scripts/publish.mjs --public           # 逐个 npm publish
 ```
+
+发布时的现实细节：
+
+- **npm 强制 2FA**：没开会 `403 Forbidden ... is required to publish packages`。开了之后 CLI 会打印 `https://www.npmjs.com/auth/cli/<id>`，用浏览器（安全密钥或验证器）确认一次，同一次运行里后续包复用该会话；
+- **返回 202 是成功**：npm 现在异步处理发布（`http fetch PUT 202`），packument 可能十几分钟后才可见。用 `npm view <包名> version` 确认，不要按 404 判定失败；
+- `pnpm -r publish` 会先解析整个 workspace 依赖图（pnpm 10+ 不读 `.npmrc` 的 `link-workspace-packages`，会把 workspace 里的 core 当外部包去 registry 找而 `ERR_PNPM_FETCH_404`），所以用 `scripts/publish.mjs`。
 
 发完之后，客户端什么都不用配：
 

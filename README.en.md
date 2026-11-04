@@ -28,23 +28,25 @@ All five share one core package, `@plaudai/dsh-mcp-oauth`, which fills in the la
 
 ## Install
 
-Each connector is a self-contained tarball attached to a GitHub Release. Open the desktop **Plugins** panel and paste the one you need:
+The plugins are published to public npm under the `@plaudai` scope. Open the desktop **Plugins** panel and paste a package name — no login, no registry configuration:
 
-| Connector | URL |
+| Plugin | Package |
 | --- | --- |
-| Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-notion-0.1.1.tgz` |
-| Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-linear-0.1.1.tgz` |
-| Slack | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-slack-0.1.1.tgz` |
-| PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-plaud-0.1.1.tgz` |
-| Feishu | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-feishu-0.1.1.tgz` |
+| Notion | `@plaudai/dsh-plugin-notion` |
+| Linear | `@plaudai/dsh-plugin-linear` |
+| Slack | `@plaudai/dsh-plugin-slack` |
+| PLAUD | `@plaudai/dsh-plugin-plaud` |
+| Feishu | `@plaudai/dsh-plugin-feishu` |
 
 For the web build and headless profiles:
 
 ```powershell
-dsh plugin --profile web add https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-notion-0.1.1.tgz
+dsh plugin --profile web add @plaudai/dsh-plugin-notion
 ```
 
-Then restart DSH. Requires `@deepseek-ai/dsh` 0.2.0-rc.2 or newer. Dependencies (MCP SDK, schemastery) are installed from public npm automatically — **no login, no registry configuration**.
+If public npm is unreachable, download the matching `.tgz` from [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases) and paste its absolute path into the panel, or `dsh plugin --profile web add <local-path>.tgz`.
+
+Then restart DSH. Requires `@deepseek-ai/dsh` 0.2.0-rc.2 or newer.
 
 The `desktop` profile belongs to the app and the CLI refuses to touch it, so desktop installs go through the panel.
 

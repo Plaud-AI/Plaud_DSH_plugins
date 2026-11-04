@@ -24,13 +24,19 @@ GitHub Packages' npm registry requires the **package scope to equal the reposito
 
 If publishing the code is fine, this is the least friction: **clients need no `.npmrc`, no token, no login** — paste the name into the panel and it installs.
 
-Prerequisite: an npm account that owns the `@plaud` scope (create the org at [npmjs.com/org/create](https://www.npmjs.com/org/create), free). I checked: `scope:plaud` currently has **0 packages** on public npm, so the scope is clean.
+Prerequisite: an npm account that owns the `@plaudai` scope (create the org at [npmjs.com/org/create](https://www.npmjs.com/org/create), free). `@plaud` and `@plaud-ai` are already taken on npmjs, and orgs cannot be joined by request — only an owner can invite.
 
 ```powershell
 npm login                                   # your own npm account
 pnpm -r build
-pnpm release --public                       # --access public
+node scripts/publish.mjs --public           # one npm publish per package
 ```
+
+What actually happens when you publish:
+
+- **npm enforces 2FA** — without it you get `403 Forbidden ... is required to publish packages`. With it enabled the CLI prints `https://www.npmjs.com/auth/cli/<id>`; confirm in the browser (security key or authenticator) once and the rest of that run reuses the session;
+- **202 means success**: publishing is async now (`http fetch PUT 202`), so the packument can 404 for ten-plus minutes. Verify with `npm view <name> version` instead of reading the 404 as failure;
+- `pnpm -r publish` resolves the whole workspace graph first (pnpm 10+ ignores `link-workspace-packages` from `.npmrc`, so it fetches the workspace core from the registry and fails with `ERR_PNPM_FETCH_404`). That is why `scripts/publish.mjs` calls npm directly.
 
 After that, clients configure nothing:
 

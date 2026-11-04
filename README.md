@@ -28,23 +28,25 @@
 
 ## 安装
 
-每个连接器是一个自包含的 tarball，挂在 GitHub Release 上。打开 DSH 桌面版「插件」面板，粘你要的那个地址：
+插件发布在公共 npm 的 `@plaudai` scope 下。打开 DSH 桌面版「插件」，粘贴包名即可，不需要登录、不需要配置源：
 
-| 连接器 | 地址 |
+| 插件 | 包名 |
 | --- | --- |
-| Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-notion-0.1.1.tgz` |
-| Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-linear-0.1.1.tgz` |
-| Slack | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-slack-0.1.1.tgz` |
-| PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-plaud-0.1.1.tgz` |
-| 飞书 | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-feishu-0.1.1.tgz` |
+| Notion | `@plaudai/dsh-plugin-notion` |
+| Linear | `@plaudai/dsh-plugin-linear` |
+| Slack | `@plaudai/dsh-plugin-slack` |
+| PLAUD | `@plaudai/dsh-plugin-plaud` |
+| 飞书 | `@plaudai/dsh-plugin-feishu` |
 
 网页版和 headless 用命令行：
 
 ```powershell
-dsh plugin --profile web add https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.1/plaudai-dsh-plugin-notion-0.1.1.tgz
+dsh plugin --profile web add @plaudai/dsh-plugin-notion
 ```
 
-装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。依赖（MCP SDK、schemastery）会从公共 npm 自动装齐，**不需要登录、不需要配 registry**。
+如果访问不了公网 npm，退路是从 [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases) 下载对应的 `.tgz`，在面板里填该文件的绝对路径，或用 `dsh plugin --profile web add <本机路径>.tgz`。
+
+装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。
 
 `desktop` 这个 profile 由桌面应用独占，命令行不能操作它，桌面版只能走面板。
 
