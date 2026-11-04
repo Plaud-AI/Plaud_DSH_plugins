@@ -144,7 +144,7 @@ $DSH_HOME/mcp-oauth/<serverName>.json    # default C:\Users\<you>\.dsh\mcp-oauth
 - Tools only: resources, prompts and server instructions are not bridged.
 - No automatic reconnect: the built-in bridge backs off exponentially, this one needs a restart in v0.1.
 - Slack's `app_id` injection is unverified.
-- `workspace:^` means `pnpm publish` is required; `npm publish` fails.
+- Service packages depend on the core at `^0.1.0`, so the core must be published **first**; local path installs need that dependency resolvable in the profile.
 - Only the Windows build path has been exercised; macOS / Linux should behave the same but are untested.
 
 ## Development

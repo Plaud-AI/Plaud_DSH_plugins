@@ -144,7 +144,7 @@ $DSH_HOME/mcp-oauth/<serverName>.json    # 默认 C:\Users\<你>\.dsh\mcp-oauth\
 - 只桥接 tools：resources、prompts、server instructions 未接。
 - 没有自动重连：DSH 内置桥有指数退避，本插件 v0.1 需要重启。
 - Slack 的 `app_id` 注入方式未实测。
-- 依赖 `workspace:^`，必须 `pnpm publish`；`npm publish` 会失败。
+- 服务包依赖核心包 `^0.1.0`，发布时**核心包必须先发**；用本地路径试装时，profile 里要能解析到这个依赖。
 - 只在 Windows 上走过构建路径，macOS / Linux 逻辑一致但未跑。
 
 ## 开发

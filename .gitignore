@@ -5,6 +5,9 @@ dist/
 *.tsbuildinfo
 .tools/
 .npm-cache/
+.pnpm-store/
+.pnpm-home/
+.cache/
 .DS_Store
 .env
 .env.*
