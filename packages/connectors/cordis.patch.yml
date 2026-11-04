@@ -20,5 +20,5 @@
       config:
         notion: true
         slackIndex: true
-        plaud: false
+        plaud: true
         custom: []
