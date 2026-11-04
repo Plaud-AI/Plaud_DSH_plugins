@@ -28,7 +28,19 @@ All five share one core package, `@plaudai/dsh-mcp-oauth`, which fills in the la
 
 ## Install
 
-The plugins are published to public npm under the `@plaudai` scope. Open the desktop **Plugins** panel and paste a package name — no login, no registry configuration:
+Open the desktop **Plugins** panel and paste one whole address from the table below — no login, no registry configuration:
+
+| Plugin | Install URL |
+| --- | --- |
+| Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-notion-0.1.2.tgz` |
+| Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-linear-0.1.2.tgz` |
+| Slack | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-slack-0.1.2.tgz` |
+| PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-plaud-0.1.2.tgz` |
+| Feishu | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-feishu-0.1.2.tgz` |
+
+Each address points at a `.tgz` on GitHub Releases, so the version is whatever the file name says and the local lockfile cannot hold it back. Bump the `v0.1.2` segment to move to another tag listed under [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases).
+
+The same packages are on public npm under the `@plaudai` scope, so a package name works too:
 
 | Plugin | Package |
 | --- | --- |
@@ -38,13 +50,14 @@ The plugins are published to public npm under the `@plaudai` scope. Open the des
 | PLAUD | `@plaudai/dsh-plugin-plaud` |
 | Feishu | `@plaudai/dsh-plugin-feishu` |
 
-For the web build and headless profiles:
+> With a package name, a profile whose `package.json` still carries an older range (say `^0.1.1`) keeps the locked version and silently installs the old code. Uninstall first before reinstalling, or use the `.tgz` addresses above.
+
+For the web build and headless profiles both forms work:
 
 ```powershell
 dsh plugin --profile web add @plaudai/dsh-plugin-notion
+dsh plugin --profile web add https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-notion-0.1.2.tgz
 ```
-
-If public npm is unreachable, download the matching `.tgz` from [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases) and paste its absolute path into the panel, or `dsh plugin --profile web add <local-path>.tgz`.
 
 Then restart DSH. Requires `@deepseek-ai/dsh` 0.2.0-rc.2 or newer.
 

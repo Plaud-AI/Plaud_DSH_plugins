@@ -28,7 +28,19 @@
 
 ## 安装
 
-插件发布在公共 npm 的 `@plaudai` scope 下。打开 DSH 桌面版「插件」，粘贴包名即可，不需要登录、不需要配置源：
+打开 DSH 桌面版「插件」，把下表里那一整条地址粘进去，不需要登录、不需要配置源：
+
+| 插件 | 安装地址 |
+| --- | --- |
+| Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-notion-0.1.2.tgz` |
+| Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-linear-0.1.2.tgz` |
+| Slack | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-slack-0.1.2.tgz` |
+| PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-plaud-0.1.2.tgz` |
+| 飞书 | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-feishu-0.1.2.tgz` |
+
+地址指向 GitHub Release 上的 `.tgz`，版本由文件名决定，不受本地锁文件影响。要换版本就改地址里的 `v0.1.2`，可用的 tag 见 [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases)。
+
+这些包同时也发在公共 npm 的 `@plaudai` scope 下，也可以直接填包名：
 
 | 插件 | 包名 |
 | --- | --- |
@@ -38,13 +50,14 @@
 | PLAUD | `@plaudai/dsh-plugin-plaud` |
 | 飞书 | `@plaudai/dsh-plugin-feishu` |
 
-网页版和 headless 用命令行：
+> 用包名时，如果 profile 的 `package.json` 里已经是旧范围（例如 `^0.1.1`），pnpm 会沿用锁文件里的旧版本而不升级，装完仍是老代码。要升级请**先卸载再装**，或者直接用上面的 `.tgz` 地址。
+
+网页版和 headless 用命令行，两种写法都行：
 
 ```powershell
 dsh plugin --profile web add @plaudai/dsh-plugin-notion
+dsh plugin --profile web add https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.2/plaudai-dsh-plugin-notion-0.1.2.tgz
 ```
-
-如果访问不了公网 npm，退路是从 [Releases](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases) 下载对应的 `.tgz`，在面板里填该文件的绝对路径，或用 `dsh plugin --profile web add <本机路径>.tgz`。
 
 装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。
 
