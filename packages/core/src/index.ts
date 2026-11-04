@@ -152,6 +152,14 @@ export function createMcpPlugin(preset: McpPluginPreset): {
             log: (message) => ctx.logger.info(message),
           })
           ctx.logger.info(`${label}: OAuth client ready (redirect ${redirectUrl})`)
+          if (config.clientId.length === 0) {
+            // Servers like Slack publish no registration_endpoint, so the SDK's
+            // fallback (dynamic registration) fails before a browser ever opens.
+            // Say so up front instead of surfacing a bare "registration failed".
+            ctx.logger.warn(
+              `${label}: 未提供 clientId —— 该服务端若不支持动态注册，授权会在打开浏览器之前失败。把 clientId/clientSecret 填进插件配置，或设置对应环境变量后重启。`,
+            )
+          }
         }
 
         const headers = { ...config.headers }

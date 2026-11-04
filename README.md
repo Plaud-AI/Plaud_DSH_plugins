@@ -12,7 +12,7 @@
 | --- | --- | --- | --- | --- |
 | `@plaudai/dsh-plugin-notion` | Notion | OAuth（DCR + PKCE） | 否 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz) |
 | `@plaudai/dsh-plugin-linear` | Linear | OAuth 或 API key | 否 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-linear-0.1.4.tgz) |
-| `@plaudai/dsh-plugin-slack` | Slack | OAuth | 是 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.5-slack/plaudai-dsh-plugin-slack-0.1.5.tgz) |
+| `@plaudai/dsh-plugin-slack` | Slack | OAuth | 是 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.6-slack/plaudai-dsh-plugin-slack-0.1.6.tgz) |
 | `@plaudai/dsh-plugin-feishu` | 飞书 / Lark | App ID + Secret | 是 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-feishu-0.1.4.tgz) |
 | `@plaudai/dsh-plugin-plaud` | PLAUD 内部服务 | Bearer token | 否 | [0.1.4](https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz) |
 
@@ -34,7 +34,7 @@
 | --- | --- |
 | Notion | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-notion-0.1.4.tgz` |
 | Linear | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-linear-0.1.4.tgz` |
-| Slack（官方 MCP） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.5-slack/plaudai-dsh-plugin-slack-0.1.5.tgz` |
+| Slack（官方 MCP） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.6-slack/plaudai-dsh-plugin-slack-0.1.6.tgz` |
 | Slack（Bot 版） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.2.3-slackbot/plaudai-dsh-plugin-slackbot-0.2.3.tgz` |
 | PLAUD | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.4/plaudai-dsh-plugin-plaud-0.1.4.tgz` |
 | PLAUD（官方 MCP） | `https://github.com/Plaud-AI/Plaud_DSH_plugins/releases/download/v0.1.0-plaud-mcp/plaudai-dsh-plugin-plaud-mcp-0.1.0.tgz` |

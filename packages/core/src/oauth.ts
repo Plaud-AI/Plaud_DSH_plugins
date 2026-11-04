@@ -125,7 +125,10 @@ export class DshOAuthProvider implements OAuthClientProvider {
       if (value.length > 0) target.searchParams.set(name, value)
     }
     this.#authorizationUrl = target
-    this.options.log?.(`mcp-oauth(${this.options.serverName}): opening browser for authorization`)
+    // Log the URL itself, not just "opening browser": a headless session, a
+    // blocked popup or a hung `start` otherwise leaves the user with no way to
+    // finish the flow.
+    this.options.log?.(`mcp-oauth(${this.options.serverName}): opening browser for authorization: ${target.toString()}`)
     openBrowser(target.toString())
   }
 }
