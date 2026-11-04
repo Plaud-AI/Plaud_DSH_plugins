@@ -158,7 +158,7 @@ export class OAuthCallbackListener {
   }
 
   /** Start listening and return the redirect URI to register. */
-  async start(): Promise<string> {
+  async start(port = 0): Promise<string> {
     if (this.#server !== undefined) return this.redirectUrl
 
     const server = createServer((request, response) => {
@@ -191,7 +191,7 @@ export class OAuthCallbackListener {
 
     await new Promise<void>((resolve, reject) => {
       server.once('error', reject)
-      server.listen(0, '127.0.0.1', () => {
+      server.listen(port, '127.0.0.1', () => {
         server.off('error', reject)
         resolve()
       })

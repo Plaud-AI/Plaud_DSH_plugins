@@ -1,11 +1,16 @@
 # Slack (official MCP) for DeepSeek Harness.
 #
-# Slack has no Dynamic Client Registration. Create a Slack app once, then put
-# its credentials in the host environment before starting the harness:
+# Slack has no Dynamic Client Registration: the client must be a Slack app with
+# a fixed app id, and the token endpoint requires a confidential client. Create
+# the app once at https://api.slack.com/apps, then:
 #
-#   SLACK_MCP_CLIENT_ID=<client id from api.slack.com/apps>
-#   SLACK_MCP_CLIENT_SECRET=<client secret>
-#   SLACK_MCP_APP_ID=<the same app id>
+#   1. OAuth & Permissions → Redirect URLs → add
+#        http://127.0.0.1:53311/callback
+#      (the port is SLACK_MCP_CALLBACK_PORT below; it must match exactly)
+#   2. put the credentials in the host environment before starting the harness:
+#        SLACK_MCP_CLIENT_ID=<client id>
+#        SLACK_MCP_CLIENT_SECRET=<client secret>
+#        SLACK_MCP_APP_ID=<the same app id>
 #
 # Then the first Slack tool call opens the browser for that app's consent.
 - insert:
@@ -14,6 +19,7 @@
       config:
         serverName: slack
         toolCallTimeoutMs: 120000
+        callbackPort: !!js 'Number(process.env.SLACK_MCP_CALLBACK_PORT ?? 53311)'
         clientId: !!js 'process.env.SLACK_MCP_CLIENT_ID ?? ""'
         clientSecret: !!js 'process.env.SLACK_MCP_CLIENT_SECRET ?? ""'
         tokenEndpointAuthMethod: client_secret_post

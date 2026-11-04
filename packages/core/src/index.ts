@@ -52,6 +52,7 @@ export interface ResolvedConfig {
   clientSecret: string
   authorizationParams: Record<string, string>
   tokenEndpointAuthMethod: string
+  callbackPort: number
   toolCallTimeoutMs: number
   authTimeoutMs: number
   failOnStartupError: boolean
@@ -85,6 +86,7 @@ export function createMcpPlugin(preset: McpPluginPreset): {
     clientSecret: z.string().default(''),
     authorizationParams: z.dict(String).default({}),
     tokenEndpointAuthMethod: z.string().default(''),
+    callbackPort: z.number().min(0).max(65_535).default(0),
     toolCallTimeoutMs: z.number().default(120_000),
     authTimeoutMs: z.number().default(300_000),
     failOnStartupError: z.boolean().default(false),
@@ -134,7 +136,7 @@ export function createMcpPlugin(preset: McpPluginPreset): {
 
         let provider: DshOAuthProvider | undefined
         if (config.auth === 'oauth') {
-          const redirectUrl = await listener.start()
+          const redirectUrl = await listener.start(config.callbackPort)
           provider = new DshOAuthProvider({
             serverName: config.serverName,
             redirectUrl,
