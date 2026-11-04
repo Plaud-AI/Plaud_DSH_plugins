@@ -170,8 +170,12 @@ node scripts/validate.cjs
 发布到公司私有 registry：
 
 ```powershell
-pnpm -r publish --access restricted
+$env:NPM_REGISTRY = "http://registry.internal:4873"
+pnpm version:patch
+pnpm release
 ```
+
+部署 registry、发布流程和每个人的配置见 [私有 registry](REGISTRY.zh.md)。
 
 本地试装：
 

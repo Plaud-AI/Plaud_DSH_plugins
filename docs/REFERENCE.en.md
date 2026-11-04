@@ -171,8 +171,12 @@ node scripts/validate.cjs
 Publish to the company registry:
 
 ```powershell
-pnpm -r publish --access restricted
+$env:NPM_REGISTRY = "http://registry.internal:4873"
+pnpm version:patch
+pnpm release
 ```
+
+Deploying the registry, the release flow and each developer's setup: [private registry](REGISTRY.en.md).
 
 Try a local build:
 

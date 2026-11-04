@@ -1,0 +1,28 @@
+# Bring the company registry up with:
+#
+#   docker compose -f deploy/docker-compose.yml up -d
+#
+# Then check it answers:  curl http://localhost:4873/-/ping
+#
+# The htpasswd file and the packages live in a named volume, so recreating the
+# container does not lose accounts or published versions.
+services:
+  verdaccio:
+    image: verdaccio/verdaccio:6
+    container_name: plaud-dsh-registry
+    restart: unless-stopped
+    ports:
+      - '4873:4873'
+    environment:
+      VERDACCIO_PUBLIC_URL: http://localhost:4873
+    volumes:
+      - ./verdaccio/config.yaml:/verdaccio/conf/config.yaml:ro
+      - verdaccio-storage:/verdaccio/storage
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://127.0.0.1:4873/-/ping']
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  verdaccio-storage:

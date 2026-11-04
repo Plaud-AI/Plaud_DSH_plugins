@@ -28,9 +28,13 @@
 
 ## 安装
 
-桌面版在「插件」面板里粘贴**包名、GitHub 仓库地址或本地绝对路径**安装——`desktop` 这个 profile 由桌面应用独占，命令行不能操作它。
+包发布在公司私有 registry 上。每台机器配置一次：
 
-网页版和 headless 用命令行：
+```powershell
+npm login --registry http://registry.internal:4873
+```
+
+然后在 DSH 桌面版「插件」面板里粘包名，比如 `@plaud/dsh-plugin-notion`。网页版和 headless 用命令行：
 
 ```powershell
 dsh plugin --profile web add @plaud/dsh-plugin-notion
@@ -38,7 +42,9 @@ dsh plugin --profile web add @plaud/dsh-plugin-notion
 
 装完重启 DSH。宿主要求：`@deepseek-ai/dsh` 0.2.0-rc.2 及以上。
 
-还没发布到 registry 时：克隆仓库，`pnpm install && pnpm -r build`，然后在面板里填目录的绝对路径（例如 `...\Plaud_DSH_plugins\packages\notion`）。每个连接器构建时已经把核心包内联进来，**装一个就够**，不用管发布顺序。
+`desktop` 这个 profile 由桌面应用独占，命令行不能操作它，桌面版只能走面板。
+
+registry 还没搭好、或者想装本地改动时：克隆仓库，`pnpm install && pnpm -r build`，在面板里填包的绝对目录路径（例如 `...\Plaud_DSH_plugins\packages\notion`）。每个连接器构建时已经把核心包内联进来，**装一个就够**，不用管发布顺序。
 
 ## 开始使用
 
@@ -71,7 +77,8 @@ connect → 401 → 发现元数据 → 注册客户端 → 浏览器授权
 ## 文档
 
 - [各服务配置、安全模型、已知限制](docs/REFERENCE.zh.md)
-- [开发、构建与发布](docs/REFERENCE.zh.md#开发)
+- [私有 registry：部署、发布、升级](docs/REGISTRY.zh.md)
+- [开发与构建](docs/REFERENCE.zh.md#开发)
 
 ## 反馈与贡献
 

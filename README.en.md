@@ -28,9 +28,13 @@ All five share one core package, `@plaud/dsh-mcp-oauth`, which fills in the laye
 
 ## Install
 
-On desktop, paste a **package name, a GitHub repository URL or an absolute local path** into the Plugins panel — the `desktop` profile belongs to the app and the CLI refuses to touch it.
+Packages live on the company's private registry. Configure each machine once:
 
-For the web build and headless profiles, use the CLI:
+```powershell
+npm login --registry http://registry.internal:4873
+```
+
+Then paste a package name into the desktop **Plugins** panel, for example `@plaud/dsh-plugin-notion`. For the web build and headless profiles:
 
 ```powershell
 dsh plugin --profile web add @plaud/dsh-plugin-notion
@@ -38,7 +42,9 @@ dsh plugin --profile web add @plaud/dsh-plugin-notion
 
 Then restart DSH. Requires `@deepseek-ai/dsh` 0.2.0-rc.2 or newer.
 
-Before anything is published: clone the repo, run `pnpm install && pnpm -r build`, then paste the absolute path of one package directory (for example `...\Plaud_DSH_plugins\packages\notion`). Each connector inlines the core at build time, so **one package is enough** — no publish ordering to worry about.
+The `desktop` profile belongs to the app and the CLI refuses to touch it, so desktop installs go through the panel.
+
+Before the registry exists, or to test a local change: clone the repo, run `pnpm install && pnpm -r build`, then paste the absolute package directory (for example `...\Plaud_DSH_plugins\packages\notion`). Each connector inlines the core at build time, so **one package is enough** — no publish ordering to worry about.
 
 ## Getting started
 
@@ -71,7 +77,8 @@ connect → 401 → discover metadata → register client → browser authorizat
 ## Docs
 
 - [Per-service setup, security model, known limits](docs/REFERENCE.en.md)
-- [Development, build and publish](docs/REFERENCE.en.md#development)
+- [Private registry: deploy, publish, upgrade](docs/REGISTRY.en.md)
+- [Development and build](docs/REFERENCE.en.md#development)
 
 ## Contributing
 

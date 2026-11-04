@@ -1,0 +1,59 @@
+# Verdaccio — the company registry for @plaud DSH plugins.
+#
+# Deploy this on an internal host the whole team can reach. Everything below
+# outside the `packages` block is stock; the important part is that @plaud/*
+# is private and writable only by authenticated users, while every other
+# package is proxied to npmjs so a profile install can still resolve the MCP
+# SDK and schemastery from upstream.
+
+storage: /verdaccio/storage
+plugins: /verdaccio/plugins
+
+auth:
+  htpasswd:
+    file: /verdaccio/storage/htpasswd
+    # Keep this low: the registry is open to adding users by default, and
+    # anyone who can register can publish a package the team will install.
+    max_users: 5
+
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+    timeout: 60s
+    maxage: 10m
+
+packages:
+  # Our own scope: members only, and only members can publish.
+  '@plaud/*':
+    access: $authenticated
+    publish: $authenticated
+    unpublish: $authenticated
+  # Everything else is a cache in front of npmjs.
+  '@*/*':
+    access: $all
+    publish: $authenticated
+    proxy: npmjs
+  '**':
+    access: $all
+    publish: $authenticated
+    proxy: npmjs
+
+server:
+  listen: 0.0.0.0:4873
+  # Plugin tarballs carry the inlined core, so they are a few hundred KB
+  # rather than a few KB. Still well under this.
+  max_body_size: 50mb
+
+web:
+  title: PLAUD DSH Plugins
+  # No anonymous browse of the private scope in the web UI.
+  login: true
+
+log:
+  type: stdout
+  format: pretty
+  level: warn
+
+middlewares:
+  audit:
+    enabled: true

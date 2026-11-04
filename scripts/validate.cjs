@@ -78,6 +78,9 @@ walk(root, (file) => {
     return
   }
   if (!Array.isArray(document)) {
+    // Deployment manifests (docker compose, Verdaccio config) are YAML but not
+    // patches; parsing successfully is the whole check for them.
+    if (relative(root, file).startsWith('deploy')) return
     fail(`${relative(root, file)}: expected a YAML array of patch operations`)
     return
   }
